@@ -4,13 +4,15 @@
  */
 package deso.delivery_app;
 
+import java.io.Serializable;
+
 /**
  *
  * @author BMPC
  */
-public class Cliente {
+public class Cliente implements ISearcheable {
 
-    private int id;
+    private long id;
     private String nombre;
     private String cuit;
     private String email;
@@ -31,10 +33,12 @@ public class Cliente {
         return "Cliente " + id + ": " + nombre;
     }
 
-    public boolean equalsId(int id) {
+    @Override
+    public boolean equalsId(long id) {
         return this.id == id;
     }
 
+    @Override
     public boolean equalsNombre(String nombre) {
         return this.nombre.equals(nombre);
     }
@@ -42,7 +46,7 @@ public class Cliente {
     /**
      * @return the id
      */
-    public int getId() {
+    public long getId() {
         return id;
     }
 

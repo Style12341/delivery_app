@@ -3,6 +3,7 @@
  */
 package deso.delivery_app;
 
+import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -10,6 +11,9 @@ import java.util.Scanner;
  * @author BMPC
  */
 public class Delivery_app {
+
+    public final static String SEARCHBYID = "1";
+    public final static String SEARCHBYNAME = "2";
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
@@ -29,51 +33,19 @@ public class Delivery_app {
         vendedores[0] = new Vendedor("Pepe", "Herndarias 833", new Coordenada(-40, -63));
         vendedores[1] = new Vendedor("Mario", "General Paz 6000", new Coordenada(-40.5, -63.5));
         vendedores[2] = new Vendedor("Juan", "Pedro Zenteno 3000", new Coordenada(-41, -64));
-        // xd
-        String input;
-        Scanner scan = new Scanner(System.in);
-        do {
-            System.out.println("Ingrese la opcion para filtrar por vendedor");
-            System.out.println("1. Id\n2. Nombre");
-            input = scan.nextLine();
-        } while (!("1".equals(input) || "2".equals(input)));
-        Vendedor v = null;
-        switch (input) {
-            case "1" -> {
-                System.out.println("Ingrese un id");
-                int id = -1;
-                try {
-                    id = scan.nextInt();
-                } catch (Exception e) {
-                    System.out.println("Argumento ilegal");
-                }
-                for (Vendedor vendedor : vendedores) {
-                    if (vendedor.equalsId(id)) {
-                        v = vendedor;
-                        System.out.println(v);
-                        break;
-                    }
-                }
-            }
-            case "2" -> {
-                System.out.println("Ingrese un nombre");
-                String nombre = scan.nextLine();
-                for (Vendedor vendedor : vendedores) {
-                    if (vendedor.equalsNombre(nombre)) {
-                        v = vendedor;
-                        System.out.println(v);
-                        break;
-                    }
-                }
-            }
+
+        Vendedor vendedor = null;
+
+        try {
+            vendedor = (Vendedor) handleInput(vendedores, "vendedor");
+            if (vendedor != null) System.out.println(vendedor);
+            else System.out.println("Vendedor no encontrado");
         }
-        if (v == null) {
+        catch (ClassCastException e) {
             System.out.println("Vendedor no encontrado");
         }
 
-        int id = (int) (Math.random() * 3);
-        System.out.println("Eliminando un vendedor aleatorio id: " + (id + 1));
-        vendedores[id] = null;
+        eliminateRandom(vendedores);
     }
 
     public static void consignaClientes() {
@@ -81,50 +53,80 @@ public class Delivery_app {
         clientes[0] = new Cliente("Pepito", "27-28033214-8", "pepe@test.com", "Herndarias 836", new Coordenada(-40, -63.5));
         clientes[1] = new Cliente("Marito", "27-28033414-8", "mario@test.com", "General Paz 6002", new Coordenada(-40.5, -64));
         clientes[2] = new Cliente("Juancito", "27-28033514-8", "juan@test.com", "Pedro Zenteno 3002", new Coordenada(-41, -64.5));
-        // xd
-        String input;
-        Scanner scan = new Scanner(System.in);
-        do {
-            System.out.println("Ingrese la opcion para filtrar por cliente");
-            System.out.println("1. Id\n2. Nombre");
-            input = scan.nextLine();
-        } while (!("1".equals(input) || "2".equals(input)));
-        Cliente v = null;
-        switch (input) {
-            case "1" -> {
-                System.out.println("Ingrese un id");
-                int id = -1;
-                try {
-                    id = scan.nextInt();
-                } catch (Exception e) {
-                    System.out.println("Argumento ilegal");
-                }
-                for (Cliente cliente : clientes) {
-                    if (cliente.equalsId(id)) {
-                        v = cliente;
-                        System.out.println(v);
-                        break;
-                    }
-                }
-            }
-            case "2" -> {
-                System.out.println("Ingrese un nombre");
-                String nombre = scan.nextLine();
-                for (Cliente cliente : clientes) {
-                    if (cliente.equalsNombre(nombre)) {
-                        v = cliente;
-                        System.out.println(v);
-                        break;
-                    }
-                }
-            }
+
+        Cliente cliente = null;
+        try {
+            cliente = (Cliente)  handleInput(clientes , "clientes");
+            if (cliente != null) System.out.println(cliente);
+            else System.out.println("Cliente no encontrado");
         }
-        if (v == null) {
+        catch (ClassCastException e) {
             System.out.println("Cliente no encontrado");
         }
 
-        int id = (int) (Math.random() * 3);
-        System.out.print("Eliminando un cliente aleatorio id: " + (id + 1));
-        clientes[id] = null;
+        eliminateRandom(clientes);
+
     }
+    public static ISearcheable handleInput(ISearcheable[] arr , String name) {
+        ISearcheable search = null;
+        String input = "Ninguna Opcion";
+        Scanner scan = new Scanner(System.in);
+        do {
+            System.out.println("Ingrese la opcion para filtrar en " + name);
+            System.out.println("1. Id\n2. Nombre");
+            input = scan.nextLine();
+        } while (!(SEARCHBYID.equals(input) || SEARCHBYNAME.equals(input)));
+        if (input.equals(SEARCHBYID)) {
+            search = idSearch(arr);
+        }
+        else if (input.equals(SEARCHBYNAME)) {
+            search = nombreSearch(arr);
+        }
+
+        return search;
+    }
+
+
+    public static ISearcheable idSearch(ISearcheable[] arr){
+        ISearcheable result = null;
+        System.out.println("Ingrese un id");
+        long id = -1;
+        Scanner scan = new Scanner(System.in);
+        try {
+            id = scan.nextInt();
+        } catch (Exception e) {
+            System.out.println("Argumento ilegal");
+        }
+        for (ISearcheable entidad : arr) {
+            if (entidad.equalsId(id)) {
+                result = entidad;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public static ISearcheable nombreSearch(ISearcheable[] arr){
+        ISearcheable result = null;
+        System.out.println("Ingrese un nombre");
+        Scanner scan = new Scanner(System.in);
+        String nombre = scan.nextLine();
+        for (ISearcheable entidad : arr) {
+            if (entidad.equalsNombre(nombre)) {
+                result = entidad;
+                break;
+            }
+        }
+        return result;
+    }
+
+
+    public static void eliminateRandom(ISearcheable[] arr){
+        int id = (int) (Math.random() * arr.length);
+        System.out.println("Eliminando un cliente aleatorio id: " + (id + 1));
+        arr[id] = null;
+    }
+
+
+
 }

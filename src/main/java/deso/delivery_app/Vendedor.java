@@ -8,9 +8,9 @@ package deso.delivery_app;
  *
  * @author BMPC
  */
-public class Vendedor {
+public class Vendedor implements ISearcheable{
 
-    private int id;
+    private long id;
     private String nombre;
     private String direccion;
     private Coordenada coordenadas;
@@ -28,16 +28,20 @@ public class Vendedor {
     public String toString(){
         return "Vendedor " + id + ": " + nombre;
     }
-    public boolean equalsId(int id){
+
+    @Override
+    public boolean equalsId(long id){
         return this.id == id;
     }
+
+    @Override
     public boolean equalsNombre(String nombre){
         return this.nombre.equals(nombre);
     }
     /**
      * @return the id
      */
-    public int getId() {
+    public long getId() {
         return id;
     }
 
