@@ -7,7 +7,6 @@ package deso.delivery_app;
 import java.io.Serializable;
 
 /**
- *
  * @author BMPC
  */
 public class Cliente implements ISearcheable {
@@ -18,7 +17,7 @@ public class Cliente implements ISearcheable {
     private String email;
     private String direccion;
     private Coordenada coordenadas;
-    private static int nextId = 1;
+    private static long nextId = 0;
 
     public Cliente(String nombre, String cuit, String email, String direccion, Coordenada coordenadas) {
         this.id = nextId++;
@@ -28,7 +27,7 @@ public class Cliente implements ISearcheable {
         this.direccion = direccion;
         this.coordenadas = coordenadas;
     }
-    
+
     public String toString() {
         return "Cliente " + id + ": " + nombre;
     }

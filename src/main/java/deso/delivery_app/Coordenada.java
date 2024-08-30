@@ -5,7 +5,6 @@
 package deso.delivery_app;
 
 /**
- *
  * @author BMPC
  */
 public class Coordenada {
@@ -39,10 +38,12 @@ public class Coordenada {
         // Calcular la distancia
         return R * c;
     }
+
     @Override
-    public String toString(){
-        return "(" + lat + ", "+lng+")";
+    public String toString() {
+        return "(" + lat + ", " + lng + ")";
     }
+
     /**
      * @return the lat
      */
