@@ -3,11 +3,9 @@
  */
 package deso.delivery_app;
 
-import java.util.Iterator;
 import java.util.Scanner;
 
 /**
- *
  * @author BMPC
  */
 public class Delivery_app {
@@ -40,12 +38,11 @@ public class Delivery_app {
             vendedor = (Vendedor) handleInput(vendedores, "vendedor");
             if (vendedor != null) System.out.println(vendedor);
             else System.out.println("Vendedor no encontrado");
-        }
-        catch (ClassCastException e) {
+        } catch (ClassCastException e) {
             System.out.println("Vendedor no encontrado");
         }
 
-        eliminateRandom(vendedores);
+        deleteRandom(vendedores);
     }
 
     public static void consignaClientes() {
@@ -56,18 +53,18 @@ public class Delivery_app {
 
         Cliente cliente = null;
         try {
-            cliente = (Cliente)  handleInput(clientes , "clientes");
+            cliente = (Cliente) handleInput(clientes, "clientes");
             if (cliente != null) System.out.println(cliente);
             else System.out.println("Cliente no encontrado");
-        }
-        catch (ClassCastException e) {
+        } catch (ClassCastException e) {
             System.out.println("Cliente no encontrado");
         }
 
-        eliminateRandom(clientes);
+        deleteRandom(clientes);
 
     }
-    public static ISearcheable handleInput(ISearcheable[] arr , String name) {
+
+    public static ISearcheable handleInput(ISearcheable[] arr, String name) {
         ISearcheable search = null;
         String input = "Ninguna Opcion";
         Scanner scan = new Scanner(System.in);
@@ -78,8 +75,7 @@ public class Delivery_app {
         } while (!(SEARCHBYID.equals(input) || SEARCHBYNAME.equals(input)));
         if (input.equals(SEARCHBYID)) {
             search = idSearch(arr);
-        }
-        else if (input.equals(SEARCHBYNAME)) {
+        } else if (input.equals(SEARCHBYNAME)) {
             search = nombreSearch(arr);
         }
 
@@ -87,7 +83,7 @@ public class Delivery_app {
     }
 
 
-    public static ISearcheable idSearch(ISearcheable[] arr){
+    public static ISearcheable idSearch(ISearcheable[] arr) {
         ISearcheable result = null;
         System.out.println("Ingrese un id");
         long id = -1;
@@ -106,7 +102,7 @@ public class Delivery_app {
         return result;
     }
 
-    public static ISearcheable nombreSearch(ISearcheable[] arr){
+    public static ISearcheable nombreSearch(ISearcheable[] arr) {
         ISearcheable result = null;
         System.out.println("Ingrese un nombre");
         Scanner scan = new Scanner(System.in);
@@ -120,13 +116,11 @@ public class Delivery_app {
         return result;
     }
 
-
-    public static void eliminateRandom(ISearcheable[] arr){
+    public static void deleteRandom(ISearcheable[] arr) {
         int id = (int) (Math.random() * arr.length);
         System.out.println("Eliminando un cliente aleatorio id: " + (id + 1));
         arr[id] = null;
     }
-
 
 
 }
