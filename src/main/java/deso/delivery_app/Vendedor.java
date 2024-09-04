@@ -1,43 +1,45 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package deso.delivery_app;
 
+import java.util.ArrayList;
+
 /**
- *
  * @author BMPC
  */
-public class Vendedor implements ISearcheable{
+public class Vendedor implements ISearcheable {
 
     private long id;
     private String nombre;
     private String direccion;
     private Coordenada coordenadas;
-    private static int nextId = 1;
+    private static long nextId = 0;
+    private ArrayList<ItemMenu> menu;
+
     public Vendedor(String nombre, String direccion, Coordenada coordenadas) {
         this.id = nextId++;
         this.nombre = nombre;
         this.direccion = direccion;
         this.coordenadas = coordenadas;
     }
-    public double distancia(Cliente c){
+
+    public double distancia(Cliente c) {
         return this.coordenadas.calcularDistancia(c.getCoordenadas());
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return "Vendedor " + id + ": " + nombre;
     }
 
     @Override
-    public boolean equalsId(long id){
+    public boolean equalsId(long id) {
         return this.id == id;
     }
 
     @Override
-    public boolean equalsNombre(String nombre){
+    public boolean equalsNombre(String nombre) {
         return this.nombre.equals(nombre);
     }
+
     /**
      * @return the id
      */
@@ -86,6 +88,36 @@ public class Vendedor implements ISearcheable{
     public void setCoordenadas(Coordenada coordenadas) {
         this.coordenadas = coordenadas;
     }
-    
 
+    public ArrayList<Bebida> getBebidas() {
+        ArrayList<Bebida> bebidas = new ArrayList<>();
+        for (ItemMenu item : menu) {
+            if (item.esBebida()) {
+                bebidas.add((Bebida) item);
+            }
+        }
+        return bebidas;
+    }
+
+    public ArrayList<Plato> getComidas() {
+        ArrayList<Plato> platos = new ArrayList<>();
+        for (ItemMenu item : menu) {
+            if (item.esComida()) {
+                platos.add((Plato) item);
+            }
+        }
+        return platos;
+    }
+
+    public ArrayList<Plato> getComidasVeganas() {
+        ArrayList<Plato> platos = getComidas();
+        platos.removeIf(p -> !p.aptoVegano());
+        return platos;
+    }
+
+    public ArrayList<Bebida> getBebidasSinAlcohol() {
+        ArrayList<Bebida> bebidas = getBebidas();
+        bebidas.removeIf(b -> b.esAlcoholica());
+        return bebidas;
+    }
 }
