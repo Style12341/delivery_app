@@ -16,6 +16,8 @@ public abstract class ItemMenu {
 
     public abstract boolean aptoVegano();
 
+    public abstract boolean aptoCeliaco();
+
     public ItemMenu(String nombre, String descripcion, double precio, Categoria categoria) {
         this.id = NEXTID++;
         this.nombre = nombre;
