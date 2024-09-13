@@ -9,4 +9,8 @@ public class Pedido {
         this.id = NEXT_ID++;
         this.id_vendedor = id_vendedor;
     }
+
+    public long getIDVendedor() {
+        return id_vendedor;
+    }
 }
