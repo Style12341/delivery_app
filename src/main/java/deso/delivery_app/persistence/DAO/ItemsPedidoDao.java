@@ -7,13 +7,13 @@ import deso.delivery_app.exception.ItemNoEncontradoException;
 import java.util.List;
 
 public interface ItemsPedidoDao {
-    public ItemPedido create(ItemPedido itemPedido);
+    ItemPedido create(ItemPedido itemPedido);
 
-    public void delete(long id);
+    void delete(long id);
 
-    public List<ItemPedido> filtrar(CondicionesFiltradoItemPedido c) throws ItemNoEncontradoException;
+    List<ItemPedido> filtrar(FiltrosItemPedido f) throws ItemNoEncontradoException;
 
-    public List<ItemPedido> buscarOrdenarPorNombre(CondicionesFiltradoItemPedido c, Boolean descendente) throws ItemNoEncontradoException;
+    List<ItemPedido> buscarOrdenarPorNombre(FiltrosItemPedido f, Boolean descendente) throws ItemNoEncontradoException;
 
-    public List<ItemPedido> buscarOrdenarPorPrecio(CondicionesFiltradoItemPedido c, Boolean descendente) throws ItemNoEncontradoException;
+    List<ItemPedido> buscarOrdenarPorPrecio(FiltrosItemPedido f, Boolean descendente) throws ItemNoEncontradoException;
 }
