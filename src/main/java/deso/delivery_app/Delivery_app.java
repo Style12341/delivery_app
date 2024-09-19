@@ -20,7 +20,7 @@ public class Delivery_app {
         consignaClientes();
         Coordenada c1 = new Coordenada(36, -86);
         Coordenada c2 = new Coordenada(34, 118.5);
-        Vendedor v = new Vendedor("Pepe", "Herndarias 833", c1);
+        Vendedor v = new Vendedor("Pepe", "Herndarias 833", "26-32787999-6", c1);
         Cliente c = new Cliente("Pepito", "27-28033214-8", "pepe@test.com", "Herndarias 836", c2);
         System.out.println("Distancia entre " + c1 + " y " + c2 + ": " + v.distancia(c) + " km"
         );
@@ -28,9 +28,9 @@ public class Delivery_app {
 
     public static void consignaVendedores() {
         Vendedor[] vendedores = new Vendedor[3];
-        vendedores[0] = new Vendedor("Pepe", "Herndarias 833", new Coordenada(-40, -63));
-        vendedores[1] = new Vendedor("Mario", "General Paz 6000", new Coordenada(-40.5, -63.5));
-        vendedores[2] = new Vendedor("Juan", "Pedro Zenteno 3000", new Coordenada(-41, -64));
+        vendedores[0] = new Vendedor("Pepe", "Herndarias 833", "27-40727599-8",new Coordenada(-40, -63));
+        vendedores[1] = new Vendedor("Mario", "General Paz 6000", "26-13787921-6",new Coordenada(-40.5, -63.5));
+        vendedores[2] = new Vendedor("Juan", "Pedro Zenteno 3000", "27-21722984-8",new Coordenada(-41, -64));
 
         Vendedor vendedor = null;
 

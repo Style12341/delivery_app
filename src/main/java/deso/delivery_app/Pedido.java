@@ -2,15 +2,17 @@ package deso.delivery_app;
 
 public class Pedido {
     protected long id;
-    protected long id_vendedor;
+    protected Cliente cliente;
+    protected Vendedor vendedor;
     protected static long NEXT_ID = 0;
 
-    public Pedido(long id_vendedor) {
+    public Pedido(Vendedor vendedor, Cliente cliente) {
         this.id = NEXT_ID++;
-        this.id_vendedor = id_vendedor;
+        this.vendedor = vendedor;
+        this.cliente = cliente;
     }
 
-    public long getIDVendedor() {
-        return id_vendedor;
-    }
+    public Vendedor getVendedor() { return vendedor; }
+
+    public Cliente getCliente() { return cliente; }
 }

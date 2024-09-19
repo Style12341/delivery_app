@@ -5,6 +5,7 @@
 package deso.delivery_app;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * @author BMPC
@@ -17,6 +18,7 @@ public class Cliente implements ISearcheable {
     private String email;
     private String direccion;
     private Coordenada coordenadas;
+    private ArrayList<Pedido> pedidos;
     private static long nextId = 0;
 
     public Cliente(String nombre, String cuit, String email, String direccion, Coordenada coordenadas) {
