@@ -14,6 +14,7 @@ public class Cliente implements ISearcheable {
 
     private long id;
     private String nombre;
+    private String apellido;
     private String cuit;
     private String email;
     private String direccion;
@@ -21,9 +22,10 @@ public class Cliente implements ISearcheable {
     private ArrayList<Pedido> pedidos;
     private static long nextId = 0;
 
-    public Cliente(String nombre, String cuit, String email, String direccion, Coordenada coordenadas) {
+    public Cliente(String nombre, String apellido, String cuit, String email, String direccion, Coordenada coordenadas) {
         this.id = nextId++;
         this.nombre = nombre;
+        this.apellido = apellido;
         this.cuit = cuit;
         this.email = email;
         this.direccion = direccion;
@@ -43,6 +45,19 @@ public class Cliente implements ISearcheable {
     public boolean equalsNombre(String nombre) {
         return this.nombre.equals(nombre);
     }
+
+    public String getNombre() {
+        return this.nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return this.apellido;
+    }
+
 
     /**
      * @return the id

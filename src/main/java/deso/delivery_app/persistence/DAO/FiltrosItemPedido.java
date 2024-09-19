@@ -63,6 +63,14 @@ public class FiltrosItemPedido {
         filtros.add(i -> i.getPedido().getCliente().getCuit().equals(cuit));
     }
 
+    public void setEmailCliente(String email) {
+        filtros.add(i -> i.getPedido().getCliente().getEmail().equals(email));
+    }
+
+    public void setApellidoCliente(String apellido) {
+        filtros.add(i -> i.getPedido().getCliente().getApellido().equals(apellido));
+    }
+
     public void setComida() {
         filtros.add(i -> i.getItemMenu().esComida());
     }
