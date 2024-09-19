@@ -14,8 +14,8 @@ public class Vendedor implements ISearcheable {
     private String cuit;
     private Coordenada coordenadas;
     private static long nextId = 0;
-    private ArrayList<ItemMenu> menu;
-    private ArrayList<Pedido> pedidos;
+    private ArrayList<ItemMenu> menu = new ArrayList<ItemMenu>();
+    private ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
 
     public Vendedor(String nombre, String direccion, String cuit, Coordenada coordenadas) {
         this.id = nextId++;
@@ -23,6 +23,10 @@ public class Vendedor implements ISearcheable {
         this.direccion = direccion;
         this.cuit = cuit;
         this.coordenadas = coordenadas;
+    }
+
+    public void addItemToMenu(ItemMenu item) {
+        menu.add(item);
     }
 
     public double distancia(Cliente c) {

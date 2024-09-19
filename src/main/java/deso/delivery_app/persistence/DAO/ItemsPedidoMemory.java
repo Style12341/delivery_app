@@ -18,7 +18,7 @@ public class ItemsPedidoMemory implements ItemsPedidoDao {
         listaItemsPedido = new ArrayList<>();
     }
 
-    public ItemsPedidoMemory getItemsPedidoMemory() {
+    public static ItemsPedidoMemory getItemsPedidoMemory() {
         if (SINGLETON_INSTANCE == null) SINGLETON_INSTANCE = new ItemsPedidoMemory();
         return SINGLETON_INSTANCE;
     }
@@ -39,7 +39,7 @@ public class ItemsPedidoMemory implements ItemsPedidoDao {
     public List<ItemPedido> filtrar(FiltrosItemPedido filters) throws ItemNoEncontradoException {
         // Si es comida o bebida ->
         List<ItemPedido> lista = listaItemsPedido.stream().filter(filters.getFiltros()).toList();
-        if (lista.isEmpty()) throw new ItemNoEncontradoException();
+        if (lista.isEmpty()) throw new ItemNoEncontradoException("Item no encontrado");
         return lista;
     }
 
@@ -48,7 +48,7 @@ public class ItemsPedidoMemory implements ItemsPedidoDao {
     public List<ItemPedido> buscarOrdenarPorNombre(FiltrosItemPedido filters, Boolean descendente) throws ItemNoEncontradoException {
         List<ItemPedido> lista = this.filtrar(filters);
         //Ordenar por nombre itemMenu
-        int desc = descendente ? -1 : 1;
+        int desc = descendente ? 1 : -1;
         // CompareTo devuelve negativo si es menor y positivo si es mayor, para invertirlo se multiplica por -1
         return lista.stream().sorted((i1, i2) -> i2.getItemMenu().getNombre().compareTo(i1.getItemMenu().getNombre()) * desc).toList();
     }
@@ -57,8 +57,10 @@ public class ItemsPedidoMemory implements ItemsPedidoDao {
     public List<ItemPedido> buscarOrdenarPorPrecio(FiltrosItemPedido filters, Boolean descendente) throws ItemNoEncontradoException {
         List<ItemPedido> lista = this.filtrar(filters);
         //Ordenar por precio itemMenu
-        int desc = descendente ? -1 : 1;
+        int desc = descendente ? 1 : -1;
         // Restamos y multiplicamos para definir si el orden es ascendente o descendente
-        return lista.stream().sorted((i1, i2) -> (int) (i2.getItemMenu().getPrecio() - i1.getItemMenu().getPrecio()) * desc).toList();
+        return lista.stream()
+                .sorted((i1, i2) -> Double.compare(i2.getItemMenu().getPrecio(), i1.getItemMenu().getPrecio()) * desc)
+                .toList();
     }
 }

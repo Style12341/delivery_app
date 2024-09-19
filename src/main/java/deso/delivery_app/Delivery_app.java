@@ -3,6 +3,8 @@
  */
 package deso.delivery_app;
 
+import deso.delivery_app.testing.Entrega3;
+
 import java.util.Scanner;
 
 /**
@@ -14,6 +16,10 @@ public class Delivery_app {
     public final static String SEARCHBYNAME = "2";
 
     public static void main(String[] args) {
+        Entrega3.run();
+    }
+
+    public static void entrega1() {
         System.out.println("Hello World!");
         // Vendedores
         consignaVendedores();

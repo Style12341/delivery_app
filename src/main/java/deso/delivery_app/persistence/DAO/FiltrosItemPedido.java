@@ -9,28 +9,28 @@ import java.util.function.Predicate;
 public class FiltrosItemPedido {
     private final ArrayList<Predicate<ItemPedido>> filtros = new ArrayList<>();
 
-    public void setRangoPrecio(double precioMinimo, double precioMaximo) {
-        setPrecioMinimo(precioMinimo);
-        setPrecioMaximo(precioMaximo);
+    public void addRangoPrecio(double precioMinimo, double precioMaximo) {
+        addPrecioMinimo(precioMinimo);
+        addPrecioMaximo(precioMaximo);
     }
 
-    public void setPrecioMinimo(double precioMinimo) {
+    public void addPrecioMinimo(double precioMinimo) {
         filtros.add(i -> i.getItemMenu().getPrecio() >= precioMinimo);
     }
 
-    public void setPrecioMaximo(double precioMaximo) {
+    public void addPrecioMaximo(double precioMaximo) {
         filtros.add(i -> i.getItemMenu().getPrecio() <= precioMaximo);
     }
 
-    public void setComidaVegana() {
+    public void addComidaVegana() {
         filtros.add(i -> i.getItemMenu().aptoVegano());
     }
 
-    public void setComidaCeliaca() {
+    public void addComidaCeliaca() {
         filtros.add(i -> i.getItemMenu().aptoCeliaco());
     }
 
-    public void setBebidasNoAlcoholica() {
+    public void addNoAlcoholica() {
         filtros.add(i -> {
             // Si no es bebida , indica que es comida por lo tanto no es alcoholica
             if (!i.getItemMenu().esBebida()) return true;
@@ -39,7 +39,7 @@ public class FiltrosItemPedido {
         });
     }
 
-    public void setGaseosas() {
+    public void addGaseosas() {
         filtros.add(i -> {
             if (!i.getItemMenu().esBebida()) return false;
             Bebida b = (Bebida) i.getItemMenu();
@@ -47,31 +47,35 @@ public class FiltrosItemPedido {
         });
     }
 
-    public void setIdVendedor(long id) {
+    public void addIdVendedor(long id) {
         filtros.add(i -> i.getPedido().getVendedor().getId() == id);
     }
 
-    public void setCuitVendedor(String cuit) {
+    public void addNombreVendedor(String nombre) {
+        filtros.add(i -> i.getPedido().getVendedor().getNombre().equals(nombre));
+    }
+
+    public void addCuitVendedor(String cuit) {
         filtros.add(i -> i.getPedido().getVendedor().getCuit().equals(cuit));
     }
 
-    public void setIdCliente(long id) {
+    public void addIdCliente(long id) {
         filtros.add(i -> i.getPedido().getCliente().getId() == id);
     }
 
-    public void setCuitCliente(String cuit) {
+    public void addCuitCliente(String cuit) {
         filtros.add(i -> i.getPedido().getCliente().getCuit().equals(cuit));
     }
 
-    public void setEmailCliente(String email) {
+    public void addEmailCliente(String email) {
         filtros.add(i -> i.getPedido().getCliente().getEmail().equals(email));
     }
 
-    public void setApellidoCliente(String apellido) {
+    public void addApellidoCliente(String apellido) {
         filtros.add(i -> i.getPedido().getCliente().getApellido().equals(apellido));
     }
 
-    public void setComida() {
+    public void addComida() {
         filtros.add(i -> i.getItemMenu().esComida());
     }
 
