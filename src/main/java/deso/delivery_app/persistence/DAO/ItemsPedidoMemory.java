@@ -18,7 +18,7 @@ public class ItemsPedidoMemory implements ItemsPedidoDao {
         listaItemsPedido = new ArrayList<>();
     }
 
-    public static ItemsPedidoMemory getItemsPedidoMemory() {
+    public static ItemsPedidoMemory getInstance() {
         if (SINGLETON_INSTANCE == null) SINGLETON_INSTANCE = new ItemsPedidoMemory();
         return SINGLETON_INSTANCE;
     }

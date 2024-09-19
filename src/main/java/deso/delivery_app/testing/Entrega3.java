@@ -17,7 +17,7 @@ public class Entrega3 {
     public static ArrayList<Cliente> clientes = new ArrayList<>();
     public static ArrayList<Pedido> pedidos = new ArrayList<>();
 
-    public static ItemsPedidoMemory itemsPedidoMemory = ItemsPedidoMemory.getItemsPedidoMemory();
+    public static ItemsPedidoMemory itemsPedidoMemory = ItemsPedidoMemory.getInstance();
 
 
     public static void run() {

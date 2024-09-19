@@ -12,7 +12,6 @@ public class Pedido {
     private Vendedor vendedor;
     private static long NEXT_ID = 0;
     private final ArrayList<ItemPedido> detallePedido = new ArrayList<>();
-    private final ItemsPedidoDao itemsPedidoDao = ItemsPedidoMemory.getItemsPedidoMemory();
 
     public Pedido(Vendedor vendedor, Cliente cliente, ArrayList<Pair<ItemMenu, Integer>> items) {
         this.id = NEXT_ID++;
@@ -25,6 +24,7 @@ public class Pedido {
 
     private void agregarItem(ItemMenu item, Integer cantidad) {
         ItemPedido i = new ItemPedido(cantidad, item, this);
+        ItemsPedidoDao itemsPedidoDao = ItemsPedidoMemory.getInstance();
         itemsPedidoDao.create(i);
         detallePedido.add(i);
     }
