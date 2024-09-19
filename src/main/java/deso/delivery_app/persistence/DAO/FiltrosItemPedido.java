@@ -47,8 +47,20 @@ public class FiltrosItemPedido {
         });
     }
 
-    public void setRestaurante(long id) {
-        filtros.add(i -> i.getPedido().getIDVendedor() == id);
+    public void setIdVendedor(long id) {
+        filtros.add(i -> i.getPedido().getVendedor().getId() == id);
+    }
+
+    public void setCuitVendedor(String cuit) {
+        filtros.add(i -> i.getPedido().getVendedor().getCuit().equals(cuit));
+    }
+
+    public void setIdCliente(long id) {
+        filtros.add(i -> i.getPedido().getCliente().getId() == id);
+    }
+
+    public void setCuitCliente(String cuit) {
+        filtros.add(i -> i.getPedido().getCliente().getCuit().equals(cuit));
     }
 
     public void setComida() {
