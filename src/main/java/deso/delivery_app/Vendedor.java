@@ -1,5 +1,6 @@
 package deso.delivery_app;
 
+import javax.lang.model.type.ArrayType;
 import java.util.ArrayList;
 
 /**
@@ -14,6 +15,7 @@ public class Vendedor implements ISearcheable {
     private Coordenada coordenadas;
     private static long nextId = 0;
     private ArrayList<ItemMenu> menu;
+    private ArrayList<Pedido> pedidos;
 
     public Vendedor(String nombre, String direccion, String cuit, Coordenada coordenadas) {
         this.id = nextId++;
@@ -77,9 +79,13 @@ public class Vendedor implements ISearcheable {
         this.direccion = direccion;
     }
 
-    public String getCuit() { return cuit; }
+    public String getCuit() {
+        return cuit;
+    }
 
-    public void setCuit(String cuit) { this.cuit = cuit; }
+    public void setCuit(String cuit) {
+        this.cuit = cuit;
+    }
 
     /**
      * @return the coordenadas
