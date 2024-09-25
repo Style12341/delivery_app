@@ -30,6 +30,21 @@ public class ItemsPedidoMemory implements ItemsPedidoDao {
     }
 
     @Override
+    public ItemPedido get(long id) {
+        return listaItemsPedido.stream().filter(i -> i.getId() == id).findFirst().orElse(null);
+    }
+    
+    public ItemPedido update(ItemPedido itemPedido) {
+        for (int i = 0; i < listaItemsPedido.size(); i++) {
+            if(listaItemsPedido.get(i).getId() == itemPedido.getId()) {
+                listaItemsPedido.set(i, itemPedido);
+                return itemPedido;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void delete(long id) {
         Optional<ItemPedido> item = listaItemsPedido.stream().filter(i -> i.getId() == id).findFirst();
         item.ifPresent(listaItemsPedido::remove);
