@@ -26,6 +26,7 @@ public class Vendedor implements ISearcheable {
     }
 
     public void addItemToMenu(ItemMenu item) {
+        item.setVendedor(this);
         menu.add(item);
     }
 

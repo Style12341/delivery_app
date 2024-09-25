@@ -39,12 +39,10 @@ public class FiltrosItemPedido {
         });
     }
 
-    public void addGaseosas() {
-        filtros.add(i -> {
-            if (!i.getItemMenu().esBebida()) return false;
-            Bebida b = (Bebida) i.getItemMenu();
-            return b.esGaseosa();
-        });
+    public void addGaseosas() { filtros.add(i -> i.getItemMenu().esBebida()); }
+
+    public void addComida() {
+        filtros.add(i -> i.getItemMenu().esComida());
     }
 
     public void addIdVendedor(long id) {
@@ -73,10 +71,6 @@ public class FiltrosItemPedido {
 
     public void addApellidoCliente(String apellido) {
         filtros.add(i -> i.getPedido().getCliente().getApellido().equals(apellido));
-    }
-
-    public void addComida() {
-        filtros.add(i -> i.getItemMenu().esComida());
     }
 
     public Predicate<ItemPedido> getFiltros() {

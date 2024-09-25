@@ -75,7 +75,7 @@ public class ItemsPedidoMemory implements ItemsPedidoDao {
         int desc = descendente ? 1 : -1;
         // Restamos y multiplicamos para definir si el orden es ascendente o descendente
         return lista.stream()
-                .sorted((i1, i2) -> Double.compare(i2.getItemMenu().getPrecio(), i1.getItemMenu().getPrecio()) * desc)
+                .sorted((i1, i2) -> Double.compare(i2.getPrecioTotal(), i1.getPrecioTotal()) * desc)
                 .toList();
     }
 }

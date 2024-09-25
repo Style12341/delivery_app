@@ -7,6 +7,7 @@ public abstract class ItemMenu {
     protected double precio;
     protected Categoria categoria;
     protected static long NEXTID = 0;
+    protected Vendedor vendedor;
 
     public abstract double peso();
 
@@ -26,6 +27,14 @@ public abstract class ItemMenu {
         this.categoria = categoria;
     }
 
+    public long getId() { return id; }
+
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
+    }
+    public Vendedor getVendedor(){
+        return this.vendedor;
+    }
     public String getDescripcion() {
         return descripcion;
     }
