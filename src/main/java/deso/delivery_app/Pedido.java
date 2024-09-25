@@ -2,7 +2,7 @@ package deso.delivery_app;
 
 import deso.delivery_app.persistence.DAO.ItemsPedidoDao;
 import deso.delivery_app.persistence.DAO.ItemsPedidoMemory;
-import deso.delivery_app.strategies.PagoConTransferencia;
+import deso.delivery_app.strategies.PagarStrategy;
 import deso.delivery_app.utils.Pair;
 
 import java.util.ArrayList;
@@ -45,7 +45,9 @@ public class Pedido {
     public double getPrecioAcumulado(){
         return precioAcumulado;
     }
-
+    public void setEstrategiaDePago(PagarStrategy estrategia){
+        pago.setStrategy(estrategia);
+    }
     public Pago getPago() {
         return pago;
     }
