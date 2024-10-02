@@ -20,10 +20,10 @@ public class Cliente implements ISearcheable {
     private String direccion;
     private Coordenada coordenadas;
     private ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
-    private static long nextId = 0;
+    private static long NEXT_ID = 0;
 
     public Cliente(String nombre, String apellido, String cuit, String email, String direccion, Coordenada coordenadas) {
-        this.id = nextId++;
+        this.id = NEXT_ID++;
         this.nombre = nombre;
         this.apellido = apellido;
         this.cuit = cuit;

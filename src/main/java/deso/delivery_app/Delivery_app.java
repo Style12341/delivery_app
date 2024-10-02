@@ -16,6 +16,7 @@ public class Delivery_app {
     public static void main(String[] args) {
         //Entrega1.run();
         //Entrega3.run();
+        // Los pagos tienen un 10% de probabilidad de fallar
         Entrega4.run();
     }
 
