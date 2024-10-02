@@ -5,6 +5,7 @@ import deso.delivery_app.strategies.PagarStrategy;
 import java.util.Date;
 
 public class Pago {
+    private static long NEXT_ID = 0;
     private long id;
     private Date fecha;
     private PagarStrategy pagarStrategy;
@@ -12,16 +13,12 @@ public class Pago {
     private double precioTotalConRecargo;
 
     public Pago(double precioTotalSinRecargo) {
+        this.id = NEXT_ID++;
         this.precioTotalSinRecargo = precioTotalSinRecargo;
-
     }
 
     public void setStrategy(PagarStrategy pagarStrategy) {
         this.pagarStrategy = pagarStrategy;
-    }
-
-    public void setPrecioTotalConRecargo(double precioTotalConRecargo) {
-        this.precioTotalConRecargo = precioTotalConRecargo;
     }
 
     public void pagar(Pedido pedido) {
@@ -36,5 +33,13 @@ public class Pago {
 
     public double getPrecioTotalConRecargo() {
         return precioTotalConRecargo;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public double getPrecioTotalSinRecargo() {
+        return precioTotalSinRecargo;
     }
 }

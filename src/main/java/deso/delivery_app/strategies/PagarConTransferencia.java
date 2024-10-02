@@ -45,8 +45,6 @@ public class PagarConTransferencia implements PagarStrategy {
         this.cuit = cuit;
     }
 
-
-
     @Override
     public double calcularRecargo(double precioTotalSinRecargo) {
         return precioTotalSinRecargo * RECARGO;

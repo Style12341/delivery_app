@@ -16,9 +16,10 @@ public class Delivery_app {
 
     public static void main(String[] args) {
         // Correr las pruebas para una entrega anterior a la actual puede resultar en errores
-        // Entrega1.run();
-        // Entrega3.run();
-        // Entrega4.run();
+        //Entrega1.run();
+        //Entrega3.run();
+        // Los pagos tienen un 10% de probabilidad de fallar
+        //Entrega4.run();
         Entrega5.run();
     }
 
