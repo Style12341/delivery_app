@@ -13,6 +13,7 @@ public class Pago {
 
     public Pago(double precioTotalSinRecargo) {
         this.precioTotalSinRecargo = precioTotalSinRecargo;
+
     }
 
     public void setStrategy(PagarStrategy pagarStrategy) {
@@ -22,7 +23,7 @@ public class Pago {
     public void setPrecioTotalConRecargo(double precioTotalConRecargo) {
         this.precioTotalConRecargo = precioTotalConRecargo;
     }
-    
+
     public void pagar(Pedido pedido) {
         try {
             precioTotalConRecargo = pagarStrategy.pagar(pedido);

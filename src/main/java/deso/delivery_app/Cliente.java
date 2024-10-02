@@ -6,11 +6,13 @@ package deso.delivery_app;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * @author BMPC
  */
-public class Cliente implements ISearcheable {
+public class Cliente implements ISearcheable, Observer {
 
     private long id;
     private String nombre;
@@ -122,4 +124,15 @@ public class Cliente implements ISearcheable {
         this.coordenadas = coordenadas;
     }
 
+    @Override
+    public void update(Observable o, Object _arg) {
+        Pedido p = (Pedido) o;
+        System.out.println(this.toString() + " ha sido notificado de un cambio en el pedido");
+        System.out.println("El pedido ha cambiado de estado a " + p.getEstado());
+        if (p.getEstado() == ESTADO_PEDIDO.EN_ENVIO) {
+            //Cliente crea el Pago
+            Pago pago = new Pago(p.getPrecioAcumulado());
+            p.setPago(pago);
+        }
+    }
 }

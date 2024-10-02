@@ -2,14 +2,16 @@ package deso.delivery_app;
 
 import deso.delivery_app.exception.EstrategiaNoSeleccionadaException;
 import deso.delivery_app.exception.PagoFalladoException;
+import deso.delivery_app.exception.PagoInexistenteException;
 import deso.delivery_app.persistence.DAO.ItemsPedidoDao;
 import deso.delivery_app.persistence.DAO.ItemsPedidoMemory;
 import deso.delivery_app.strategies.PagarStrategy;
 import deso.delivery_app.utils.Pair;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class Pedido {
+public class Pedido extends Observable {
     private long id;
     private Cliente cliente;
     private Vendedor vendedor;
@@ -20,6 +22,7 @@ public class Pedido {
     private ESTADO_PEDIDO estado;
 
     public Pedido(Vendedor vendedor, Cliente cliente, ArrayList<Pair<ItemMenu, Integer>> items) {
+        this.addObserver(cliente);
         this.id = NEXT_ID++;
         this.vendedor = vendedor;
         this.cliente = cliente;
@@ -27,6 +30,10 @@ public class Pedido {
         for (Pair<ItemMenu, Integer> item : items) {
             agregarItem(item.first, item.second);
         }
+    }
+
+    public long getId() {
+        return id;
     }
 
     public void agregarItem(ItemMenu item, Integer cantidad) {
@@ -50,14 +57,14 @@ public class Pedido {
     }
 
     public void setEstrategiaDePago(PagarStrategy estrategia) {
-        if (pago == null) pago = new Pago(precioAcumulado);
+        if (pago == null)
+            throw new PagoInexistenteException("El cliente aun no ha creado el pago (pedido no esta en estado EN_ENVIO)");
         pago.setStrategy(estrategia);
     }
 
-    public void pagar() throws EstrategiaNoSeleccionadaException{
-        if(pago==null) throw new EstrategiaNoSeleccionadaException("No se ha seleccionado una estrategia de pago");
+    public void pagar() throws EstrategiaNoSeleccionadaException {
+        if (pago == null) throw new EstrategiaNoSeleccionadaException("No se ha seleccionado una estrategia de pago");
         pago.pagar(this);
-        estado = ESTADO_PEDIDO.RECIBIDO;
     }
 
     public Pago getPago() {
@@ -66,5 +73,15 @@ public class Pedido {
 
     public void setPago(Pago pago) {
         this.pago = pago;
+    }
+
+    public ESTADO_PEDIDO getEstado() {
+        return this.estado;
+    }
+
+    public void setEstado(ESTADO_PEDIDO estado) {
+        this.estado = estado;
+        this.setChanged();
+        this.notifyObservers();
     }
 }
