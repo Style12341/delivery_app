@@ -60,6 +60,7 @@ public class Entrega3 {
         } catch (ItemNoEncontradoException e) {
             System.out.println("No se encontraron items de pedidos para el cliente 2");
         }
+
         // Caso 3 filtrar por nombre de vendedor 1
         String nombreVendedor1 = vendedores.getFirst().getNombre();
         System.out.println("\nCaso 3: filtrar por nombre de vendedor 1, Vendedor: " + nombreVendedor1);
@@ -74,6 +75,7 @@ public class Entrega3 {
         } catch (ItemNoEncontradoException e) {
             System.out.println("No se encontraron items de pedidos para el vendedor 1");
         }
+
         // Caso 4 filtrar por nombre de vendedor 2
         String nombreVendedor2 = vendedores.get(1).getNombre();
         System.out.println("\nCaso 4: filtrar por nombre de vendedor 2, Vendedor: " + nombreVendedor2);
@@ -88,6 +90,7 @@ public class Entrega3 {
         } catch (ItemNoEncontradoException e) {
             System.out.println("No se encontraron items de pedidos para el vendedor 2");
         }
+
         // Caso 5 filtrar por nombre de vendedor 1 y cuit vendedor 2 da vacio
         System.out.println("\nCaso 5: filtrar por nombre de vendedor 1 y cuit vendedor 2 deberia dar vacio");
         try {
@@ -102,6 +105,7 @@ public class Entrega3 {
         } catch (ItemNoEncontradoException e) {
             System.out.println("No se encontraron items de pedidos para el vendedor 1 y cuit vendedor 2");
         }
+
         // Caso 6 deberia devolver todos los items pedidos existentes ordenados por nombre
         System.out.println("\nCaso 6: deberia devolver todos los items pedidos existentes ordenados por nombre");
         try {
@@ -114,6 +118,7 @@ public class Entrega3 {
         } catch (ItemNoEncontradoException e) {
             System.out.println("No se encontraron items de pedidos");
         }
+
         // Caso 7 deberia devolver todos los items pedidos existentes ordenados por precio
         System.out.println("\nCaso 7: deberia devolver todos los items pedidos existentes ordenados por precio");
         try {
@@ -126,6 +131,7 @@ public class Entrega3 {
         } catch (ItemNoEncontradoException e) {
             System.out.println("No se encontraron items de pedidos");
         }
+
         // Caso 8 deberia devolver todos los items pedidos existentes ordenados por precio descendente
         System.out.println("\nCaso 8: deberia devolver todos los items pedidos existentes ordenados por precio descendente");
         try {
@@ -138,6 +144,7 @@ public class Entrega3 {
         } catch (ItemNoEncontradoException e) {
             System.out.println("No se encontraron items de pedidos");
         }
+
         // Caso 9 deberia devolver todos los items pedidos existentes ordenados por precio descendente y filtrados por comida vegana
         System.out.println("\nCaso 9: deberia devolver todos los items pedidos existentes ordenados por precio descendente y filtrados por comida vegana");
         try {
@@ -151,6 +158,7 @@ public class Entrega3 {
         } catch (ItemNoEncontradoException e) {
             System.out.println("No se encontraron items de pedidos");
         }
+
         // Caso 10 deberia devolver todos los items pedidos existentes ordenados por precio descendente y filtrados por comida celiaca
         System.out.println("\nCaso 10: deberia devolver todos los items pedidos existentes ordenados por precio descendente y filtrados por comida celiaca");
         try {
@@ -164,6 +172,7 @@ public class Entrega3 {
         } catch (ItemNoEncontradoException e) {
             System.out.println("No se encontraron items de pedidos");
         }
+
         // Caso 11 bebidas no alcoholicas
         System.out.println("\nCaso 11: deberia devolver todas las bebidas no alcoholicas");
         try {
@@ -177,6 +186,7 @@ public class Entrega3 {
         } catch (ItemNoEncontradoException e) {
             System.out.println("No se encontraron items de pedidos");
         }
+
         // Caso 12 gaseosas
         System.out.println("\nCaso 12: deberia devolver todas las gaseosas");
         try {
@@ -190,6 +200,7 @@ public class Entrega3 {
         } catch (ItemNoEncontradoException e) {
             System.out.println("No se encontraron items de pedidos");
         }
+
         // Caso 13 Comidas
         System.out.println("\nCaso 13: deberia devolver todas las comidas");
         try {
@@ -203,6 +214,7 @@ public class Entrega3 {
         } catch (ItemNoEncontradoException e) {
             System.out.println("No se encontraron items de pedidos");
         }
+
         // Caso 14 Filtrando por rango de precios
         System.out.println("\nCaso 14: deberia devolver todas las comidas con precio entre 5 y 10");
         try {
@@ -216,6 +228,7 @@ public class Entrega3 {
         } catch (ItemNoEncontradoException e) {
             System.out.println("No se encontraron items de pedidos");
         }
+
         // Caso 15 Filtrado mayor a 5 Precio
         System.out.println("\nCaso 15: deberia devolver todas las comidas con precio mayor a 5");
         try {
@@ -229,6 +242,7 @@ public class Entrega3 {
         } catch (ItemNoEncontradoException e) {
             System.out.println("No se encontraron items de pedidos");
         }
+
         // Caso 16 Filtrado menor a 5 Precio
         System.out.println("\nCaso 16: deberia devolver todas las comidas con precio menor a 5");
         try {
@@ -294,11 +308,11 @@ public class Entrega3 {
     private static void createPedidos() {
 
         // Pedido 1
-        ArrayList<Pair<ItemMenu, Integer>> itemsPedido1 = new ArrayList<Pair<ItemMenu, Integer>>();
-        itemsPedido1.add(new Pair<>(itemsComidas.get(0), 2)); // Ensalada Mixta, 2 unidades
+        ArrayList<Pair<ItemMenu, Integer>> itemsPedido1 = new ArrayList<>();
+        itemsPedido1.add(new Pair<>(itemsComidas.getFirst(), 2)); // Ensalada Mixta, 2 unidades
         itemsPedido1.add(new Pair<>(itemsBebidas.get(1), 1)); // Cerveza Corona, 1 unidad
 
-        pedidos.add(new Pedido(vendedores.get(0), clientes.get(0), itemsPedido1)); // Pedido del cliente 1 con el vendedor 1
+        pedidos.add(new Pedido(vendedores.getFirst(), clientes.getFirst(), itemsPedido1)); // Pedido del cliente 1 con el vendedor 1
 
         // Pedido 2
         ArrayList<Pair<ItemMenu, Integer>> itemsPedido2 = new ArrayList<>();
@@ -312,21 +326,21 @@ public class Entrega3 {
         itemsPedido3.add(new Pair<>(itemsComidas.get(5), 1)); // Wrap de falafel, 1 unidad
         itemsPedido3.add(new Pair<>(itemsBebidas.get(4), 2)); // Fanta Naranja, 2 unidades
 
-        pedidos.add(new Pedido(vendedores.get(1), clientes.get(0), itemsPedido3)); // Pedido del cliente 1 con el vendedor 2
+        pedidos.add(new Pedido(vendedores.get(1), clientes.getFirst(), itemsPedido3)); // Pedido del cliente 1 con el vendedor 2
 
         // Pedido 4
         ArrayList<Pair<ItemMenu, Integer>> itemsPedido4 = new ArrayList<>();
         itemsPedido4.add(new Pair<>(itemsComidas.get(4), 2)); // Risotto de hongos, 2 unidades
         itemsPedido4.add(new Pair<>(itemsBebidas.get(5), 1)); // Gin Tonic, 1 unidad
 
-        pedidos.add(new Pedido(vendedores.get(0), clientes.get(1), itemsPedido4)); // Pedido del cliente 2 con el vendedor 1
+        pedidos.add(new Pedido(vendedores.getFirst(), clientes.get(1), itemsPedido4)); // Pedido del cliente 2 con el vendedor 1
 
         // Pedido 5
         ArrayList<Pair<ItemMenu, Integer>> itemsPedido5 = new ArrayList<>();
         itemsPedido5.add(new Pair<>(itemsComidas.get(1), 1)); // Milanesa con papas fritas, 1 unidad
-        itemsPedido5.add(new Pair<>(itemsBebidas.get(0), 2)); // Coca-Cola, 2 unidades
+        itemsPedido5.add(new Pair<>(itemsBebidas.getFirst(), 2)); // Coca-Cola, 2 unidades
 
-        pedidos.add(new Pedido(vendedores.get(0), clientes.get(0), itemsPedido5)); // Pedido del cliente 1 con el vendedor 1
+        pedidos.add(new Pedido(vendedores.getFirst(), clientes.getFirst(), itemsPedido5)); // Pedido del cliente 1 con el vendedor 1
     }
 
 

@@ -6,11 +6,11 @@ import deso.delivery_app.exception.PagoFalladoException;
 public class PagarConTransferencia implements PagarStrategy {
     private static final double RECARGO = 1.02;
     private String cbu;
-    private String alias;
+    private String cuit;
 
-    public PagarConTransferencia(String cbu, String alias) {
+    public PagarConTransferencia(String cbu, String cuit) {
         this.cbu = cbu;
-        this.alias = alias;
+        this.cuit = cuit;
     }
 
     @Override
@@ -18,9 +18,10 @@ public class PagarConTransferencia implements PagarStrategy {
 
         double monto = pedido.getPrecioAcumulado();
         double montoAPagar = calcularRecargo(monto);
+
         // Simulamos que el pago puede tener fallas para manejar el evento
         double random = Math.random();
-        if (random<0.2) {
+        if (random<0.1) {
             throw new PagoFalladoException("Pago fallado con mercado pago");
         }
 
@@ -36,12 +37,12 @@ public class PagarConTransferencia implements PagarStrategy {
         this.cbu = cbu;
     }
 
-    public String getAlias() {
-        return alias;
+    public String getCuit() {
+        return cuit;
     }
 
-    public void setAlias(String alias) {
-        this.alias = alias;
+    public void setCuit(String cuit) {
+        this.cuit = cuit;
     }
 
 

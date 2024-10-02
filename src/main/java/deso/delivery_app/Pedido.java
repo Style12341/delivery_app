@@ -1,5 +1,7 @@
 package deso.delivery_app;
 
+import deso.delivery_app.exception.EstrategiaNoSeleccionadaException;
+import deso.delivery_app.exception.PagoFalladoException;
 import deso.delivery_app.persistence.DAO.ItemsPedidoDao;
 import deso.delivery_app.persistence.DAO.ItemsPedidoMemory;
 import deso.delivery_app.strategies.PagarStrategy;
@@ -21,13 +23,14 @@ public class Pedido {
         this.id = NEXT_ID++;
         this.vendedor = vendedor;
         this.cliente = cliente;
+        this.estado = ESTADO_PEDIDO.PENDIENTE;
         for (Pair<ItemMenu, Integer> item : items) {
             agregarItem(item.first, item.second);
         }
     }
 
-    private void agregarItem(ItemMenu item, Integer cantidad) {
-        this.precioAcumulado += item.getPrecio()*cantidad;
+    public void agregarItem(ItemMenu item, Integer cantidad) {
+        this.precioAcumulado += item.getPrecio() * cantidad;
         ItemPedido i = new ItemPedido(cantidad, item, this);
         ItemsPedidoDao itemsPedidoDao = ItemsPedidoMemory.getInstance();
         itemsPedidoDao.create(i);
@@ -42,12 +45,21 @@ public class Pedido {
         return cliente;
     }
 
-    public double getPrecioAcumulado(){
+    public double getPrecioAcumulado() {
         return precioAcumulado;
     }
-    public void setEstrategiaDePago(PagarStrategy estrategia){
+
+    public void setEstrategiaDePago(PagarStrategy estrategia) {
+        if (pago == null) pago = new Pago(precioAcumulado);
         pago.setStrategy(estrategia);
     }
+
+    public void pagar() throws EstrategiaNoSeleccionadaException{
+        if(pago==null) throw new EstrategiaNoSeleccionadaException("No se ha seleccionado una estrategia de pago");
+        pago.pagar(this);
+        estado = ESTADO_PEDIDO.RECIBIDO;
+    }
+
     public Pago getPago() {
         return pago;
     }

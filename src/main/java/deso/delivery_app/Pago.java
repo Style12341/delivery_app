@@ -29,7 +29,11 @@ public class Pago {
             this.fecha = new Date();
         } catch (Exception e) {
             System.out.println("Error al pagar: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
+    public double getPrecioTotalConRecargo() {
+        return precioTotalConRecargo;
+    }
 }
