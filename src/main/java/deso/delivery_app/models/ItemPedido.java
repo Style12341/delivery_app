@@ -1,4 +1,4 @@
-package deso.delivery_app;
+package deso.delivery_app.models;
 
 public class ItemPedido {
     private long id;

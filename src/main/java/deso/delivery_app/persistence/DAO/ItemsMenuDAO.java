@@ -1,6 +1,6 @@
 package deso.delivery_app.persistence.DAO;
 
-import deso.delivery_app.ItemMenu;
+import deso.delivery_app.models.ItemMenu;
 import deso.delivery_app.exception.ItemNoEncontradoException;
 
 import java.util.List;

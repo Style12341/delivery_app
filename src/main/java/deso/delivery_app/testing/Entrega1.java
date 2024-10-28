@@ -1,9 +1,9 @@
 package deso.delivery_app.testing;
 
-import deso.delivery_app.Cliente;
-import deso.delivery_app.Coordenada;
+import deso.delivery_app.models.Cliente;
+import deso.delivery_app.utils.Coordenada;
 import deso.delivery_app.ISearcheable;
-import deso.delivery_app.Vendedor;
+import deso.delivery_app.models.Vendedor;
 
 import java.util.Scanner;
 

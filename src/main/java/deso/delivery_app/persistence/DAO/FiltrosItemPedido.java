@@ -1,7 +1,7 @@
 package deso.delivery_app.persistence.DAO;
 
-import deso.delivery_app.Bebida;
-import deso.delivery_app.ItemPedido;
+import deso.delivery_app.models.Bebida;
+import deso.delivery_app.models.ItemPedido;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;

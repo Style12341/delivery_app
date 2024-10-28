@@ -2,9 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package deso.delivery_app;
+package deso.delivery_app.models;
 
-import java.io.Serializable;
+import deso.delivery_app.utils.Coordenada;
+import deso.delivery_app.ESTADO_PEDIDO;
+import deso.delivery_app.ISearcheable;
+
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;

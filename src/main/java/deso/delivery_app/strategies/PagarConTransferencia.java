@@ -1,6 +1,6 @@
 package deso.delivery_app.strategies;
 
-import deso.delivery_app.Pedido;
+import deso.delivery_app.models.Pedido;
 import deso.delivery_app.exception.PagoFalladoException;
 
 public class PagarConTransferencia implements PagarStrategy {

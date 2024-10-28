@@ -1,8 +1,9 @@
-package deso.delivery_app.persistence.DAO;
+package deso.delivery_app.persistence.DAO.memory;
 
-import deso.delivery_app.Coordenada;
-import deso.delivery_app.ItemPedido;
-import deso.delivery_app.Vendedor;
+import deso.delivery_app.persistence.DAO.FiltrosVendedor;
+import deso.delivery_app.persistence.DAO.VendedorDao;
+import deso.delivery_app.utils.Coordenada;
+import deso.delivery_app.models.Vendedor;
 import deso.delivery_app.exception.ItemNoEncontradoException;
 
 import java.util.ArrayList;

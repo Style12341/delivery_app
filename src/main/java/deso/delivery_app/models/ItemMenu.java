@@ -1,4 +1,4 @@
-package deso.delivery_app;
+package deso.delivery_app.models;
 
 public abstract class ItemMenu {
     protected long id;

@@ -1,4 +1,4 @@
-package deso.delivery_app;
+package deso.delivery_app.models;
 
 import deso.delivery_app.strategies.PagarStrategy;
 

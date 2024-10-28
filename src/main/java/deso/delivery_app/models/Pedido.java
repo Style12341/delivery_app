@@ -1,10 +1,10 @@
-package deso.delivery_app;
+package deso.delivery_app.models;
 
+import deso.delivery_app.ESTADO_PEDIDO;
 import deso.delivery_app.exception.EstrategiaNoSeleccionadaException;
-import deso.delivery_app.exception.PagoFalladoException;
 import deso.delivery_app.exception.PagoInexistenteException;
 import deso.delivery_app.persistence.DAO.ItemsPedidoDao;
-import deso.delivery_app.persistence.DAO.ItemsPedidoMemory;
+import deso.delivery_app.persistence.DAO.memory.ItemsPedidoMemory;
 import deso.delivery_app.strategies.PagarStrategy;
 import deso.delivery_app.utils.Pair;
 

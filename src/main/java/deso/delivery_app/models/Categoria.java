@@ -1,4 +1,6 @@
-package deso.delivery_app;
+package deso.delivery_app.models;
+
+import deso.delivery_app.TIPO_ITEM;
 
 public class Categoria {
     private long id;

@@ -1,6 +1,8 @@
-package deso.delivery_app;
+package deso.delivery_app.models;
 
-import javax.lang.model.type.ArrayType;
+import deso.delivery_app.utils.Coordenada;
+import deso.delivery_app.ISearcheable;
+
 import java.util.ArrayList;
 
 /**
