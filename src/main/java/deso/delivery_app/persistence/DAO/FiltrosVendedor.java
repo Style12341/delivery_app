@@ -12,11 +12,11 @@ public class FiltrosVendedor {
         return filtros.stream().reduce(item -> true, Predicate::and);
     }
 
-    void addNombre(String nombre) {
-        filtros.add(v -> v.getNombre().equals(nombre));
+    public void addNombre(String nombre) {
+        filtros.add(v -> v.getNombre().startsWith(nombre));
     }
 
-    void addDireccion(String direccion) {
-        filtros.add(v -> v.getDireccion().equals(direccion));
+    public void addDireccion(String direccion) {
+        filtros.add(v -> v.getDireccion().startsWith(direccion));
     }
 }

@@ -50,11 +50,11 @@ public class FiltrosItemMenu{
     }
 
     public void addNombreVendedor(String nombre) {
-        filtros.add(i -> i.getVendedor().getNombre().equals(nombre));
+        filtros.add(i -> i.getVendedor().getNombre().startsWith(nombre));
     }
 
     public void addCuitVendedor(String cuit) {
-        filtros.add(i -> i.getVendedor().getCuit().equals(cuit));
+        filtros.add(i -> i.getVendedor().getCuit().startsWith(cuit));
     }
 
     public Predicate<ItemMenu> getFiltros() {

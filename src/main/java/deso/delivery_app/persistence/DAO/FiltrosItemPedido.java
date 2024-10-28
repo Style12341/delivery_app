@@ -50,11 +50,11 @@ public class FiltrosItemPedido {
     }
 
     public void addNombreVendedor(String nombre) {
-        filtros.add(i -> i.getPedido().getVendedor().getNombre().equals(nombre));
+        filtros.add(i -> i.getPedido().getVendedor().getNombre().startsWith(nombre));
     }
 
     public void addCuitVendedor(String cuit) {
-        filtros.add(i -> i.getPedido().getVendedor().getCuit().equals(cuit));
+        filtros.add(i -> i.getPedido().getVendedor().getCuit().startsWith(cuit));
     }
 
     public void addIdCliente(long id) {
@@ -62,15 +62,15 @@ public class FiltrosItemPedido {
     }
 
     public void addCuitCliente(String cuit) {
-        filtros.add(i -> i.getPedido().getCliente().getCuit().equals(cuit));
+        filtros.add(i -> i.getPedido().getCliente().getCuit().startsWith(cuit));
     }
 
     public void addEmailCliente(String email) {
-        filtros.add(i -> i.getPedido().getCliente().getEmail().equals(email));
+        filtros.add(i -> i.getPedido().getCliente().getEmail().startsWith(email));
     }
 
     public void addApellidoCliente(String apellido) {
-        filtros.add(i -> i.getPedido().getCliente().getApellido().equals(apellido));
+        filtros.add(i -> i.getPedido().getCliente().getApellido().startsWith(apellido));
     }
 
     public Predicate<ItemPedido> getFiltros() {

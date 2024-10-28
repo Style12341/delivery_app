@@ -3,11 +3,13 @@
  */
 package deso.delivery_app;
 
-import deso.delivery_app.testing.Entrega3;
-import deso.delivery_app.testing.Entrega4;
-import deso.delivery_app.testing.Entrega5;
+import deso.delivery_app.models.Vendedor;
+import deso.delivery_app.testing.Entrega6;
+import deso.delivery_app.utils.Coordenada;
+import deso.delivery_app.views.AdminLayoutForm;
+import deso.delivery_app.views.VendedoresEditForm;
 
-import java.util.Scanner;
+import javax.swing.*;
 
 /**
  * @author BMPC
@@ -20,7 +22,9 @@ public class Delivery_app {
         //Entrega3.run();
         // Los pagos tienen un 10% de probabilidad de fallar
         //Entrega4.run();
-        Entrega5.run();
+        //Entrega5.run();
+        //new AdminLayoutForm();
+        Entrega6.run();
     }
 
 }

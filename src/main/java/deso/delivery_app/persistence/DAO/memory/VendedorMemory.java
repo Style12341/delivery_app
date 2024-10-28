@@ -11,6 +11,17 @@ import java.util.List;
 
 public class VendedorMemory implements VendedorDao {
     ArrayList<Vendedor> vendedorMemory = new ArrayList<>();
+    private static VendedorMemory SINGLETON_INSTANCE;
+
+    private VendedorMemory() {
+        vendedorMemory = new ArrayList<>();
+    }
+
+    public static VendedorMemory getInstance() {
+        if (SINGLETON_INSTANCE == null) SINGLETON_INSTANCE = new VendedorMemory();
+        return SINGLETON_INSTANCE;
+    }
+
     @Override
     public Vendedor create(Vendedor vendedor) {
         vendedorMemory.add(vendedor);
@@ -18,20 +29,19 @@ public class VendedorMemory implements VendedorDao {
     }
 
     @Override
-    public Vendedor get(long id)
-    {
-            return vendedorMemory.stream().filter(i -> i.getId() == id).findFirst().orElse(null);
+    public Vendedor get(long id) {
+        return vendedorMemory.stream().filter(i -> i.getId() == id).findFirst().orElse(null);
     }
 
     @Override
     public Vendedor update(Vendedor vendedor) {
-            for (int i = 0; i < vendedorMemory.size(); i++) {
-                if(vendedorMemory.get(i).getId() == vendedor.getId()) {
-                    vendedorMemory.set(i, vendedor);
-                    return vendedor;
-                }
+        for (int i = 0; i < vendedorMemory.size(); i++) {
+            if (vendedorMemory.get(i).getId() == vendedor.getId()) {
+                vendedorMemory.set(i, vendedor);
+                return vendedor;
             }
-            return null;
+        }
+        return null;
     }
 
     @Override
@@ -60,6 +70,6 @@ public class VendedorMemory implements VendedorDao {
         List<Vendedor> lista = this.filtrar(f);
         // Se ordena por distancia entre coord y coordenada de Vendedor
         int desc = descendente ? 1 : -1;
-        return lista.stream().sorted((v1, v2) -> (int) (Double.compare(coord.calcularDistancia(v1.getCoordenadas()),coord.calcularDistancia(v2.getCoordenadas()))) * desc).toList();
+        return lista.stream().sorted((v1, v2) -> (int) (Double.compare(coord.calcularDistancia(v1.getCoordenadas()), coord.calcularDistancia(v2.getCoordenadas()))) * desc).toList();
     }
 }
