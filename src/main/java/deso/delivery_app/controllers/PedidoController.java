@@ -1,4 +1,4 @@
 package deso.delivery_app.controllers;
 
-public class ItemsPedidoController {
+public class PedidoController {
 }

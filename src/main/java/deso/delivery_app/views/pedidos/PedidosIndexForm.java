@@ -1,4 +1,4 @@
-package deso.delivery_app.views.vendedores;
+package deso.delivery_app.views.pedidos;
 
 import deso.delivery_app.controllers.VendedorController;
 import deso.delivery_app.models.Vendedor;
@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
-public class VendedoresIndexForm {
+public class PedidosIndexForm {
     private JPanel panel1;
     private JButton crearVendedorButton;
     private JTextField NombreField;
@@ -21,7 +21,7 @@ public class VendedoresIndexForm {
     private JButton buscarButton;
     private VendedorController controller;
 
-    public VendedoresIndexForm() {
+    public PedidosIndexForm() {
         controller = new VendedorController();
         createTable(controller.getLista());
         buscarButton.addActionListener(new ActionListener() {
@@ -38,7 +38,7 @@ public class VendedoresIndexForm {
         crearVendedorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent _e) {
-                VendedoresCreateForm vendedoresCreateForm = new VendedoresCreateForm();
+                PedidosCreateForm vendedoresCreateForm = new PedidosCreateForm();
                 AdminLayoutForm.getInstance().replaceContent(vendedoresCreateForm.getRootPanel());
             }
         });
@@ -83,7 +83,7 @@ public class VendedoresIndexForm {
                 int modelRow = Integer.parseInt(e.getActionCommand());
                 long id = (long) table.getModel().getValueAt(modelRow, 0);
                 Vendedor v = controller.buscar(id);
-                VendedoresEditForm vendedoresEditForm = new VendedoresEditForm(v);
+                PedidosEditForm vendedoresEditForm = new PedidosEditForm(v);
                 AdminLayoutForm.getInstance().replaceContent(vendedoresEditForm.getRootPanel());
             }
         };

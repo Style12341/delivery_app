@@ -1,4 +1,4 @@
-package deso.delivery_app.views.vendedores;
+package deso.delivery_app.views.pedidos;
 
 import deso.delivery_app.controllers.VendedorController;
 import deso.delivery_app.models.Vendedor;
@@ -7,7 +7,7 @@ import deso.delivery_app.views.AdminLayoutForm;
 
 import javax.swing.*;
 
-public class VendedoresEditForm {
+public class PedidosEditForm {
     private JPanel content;
     private JTextField CUITField;
     private JTextField DireccionField;
@@ -18,7 +18,7 @@ public class VendedoresEditForm {
     private JTextField longitudTextField;
     private VendedorController controller;
 
-    public VendedoresEditForm(Vendedor v) {
+    public PedidosEditForm(Vendedor v) {
         //Fill fields
         controller = new VendedorController();
         CUITField.setText(v.getCuit());
@@ -46,7 +46,7 @@ public class VendedoresEditForm {
     }
 
     private void backToIndex() {
-        VendedoresIndexForm vif = new VendedoresIndexForm();
+        PedidosIndexForm vif = new PedidosIndexForm();
         AdminLayoutForm.getInstance().replaceContent(vif.getRootPanel());
     }
 }

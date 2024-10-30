@@ -1,4 +1,4 @@
-package deso.delivery_app.views.vendedores;
+package deso.delivery_app.views.pedidos;
 
 import deso.delivery_app.controllers.VendedorController;
 import deso.delivery_app.models.Vendedor;
@@ -7,7 +7,7 @@ import deso.delivery_app.views.AdminLayoutForm;
 
 import javax.swing.*;
 
-public class VendedoresCreateForm {
+public class PedidosCreateForm {
     private JTextField CUITField;
     private JTextField DireccionField;
     private JTextField NombreField;
@@ -18,7 +18,7 @@ public class VendedoresCreateForm {
     private JPanel content;
     private final VendedorController controller;
 
-    public VendedoresCreateForm() {
+    public PedidosCreateForm() {
         //Fill fields
         controller = new VendedorController();
         // Add events to buttons
@@ -37,7 +37,7 @@ public class VendedoresCreateForm {
     }
 
     private void backToIndex() {
-        VendedoresIndexForm vif = new VendedoresIndexForm();
+        PedidosIndexForm vif = new PedidosIndexForm();
         AdminLayoutForm.getInstance().replaceContent(vif.getRootPanel());
     }
 

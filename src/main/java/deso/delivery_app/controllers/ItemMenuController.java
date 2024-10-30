@@ -1,26 +1,54 @@
 package deso.delivery_app.controllers;
 
+import deso.delivery_app.TIPO_ITEM;
+import deso.delivery_app.exception.ItemNoEncontradoException;
 import deso.delivery_app.models.ItemMenu;
 import deso.delivery_app.persistence.DAO.ItemsMenuDAO;
+import deso.delivery_app.persistence.filters.FiltrosItemMenu;
 import deso.delivery_app.persistence.memory.ItemsMenuMemory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.*;
 
-public class ItemsMenuController {
+public class ItemMenuController {
     ItemsMenuDAO itemsMenuDAO = ItemsMenuMemory.getInstance();
 
-    public List getLista(){
-        return getLista();
+    public static final int NO_FILTRAR_VENDEDOR = -1;
+
+    public List<ItemMenu> getLista(){
+        return getLista("",TIPO_ITEM.TODOS, 0, Double.MAX_VALUE, NO_FILTRAR_VENDEDOR, "",false, false );
     }
 
-    public List
-
-    public void crear(ItemMenu v) {
-        itemsMenuDAO.create(v);
+    public List<ItemMenu> getLista(String nombreItem,TIPO_ITEM categoria, double precioMinimo, double precioMaximo, long idVendedor, String nombreVendedor, boolean filtrarAptoCeliaco, boolean filtrarAptoVegano){
+        FiltrosItemMenu filters = new FiltrosItemMenu();
+        filters.addNombre(nombreItem);
+        switch (categoria) {
+            case TIPO_ITEM.COMIDA -> filters.addComida();
+            case TIPO_ITEM.BEBIDA -> filters.addBebida();
+        }
+        filters.addRangoPrecio(precioMinimo, precioMaximo);
+        filters.addNombreVendedor(nombreVendedor);
+        if (filtrarAptoVegano) filters.addComidaVegana();
+        if (filtrarAptoCeliaco) filters.addComidaCeliaca();
+        if (idVendedor != NO_FILTRAR_VENDEDOR) {
+            filters.addIdVendedor(idVendedor);
+        }
+        List<ItemMenu> ims = new ArrayList<ItemMenu>();
+        try {
+            ims = itemsMenuDAO.filtrar(filters);
+        } catch (ItemNoEncontradoException e) {
+            // :P
+        }
+        return ims;
     }
 
-    public void modificar(ItemMenu v) {
-        itemsMenuDAO.update(v);
+    public void crear(ItemMenu i) {
+        itemsMenuDAO.create(i);
+    }
+
+    public void modificar(ItemMenu i) {
+        itemsMenuDAO.update(i);
     }
 
     public void eliminar(long id) {

@@ -1,26 +1,29 @@
-package deso.delivery_app.views.vendedores;
+package deso.delivery_app.views.itemsMenu;
 
-import deso.delivery_app.controllers.VendedorController;
-import deso.delivery_app.models.Vendedor;
+import deso.delivery_app.controllers.ItemMenuController;
+import deso.delivery_app.models.ItemMenu;
 import deso.delivery_app.utils.Coordenada;
 import deso.delivery_app.views.AdminLayoutForm;
 
 import javax.swing.*;
 
-public class VendedoresEditForm {
+public class ItemsMenuEditForm {
     private JPanel content;
     private JTextField CUITField;
     private JTextField DireccionField;
     private JTextField NombreField;
     private JButton SaveButton;
     private JButton CancelButton;
+    private JCheckBox veganoCheckBox;
+    private JCheckBox celiacoCheckBox;
+    private JComboBox categoriaComboBox;
     private JTextField latitudTextField;
     private JTextField longitudTextField;
-    private VendedorController controller;
+    private ItemMenuController controller;
 
-    public VendedoresEditForm(Vendedor v) {
+    public ItemsMenuEditForm(ItemMenu v) {
         //Fill fields
-        controller = new VendedorController();
+        controller = new ItemMenuController();
         CUITField.setText(v.getCuit());
         DireccionField.setText(v.getDireccion());
         NombreField.setText(v.getNombre());
@@ -46,7 +49,7 @@ public class VendedoresEditForm {
     }
 
     private void backToIndex() {
-        VendedoresIndexForm vif = new VendedoresIndexForm();
+        ItemsMenuIndexForm vif = new ItemsMenuIndexForm();
         AdminLayoutForm.getInstance().replaceContent(vif.getRootPanel());
     }
 }

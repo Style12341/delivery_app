@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="deso.delivery_app.views.vendedores.VendedoresIndexForm">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="deso.delivery_app.views.itemsMenu.ItemsMenuIndexForm">
   <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="989" height="400"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -13,7 +13,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="b748d" class="javax.swing.JButton" binding="crearVendedorButton">
+          <component id="b748d" class="javax.swing.JButton" binding="crearItemMenuButton">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -53,15 +53,52 @@
               <component id="8b7e4" class="javax.swing.JLabel">
                 <constraints/>
                 <properties>
-                  <text value="Direccion"/>
+                  <text value="Precio(min,max)"/>
                 </properties>
               </component>
-              <component id="80dcb" class="javax.swing.JTextField" binding="DireccionField">
+              <component id="60c38" class="javax.swing.JTextField" binding="precioMinField">
+                <constraints/>
+                <properties/>
+              </component>
+              <component id="df74" class="javax.swing.JTextField" binding="precioMaxField">
+                <constraints/>
+                <properties/>
+              </component>
+              <component id="ca6d1" class="javax.swing.JLabel">
                 <constraints/>
                 <properties>
-                  <minimumSize width="49" height="34"/>
-                  <preferredSize width="75" height="34"/>
+                  <text value="Categoria"/>
                 </properties>
+              </component>
+              <component id="7b718" class="javax.swing.JComboBox" binding="categoriaComboBox">
+                <constraints/>
+                <properties/>
+              </component>
+              <component id="90002" class="javax.swing.JCheckBox" binding="veganoCheck">
+                <constraints/>
+                <properties>
+                  <horizontalAlignment value="10"/>
+                  <horizontalTextPosition value="10"/>
+                  <text value="Vegano"/>
+                </properties>
+              </component>
+              <component id="ac887" class="javax.swing.JCheckBox" binding="celiacoCheck">
+                <constraints/>
+                <properties>
+                  <horizontalAlignment value="10"/>
+                  <horizontalTextPosition value="10"/>
+                  <text value="Celiaco"/>
+                </properties>
+              </component>
+              <component id="6ab03" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <text value="Vendedor"/>
+                </properties>
+              </component>
+              <component id="c3d9e" class="javax.swing.JTextField" binding="vendedorField">
+                <constraints/>
+                <properties/>
               </component>
               <hspacer id="837b6">
                 <constraints/>
@@ -88,7 +125,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="d9e35" class="javax.swing.JTable" binding="listVendedores">
+                  <component id="d9e35" class="javax.swing.JTable" binding="listItemsMenu">
                     <constraints/>
                     <properties/>
                   </component>
