@@ -42,7 +42,7 @@ public class ClientesIndexForm {
         crearClienteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent _e) {
-                ClientesCreateForm vendedoresCreateForm = new ClientesCreateForm();
+                ClientesForm vendedoresCreateForm = new ClientesForm();
                 AdminLayoutForm.getInstance().replaceContent(vendedoresCreateForm.getRootPanel());
             }
         });
@@ -89,8 +89,8 @@ public class ClientesIndexForm {
                 int modelRow = Integer.parseInt(e.getActionCommand());
                 long id = (long) table.getModel().getValueAt(modelRow, 0);
                 Cliente c = controller.buscar(id);
-                ClientesEditForm vendedoresEditForm = new ClientesEditForm(c);
-                AdminLayoutForm.getInstance().replaceContent(vendedoresEditForm.getRootPanel());
+                ClientesForm clientesEditForm = new ClientesForm(c);
+                AdminLayoutForm.getInstance().replaceContent(clientesEditForm.getRootPanel());
             }
         };
         int editarIndex = listClientes.getColumnModel().getColumnIndex("Editar");

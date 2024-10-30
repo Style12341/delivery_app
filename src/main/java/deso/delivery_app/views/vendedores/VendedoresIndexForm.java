@@ -38,7 +38,7 @@ public class VendedoresIndexForm {
         crearVendedorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent _e) {
-                VendedoresCreateForm vendedoresCreateForm = new VendedoresCreateForm();
+                VendedoresForm vendedoresCreateForm = new VendedoresForm();
                 AdminLayoutForm.getInstance().replaceContent(vendedoresCreateForm.getRootPanel());
             }
         });
@@ -83,7 +83,7 @@ public class VendedoresIndexForm {
                 int modelRow = Integer.parseInt(e.getActionCommand());
                 long id = (long) table.getModel().getValueAt(modelRow, 0);
                 Vendedor v = controller.buscar(id);
-                VendedoresEditForm vendedoresEditForm = new VendedoresEditForm(v);
+                VendedoresForm vendedoresEditForm = new VendedoresForm(v);
                 AdminLayoutForm.getInstance().replaceContent(vendedoresEditForm.getRootPanel());
             }
         };

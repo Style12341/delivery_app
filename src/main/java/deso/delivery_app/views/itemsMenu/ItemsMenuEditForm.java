@@ -24,18 +24,8 @@ public class ItemsMenuEditForm {
     public ItemsMenuEditForm(ItemMenu v) {
         //Fill fields
         controller = new ItemMenuController();
-        CUITField.setText(v.getCuit());
-        DireccionField.setText(v.getDireccion());
-        NombreField.setText(v.getNombre());
-        Coordenada c = v.getCoordenadas();
-        latitudTextField.setText(String.valueOf(c.getLat()));
-        longitudTextField.setText(String.valueOf(c.getLng()));
         // Add events to buttons
         SaveButton.addActionListener(e -> {
-            v.setCuit(CUITField.getText());
-            v.setDireccion(DireccionField.getText());
-            v.setNombre(NombreField.getText());
-            v.setCoordenadas(new Coordenada(Double.parseDouble(latitudTextField.getText()), Double.parseDouble(longitudTextField.getText())));
             controller.modificar(v);
             backToIndex();
         });

@@ -1,4 +1,4 @@
-package deso.delivery_app.views.vendedores;
+package deso.delivery_app.views.pedidos;
 
 import deso.delivery_app.controllers.VendedorController;
 import deso.delivery_app.models.Vendedor;
@@ -7,18 +7,36 @@ import deso.delivery_app.views.AdminLayoutForm;
 
 import javax.swing.*;
 
-public class VendedoresEditForm {
-    private JPanel content;
+public class PedidosForm {
     private JTextField CUITField;
     private JTextField DireccionField;
     private JTextField NombreField;
-    private JButton SaveButton;
     private JButton CancelButton;
+    private JButton ActionButton;
     private JTextField latitudTextField;
     private JTextField longitudTextField;
-    private VendedorController controller;
+    private JPanel content;
+    private final VendedorController controller;
 
-    public VendedoresEditForm(Vendedor v) {
+    public PedidosForm() {
+        //Fill fields
+        controller = new VendedorController();
+        // Add events to buttons
+        ActionButton.setText("Crear");
+        ActionButton.addActionListener(e -> {
+            String CUIT = CUITField.getText();
+            String direccion = DireccionField.getText();
+            String nombre = NombreField.getText();
+            Coordenada c = new Coordenada(Double.parseDouble(latitudTextField.getText()), Double.parseDouble(longitudTextField.getText()));
+            Vendedor v = new Vendedor(nombre, direccion, CUIT, c);
+            controller.crear(v);
+            backToIndex();
+        });
+        CancelButton.addActionListener(e -> {
+            backToIndex();
+        });
+    }
+    public PedidosForm(Vendedor v) {
         //Fill fields
         controller = new VendedorController();
         CUITField.setText(v.getCuit());
@@ -28,7 +46,8 @@ public class VendedoresEditForm {
         latitudTextField.setText(String.valueOf(c.getLat()));
         longitudTextField.setText(String.valueOf(c.getLng()));
         // Add events to buttons
-        SaveButton.addActionListener(e -> {
+        ActionButton.setText("Guardar");
+        ActionButton.addActionListener(e -> {
             v.setCuit(CUITField.getText());
             v.setDireccion(DireccionField.getText());
             v.setNombre(NombreField.getText());
@@ -40,13 +59,12 @@ public class VendedoresEditForm {
             backToIndex();
         });
     }
+    private void backToIndex() {
+        PedidosIndexForm vif = new PedidosIndexForm();
+        AdminLayoutForm.getInstance().replaceContent(vif.getRootPanel());
+    }
 
     public JPanel getRootPanel() {
         return content;
-    }
-
-    private void backToIndex() {
-        VendedoresIndexForm vif = new VendedoresIndexForm();
-        AdminLayoutForm.getInstance().replaceContent(vif.getRootPanel());
     }
 }

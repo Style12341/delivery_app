@@ -38,7 +38,7 @@ public class PedidosIndexForm {
         crearVendedorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent _e) {
-                PedidosCreateForm vendedoresCreateForm = new PedidosCreateForm();
+                PedidosForm vendedoresCreateForm = new PedidosForm();
                 AdminLayoutForm.getInstance().replaceContent(vendedoresCreateForm.getRootPanel());
             }
         });
@@ -83,8 +83,8 @@ public class PedidosIndexForm {
                 int modelRow = Integer.parseInt(e.getActionCommand());
                 long id = (long) table.getModel().getValueAt(modelRow, 0);
                 Vendedor v = controller.buscar(id);
-                PedidosEditForm vendedoresEditForm = new PedidosEditForm(v);
-                AdminLayoutForm.getInstance().replaceContent(vendedoresEditForm.getRootPanel());
+                PedidosForm pedidosEditForm = new PedidosForm(v);
+                AdminLayoutForm.getInstance().replaceContent(pedidosEditForm.getRootPanel());
             }
         };
         ButtonColumn buttonColumn = new ButtonColumn(listVendedores, delete, 5);
@@ -93,9 +93,6 @@ public class PedidosIndexForm {
 
     }
 
-    public JButton getBuscarBtn() {
-        return buscarButton;
-    }
 
     public String getNombreField() {
         return NombreField.getText();
