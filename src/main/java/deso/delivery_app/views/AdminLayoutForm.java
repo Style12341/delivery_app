@@ -17,8 +17,16 @@ public class AdminLayoutForm {
     private JButton itemMenusButton;
     private JButton pedidosButton;
     private JPanel mainPanel;
+    private static AdminLayoutForm SINGLETON_INSTANCE;
 
-    public AdminLayoutForm() {
+    public static AdminLayoutForm getInstance() {
+        if (SINGLETON_INSTANCE == null) {
+            SINGLETON_INSTANCE = new AdminLayoutForm();
+        }
+        return SINGLETON_INSTANCE;
+    }
+
+    private AdminLayoutForm() {
         JFrame frame = new JFrame("Delivery_APP");
         frame.setContentPane(panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

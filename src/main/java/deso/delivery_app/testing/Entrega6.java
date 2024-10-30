@@ -39,7 +39,8 @@ public class Entrega6 {
         createVendedores();
         // 5 Pedidos
         createPedidos();
-        new AdminLayoutForm();
+        AdminLayoutForm.getInstance();
+        AdminLayoutForm.getInstance();
     }
 
     private static void createVendedores() {
