@@ -1,7 +1,7 @@
-package deso.delivery_app.persistence.DAO.memory;
+package deso.delivery_app.persistence.memory;
 
-import deso.delivery_app.persistence.DAO.FiltrosVendedor;
-import deso.delivery_app.persistence.DAO.VendedorDao;
+import deso.delivery_app.persistence.filters.FiltrosVendedor;
+import deso.delivery_app.persistence.DAO.VendedorDAO;
 import deso.delivery_app.utils.Coordenada;
 import deso.delivery_app.models.Vendedor;
 import deso.delivery_app.exception.ItemNoEncontradoException;
@@ -9,7 +9,7 @@ import deso.delivery_app.exception.ItemNoEncontradoException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VendedorMemory implements VendedorDao {
+public class VendedorMemory implements VendedorDAO {
     ArrayList<Vendedor> vendedorMemory = new ArrayList<>();
     private static VendedorMemory SINGLETON_INSTANCE;
 

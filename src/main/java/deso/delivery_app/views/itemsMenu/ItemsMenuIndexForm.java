@@ -1,9 +1,9 @@
-package deso.delivery_app.views;
+package deso.delivery_app.views.vendedores;
 
 import deso.delivery_app.controllers.VendedorController;
 import deso.delivery_app.models.Vendedor;
-import deso.delivery_app.persistence.DAO.FiltrosVendedor;
-import deso.delivery_app.views.utils.ButtonColumn;
+import deso.delivery_app.views.AdminLayoutForm;
+import deso.delivery_app.views.components.ButtonColumn;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -23,7 +23,7 @@ public class VendedoresIndexForm {
 
     public VendedoresIndexForm() {
         controller = new VendedorController();
-        createTable(controller.getLista("", ""));
+        createTable(controller.getLista());
         buscarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent _e) {
@@ -32,6 +32,14 @@ public class VendedoresIndexForm {
                 String nombre = getNombreField();
                 String direccion = getDireccionField();
                 createTable(controller.getLista(nombre, direccion));
+            }
+        });
+
+        crearVendedorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent _e) {
+                VendedoresCreateForm vendedoresCreateForm = new VendedoresCreateForm();
+                AdminLayoutForm.getInstance().replaceContent(vendedoresCreateForm.getRootPanel());
             }
         });
     }
@@ -53,7 +61,9 @@ public class VendedoresIndexForm {
         listVendedores.setModel(new DefaultTableModel(data, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 5 || column == 4;
+                int editarIndex = listVendedores.getColumnModel().getColumnIndex("Editar");
+                int eliminarIndex = listVendedores.getColumnModel().getColumnIndex("Eliminar");
+                return column == editarIndex || column == eliminarIndex;
             }
         });
         Action delete = new AbstractAction() {
@@ -61,10 +71,24 @@ public class VendedoresIndexForm {
             public void actionPerformed(ActionEvent e) {
                 JTable table = (JTable) e.getSource();
                 int modelRow = Integer.parseInt(e.getActionCommand());
+                long id = (long) table.getModel().getValueAt(modelRow, 0);
                 ((DefaultTableModel) table.getModel()).removeRow(modelRow);
+                controller.eliminar(id);
+            }
+        };
+        Action openEdit = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JTable table = (JTable) e.getSource();
+                int modelRow = Integer.parseInt(e.getActionCommand());
+                long id = (long) table.getModel().getValueAt(modelRow, 0);
+                Vendedor v = controller.buscar(id);
+                VendedoresEditForm vendedoresEditForm = new VendedoresEditForm(v);
+                AdminLayoutForm.getInstance().replaceContent(vendedoresEditForm.getRootPanel());
             }
         };
         ButtonColumn buttonColumn = new ButtonColumn(listVendedores, delete, 5);
+        ButtonColumn buttonColumn2 = new ButtonColumn(listVendedores, openEdit, 4);
         buttonColumn.setMnemonic(KeyEvent.VK_D);
 
     }

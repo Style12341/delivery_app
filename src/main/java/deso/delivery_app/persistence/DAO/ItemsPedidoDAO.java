@@ -3,10 +3,11 @@ package deso.delivery_app.persistence.DAO;
 
 import deso.delivery_app.models.ItemPedido;
 import deso.delivery_app.exception.ItemNoEncontradoException;
+import deso.delivery_app.persistence.filters.FiltrosItemPedido;
 
 import java.util.List;
 
-public interface ItemsPedidoDao {
+public interface ItemsPedidoDAO {
     ItemPedido create(ItemPedido itemPedido);
 
     ItemPedido get(long id);

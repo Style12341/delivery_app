@@ -1,5 +1,8 @@
 package deso.delivery_app.views;
 
+import deso.delivery_app.views.clientes.ClientesIndexForm;
+import deso.delivery_app.views.vendedores.VendedoresIndexForm;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -36,6 +39,7 @@ public class AdminLayoutForm {
 
         // Add button listeners
         vendedoresButton.addActionListener(e -> render(PANEL.VENDEDOR));
+        //vendedoresButton.addActionListener(e -> replaceContent(new VendedoresIndexForm().getrootpanel));
         clientesButton.addActionListener(e -> render(PANEL.CLIENTE));
         itemMenusButton.addActionListener(e -> render(PANEL.ITEM_MENU));
         pedidosButton.addActionListener(e -> render(PANEL.PEDIDO));
@@ -53,6 +57,13 @@ public class AdminLayoutForm {
         frame.setVisible(true);
     }
 
+    public void replaceContent(JPanel panel){
+        mainPanel.removeAll();
+        mainPanel.add(panel, BorderLayout.CENTER);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
     private void render(PANEL p) {
         // Clear the main panel
         mainPanel.removeAll();
@@ -66,7 +77,8 @@ public class AdminLayoutForm {
                 break;
             case CLIENTE:
                 // Add cliente form when implemented
-                mainPanel.add(new JLabel("Cliente panel - To be implemented"), BorderLayout.CENTER);
+                ClientesIndexForm clientesForm = new ClientesIndexForm();
+                mainPanel.add(clientesForm.getRootPanel(), BorderLayout.CENTER);
                 break;
             case ITEM_MENU:
                 // Add item menu form when implemented
@@ -83,6 +95,5 @@ public class AdminLayoutForm {
         mainPanel.repaint();
 
         // Update the frame size if needed
-        SwingUtilities.getWindowAncestor(mainPanel).pack();
     }
 }

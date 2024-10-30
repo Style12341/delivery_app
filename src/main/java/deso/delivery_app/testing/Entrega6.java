@@ -1,24 +1,17 @@
 package deso.delivery_app.testing;
 
-import deso.delivery_app.*;
-import deso.delivery_app.exception.ItemNoEncontradoException;
-import deso.delivery_app.exception.PedidoNoEncontradoException;
 import deso.delivery_app.models.*;
-import deso.delivery_app.persistence.DAO.*;
-import deso.delivery_app.persistence.DAO.memory.ItemsMenuMemory;
-import deso.delivery_app.persistence.DAO.memory.PedidosMemory;
-import deso.delivery_app.persistence.DAO.memory.VendedorMemory;
-import deso.delivery_app.strategies.PagarConMercadoPago;
-import deso.delivery_app.strategies.PagarConTransferencia;
+import deso.delivery_app.persistence.DAO.ItemsMenuDAO;
+import deso.delivery_app.persistence.DAO.PedidosDAO;
+import deso.delivery_app.persistence.memory.ItemsMenuMemory;
+import deso.delivery_app.persistence.memory.PedidosMemory;
+import deso.delivery_app.persistence.memory.ClienteMemory;
+import deso.delivery_app.persistence.memory.VendedorMemory;
 import deso.delivery_app.utils.Coordenada;
 import deso.delivery_app.utils.Pair;
 import deso.delivery_app.views.AdminLayoutForm;
-import deso.delivery_app.views.VendedoresEditForm;
 
-import javax.swing.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class Entrega6 {
 
@@ -97,6 +90,10 @@ public class Entrega6 {
         clientes.add(new Cliente("Pepito", "Perez", "27-28033214-8", "pepe@test.com", "Herndarias 836", new Coordenada(-40, -63.5)));
         // Cliente 2
         clientes.add(new Cliente("Marito", "Ledesma", "27-28033414-8", "mario@test.com", "General Paz 6002", new Coordenada(-40.5, -64)));
+        ClienteMemory clienteMemory = ClienteMemory.getInstance();
+        for (Cliente cliente : clientes) {
+            clienteMemory.create(cliente);
+        }
     }
 
     private static void createPedidos() {
@@ -134,7 +131,7 @@ public class Entrega6 {
         itemsPedido5.add(new Pair<>(itemsBebidas.get(0), 2)); // Coca-Cola, 2 unidades
 
         pedidos.add(new Pedido(vendedores.get(0), clientes.get(0), itemsPedido5)); // Pedido del cliente 1 con el vendedor 1
-        PedidosDao pedidosDao = PedidosMemory.getInstance();
+        PedidosDAO pedidosDao = PedidosMemory.getInstance();
         for (Pedido pedido : pedidos) {
             pedidosDao.create(pedido);
         }

@@ -138,4 +138,8 @@ public class Cliente implements ISearcheable, Observer {
             p.setPago(pago);
         }
     }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
 }

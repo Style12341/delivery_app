@@ -3,13 +3,7 @@
  */
 package deso.delivery_app;
 
-import deso.delivery_app.models.Vendedor;
 import deso.delivery_app.testing.Entrega6;
-import deso.delivery_app.utils.Coordenada;
-import deso.delivery_app.views.AdminLayoutForm;
-import deso.delivery_app.views.VendedoresEditForm;
-
-import javax.swing.*;
 
 /**
  * @author BMPC

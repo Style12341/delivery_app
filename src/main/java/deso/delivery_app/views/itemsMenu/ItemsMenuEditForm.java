@@ -1,7 +1,9 @@
-package deso.delivery_app.views;
+package deso.delivery_app.views.vendedores;
 
+import deso.delivery_app.controllers.VendedorController;
 import deso.delivery_app.models.Vendedor;
 import deso.delivery_app.utils.Coordenada;
+import deso.delivery_app.views.AdminLayoutForm;
 
 import javax.swing.*;
 
@@ -14,9 +16,11 @@ public class VendedoresEditForm {
     private JButton CancelButton;
     private JTextField latitudTextField;
     private JTextField longitudTextField;
+    private VendedorController controller;
 
     public VendedoresEditForm(Vendedor v) {
         //Fill fields
+        controller = new VendedorController();
         CUITField.setText(v.getCuit());
         DireccionField.setText(v.getDireccion());
         NombreField.setText(v.getNombre());
@@ -29,16 +33,20 @@ public class VendedoresEditForm {
             v.setDireccion(DireccionField.getText());
             v.setNombre(NombreField.getText());
             v.setCoordenadas(new Coordenada(Double.parseDouble(latitudTextField.getText()), Double.parseDouble(longitudTextField.getText())));
-            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(content);
-            topFrame.dispose();
+            controller.modificar(v);
+            backToIndex();
         });
         CancelButton.addActionListener(e -> {
-            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(content);
-            topFrame.dispose();
+            backToIndex();
         });
     }
 
     public JPanel getRootPanel() {
         return content;
+    }
+
+    private void backToIndex() {
+        VendedoresIndexForm vif = new VendedoresIndexForm();
+        AdminLayoutForm.getInstance().replaceContent(vif.getRootPanel());
     }
 }

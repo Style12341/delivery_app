@@ -3,8 +3,8 @@ package deso.delivery_app.models;
 import deso.delivery_app.ESTADO_PEDIDO;
 import deso.delivery_app.exception.EstrategiaNoSeleccionadaException;
 import deso.delivery_app.exception.PagoInexistenteException;
-import deso.delivery_app.persistence.DAO.ItemsPedidoDao;
-import deso.delivery_app.persistence.DAO.memory.ItemsPedidoMemory;
+import deso.delivery_app.persistence.DAO.ItemsPedidoDAO;
+import deso.delivery_app.persistence.memory.ItemsPedidoMemory;
 import deso.delivery_app.strategies.PagarStrategy;
 import deso.delivery_app.utils.Pair;
 
@@ -39,7 +39,7 @@ public class Pedido extends Observable {
     public void agregarItem(ItemMenu item, Integer cantidad) {
         this.precioAcumulado += item.getPrecio() * cantidad;
         ItemPedido i = new ItemPedido(cantidad, item, this);
-        ItemsPedidoDao itemsPedidoDao = ItemsPedidoMemory.getInstance();
+        ItemsPedidoDAO itemsPedidoDao = ItemsPedidoMemory.getInstance();
         itemsPedidoDao.create(i);
         detallePedido.add(i);
     }

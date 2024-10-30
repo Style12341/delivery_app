@@ -1,12 +1,13 @@
 package deso.delivery_app.persistence.DAO;
 
+import deso.delivery_app.persistence.filters.FiltrosVendedor;
 import deso.delivery_app.utils.Coordenada;
 import deso.delivery_app.models.Vendedor;
 import deso.delivery_app.exception.ItemNoEncontradoException;
 
 import java.util.List;
 
-public interface VendedorDao {
+public interface VendedorDAO {
     Vendedor create(Vendedor vendedor);
 
     Vendedor get(long id);

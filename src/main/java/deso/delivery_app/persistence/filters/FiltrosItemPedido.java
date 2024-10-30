@@ -1,4 +1,4 @@
-package deso.delivery_app.persistence.DAO;
+package deso.delivery_app.persistence.filters;
 
 import deso.delivery_app.models.Bebida;
 import deso.delivery_app.models.ItemPedido;

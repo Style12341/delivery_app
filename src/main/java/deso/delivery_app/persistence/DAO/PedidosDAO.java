@@ -7,7 +7,7 @@ import deso.delivery_app.exception.PedidoNoEncontradoException;
 
 import java.util.List;
 
-public interface PedidosDao {
+public interface PedidosDAO {
     Pedido create(Pedido pedido);
 
     Pedido get(long id);

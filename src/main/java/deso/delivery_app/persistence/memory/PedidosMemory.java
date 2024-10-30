@@ -1,15 +1,15 @@
-package deso.delivery_app.persistence.DAO.memory;
+package deso.delivery_app.persistence.memory;
 
 import deso.delivery_app.ESTADO_PEDIDO;
 import deso.delivery_app.models.Pedido;
 import deso.delivery_app.models.Vendedor;
 import deso.delivery_app.exception.PedidoNoEncontradoException;
-import deso.delivery_app.persistence.DAO.PedidosDao;
+import deso.delivery_app.persistence.DAO.PedidosDAO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PedidosMemory implements PedidosDao {
+public class PedidosMemory implements PedidosDAO {
     ArrayList<Pedido> pedidos = new ArrayList<>();
 
     private static PedidosMemory SINGLETON_INSTANCE;

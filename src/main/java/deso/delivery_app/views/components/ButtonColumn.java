@@ -1,4 +1,4 @@
-package deso.delivery_app.views.utils;
+package deso.delivery_app.views.components;
 
 import javax.swing.*;
 import javax.swing.border.Border;

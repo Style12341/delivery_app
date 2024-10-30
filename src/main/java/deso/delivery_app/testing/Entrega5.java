@@ -4,9 +4,11 @@ import deso.delivery_app.*;
 import deso.delivery_app.exception.ItemNoEncontradoException;
 import deso.delivery_app.exception.PedidoNoEncontradoException;
 import deso.delivery_app.models.*;
-import deso.delivery_app.persistence.DAO.*;
-import deso.delivery_app.persistence.DAO.memory.ItemsMenuMemory;
-import deso.delivery_app.persistence.DAO.memory.PedidosMemory;
+import deso.delivery_app.persistence.filters.FiltrosItemMenu;
+import deso.delivery_app.persistence.DAO.ItemsMenuDAO;
+import deso.delivery_app.persistence.DAO.PedidosDAO;
+import deso.delivery_app.persistence.memory.ItemsMenuMemory;
+import deso.delivery_app.persistence.memory.PedidosMemory;
 import deso.delivery_app.strategies.PagarConMercadoPago;
 import deso.delivery_app.strategies.PagarConTransferencia;
 import deso.delivery_app.utils.Coordenada;
@@ -62,7 +64,7 @@ public class Entrega5 {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        PedidosDao pedidosDao = PedidosMemory.getInstance();
+        PedidosDAO pedidosDao = PedidosMemory.getInstance();
         pedidosDao.create(pedido);
         pedido.setEstado(ESTADO_PEDIDO.RECIBIDO);
         // Vendedor busca su pedido :p

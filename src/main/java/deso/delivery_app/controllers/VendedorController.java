@@ -2,18 +2,19 @@ package deso.delivery_app.controllers;
 
 import deso.delivery_app.exception.ItemNoEncontradoException;
 import deso.delivery_app.models.Vendedor;
-import deso.delivery_app.persistence.DAO.FiltrosVendedor;
-import deso.delivery_app.persistence.DAO.VendedorDao;
-import deso.delivery_app.persistence.DAO.memory.VendedorMemory;
+import deso.delivery_app.persistence.filters.FiltrosVendedor;
+import deso.delivery_app.persistence.DAO.VendedorDAO;
+import deso.delivery_app.persistence.memory.VendedorMemory;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class VendedorController {
-    VendedorDao vendedorMemory = VendedorMemory.getInstance();
+    VendedorDAO vendedorDAO = VendedorMemory.getInstance();
+
+    public List<Vendedor> getLista() {
+        return getLista("", "");
+    }
 
     public List<Vendedor> getLista(String nombre, String direccion) {
         FiltrosVendedor filters = new FiltrosVendedor();
@@ -23,7 +24,7 @@ public class VendedorController {
         filters.addDireccion(direccion);
         List<Vendedor> vs = new ArrayList<Vendedor>();
         try {
-            vs = vendedorMemory.filtrar(filters);
+            vs = vendedorDAO.filtrar(filters);
             for (Vendedor v : vs) {
                 System.out.println(v);
             }
@@ -33,22 +34,22 @@ public class VendedorController {
         return vs;
     }
 
-    public void crear() {
-
+    public void crear(Vendedor v) {
+        vendedorDAO.create(v);
     }
 
-    public void modificar() {
-
-    }
-
-
-    public void eliminar(int id) {
-
+    public void modificar(Vendedor v) {
+        vendedorDAO.update(v);
     }
 
 
-    public void buscar(int id) {
+    public void eliminar(long id) {
+        vendedorDAO.delete(id);
+    }
 
+
+    public Vendedor buscar(long id) {
+        return vendedorDAO.get(id);
     }
 
 

@@ -1,8 +1,8 @@
-package deso.delivery_app.persistence.DAO.memory;
+package deso.delivery_app.persistence.memory;
 
 import deso.delivery_app.models.ItemMenu;
 import deso.delivery_app.exception.ItemNoEncontradoException;
-import deso.delivery_app.persistence.DAO.FiltrosItemMenu;
+import deso.delivery_app.persistence.filters.FiltrosItemMenu;
 import deso.delivery_app.persistence.DAO.ItemsMenuDAO;
 
 import java.util.ArrayList;

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="deso.delivery_app.views.VendedoresIndexForm">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="deso.delivery_app.views.clientes.ClientesIndexForm">
   <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="570" height="400"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -13,7 +13,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="b748d" class="javax.swing.JButton" binding="crearVendedorButton">
+          <component id="b748d" class="javax.swing.JButton" binding="crearClienteButton">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -53,13 +53,37 @@
               <component id="8b7e4" class="javax.swing.JLabel">
                 <constraints/>
                 <properties>
-                  <text value="Direccion"/>
+                  <text value="Apellido"/>
                 </properties>
               </component>
-              <component id="80dcb" class="javax.swing.JTextField" binding="DireccionField">
+              <component id="80dcb" class="javax.swing.JTextField" binding="ApellidoField">
                 <constraints/>
                 <properties>
                   <minimumSize width="49" height="34"/>
+                  <preferredSize width="75" height="34"/>
+                </properties>
+              </component>
+              <component id="d6f68" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <text value="Direccion"/>
+                </properties>
+              </component>
+              <component id="29021" class="javax.swing.JTextField" binding="DireccionFIeld">
+                <constraints/>
+                <properties>
+                  <preferredSize width="75" height="34"/>
+                </properties>
+              </component>
+              <component id="7a80a" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <text value="Email"/>
+                </properties>
+              </component>
+              <component id="82219" class="javax.swing.JTextField" binding="EmailField">
+                <constraints/>
+                <properties>
                   <preferredSize width="75" height="34"/>
                 </properties>
               </component>
@@ -88,7 +112,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="d9e35" class="javax.swing.JTable" binding="listVendedores">
+                  <component id="d9e35" class="javax.swing.JTable" binding="listClientes">
                     <constraints/>
                     <properties/>
                   </component>

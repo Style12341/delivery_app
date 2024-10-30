@@ -1,8 +1,8 @@
 package deso.delivery_app.testing;
 
 import deso.delivery_app.models.*;
-import deso.delivery_app.persistence.DAO.FiltrosItemPedido;
-import deso.delivery_app.persistence.DAO.memory.ItemsPedidoMemory;
+import deso.delivery_app.persistence.filters.FiltrosItemPedido;
+import deso.delivery_app.persistence.memory.ItemsPedidoMemory;
 import deso.delivery_app.utils.*;
 import deso.delivery_app.exception.ItemNoEncontradoException;
 

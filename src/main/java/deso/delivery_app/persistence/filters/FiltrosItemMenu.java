@@ -1,4 +1,4 @@
-package deso.delivery_app.persistence.DAO;
+package deso.delivery_app.persistence.filters;
 
 import deso.delivery_app.models.Bebida;
 import deso.delivery_app.models.ItemMenu;
@@ -8,6 +8,8 @@ import java.util.function.Predicate;
 
 public class FiltrosItemMenu{
     private final ArrayList<Predicate<ItemMenu>> filtros = new ArrayList<>();
+
+    public void addNombre(String nombre) { filtros.add(i -> i.getNombre().startsWith(nombre)); }
 
     public void addRangoPrecio(double precioMinimo, double precioMaximo) {
         addPrecioMinimo(precioMinimo);
@@ -39,7 +41,16 @@ public class FiltrosItemMenu{
         });
     }
 
-    public void addGaseosas() { filtros.add(ItemMenu::esBebida); }
+    public void addGaseosa(){
+        filtros.add(i -> {
+            // Si no es bebida , indica que es comida por lo tanto no es alcoholica
+            if (!i.esBebida()) return true;
+            Bebida b = (Bebida) i;
+            return !b.esGaseosa();
+        });
+    }
+
+    public void addBebida() { filtros.add(ItemMenu::esBebida); }
 
     public void addComida() {
         filtros.add(ItemMenu::esComida);
