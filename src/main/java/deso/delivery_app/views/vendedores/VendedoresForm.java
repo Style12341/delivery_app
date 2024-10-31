@@ -16,12 +16,14 @@ public class VendedoresForm {
     private JTextField latitudTextField;
     private JTextField longitudTextField;
     private JPanel content;
+    private JLabel titleField;
     private final VendedorController controller;
 
     public VendedoresForm() {
         //Fill fields
         controller = new VendedorController();
         // Add events to buttons
+        titleField.setText("Crear Vendedor");
         ActionButton.setText("Crear");
         ActionButton.addActionListener(e -> {
             String CUIT = CUITField.getText();
@@ -46,6 +48,7 @@ public class VendedoresForm {
         latitudTextField.setText(String.valueOf(c.getLat()));
         longitudTextField.setText(String.valueOf(c.getLng()));
         // Add events to buttons
+        titleField.setText("Editar Vendedor");
         ActionButton.setText("Guardar");
         ActionButton.addActionListener(e -> {
             v.setCuit(CUITField.getText());

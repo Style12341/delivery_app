@@ -18,12 +18,14 @@ public class ClientesForm {
     private JPanel content;
     private JTextField ApellidoField;
     private JTextField EmailField;
+    private JLabel titleField;
     private final ClienteController controller;
 
     public ClientesForm() {
         //Fill fields
         controller = new ClienteController();
         // Add events to buttons
+        titleField.setText("Crear Cliente");
         ActionButton.setText("Crear");
         ActionButton.addActionListener(e -> {
             String CUIT = CUITField.getText();
@@ -40,6 +42,7 @@ public class ClientesForm {
             backToIndex();
         });
     }
+
     public ClientesForm(Cliente c) {
         //Fill fields
         controller = new ClienteController();
@@ -52,6 +55,7 @@ public class ClientesForm {
         latitudTextField.setText(String.valueOf(coord.getLat()));
         longitudTextField.setText(String.valueOf(coord.getLng()));
         // Add events to buttons
+        titleField.setText("Editar Cliente");
         ActionButton.setText("Guardar");
         ActionButton.addActionListener(e -> {
             c.setCuit(CUITField.getText());
