@@ -13,4 +13,8 @@ public class Categoria {
         this.descripcion = descripcion;
         this.tipo_item = tipo_item;
     }
+
+    public TIPO_ITEM getTipoItem() {
+        return tipo_item;
+    }
 }

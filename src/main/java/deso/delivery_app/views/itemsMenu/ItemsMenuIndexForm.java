@@ -2,9 +2,9 @@ package deso.delivery_app.views.itemsMenu;
 
 import deso.delivery_app.TIPO_ITEM;
 import deso.delivery_app.controllers.ItemMenuController;
-import deso.delivery_app.controllers.VendedorController;
+import deso.delivery_app.models.Bebida;
 import deso.delivery_app.models.ItemMenu;
-import deso.delivery_app.models.Vendedor;
+import deso.delivery_app.models.Plato;
 import deso.delivery_app.views.AdminLayoutForm;
 import deso.delivery_app.views.components.ButtonColumn;
 
@@ -55,8 +55,10 @@ public class ItemsMenuIndexForm {
         crearItemMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent _e) {
-                ItemsMenuCreateForm itemsMenuCreateForm = new ItemsMenuCreateForm();
-                AdminLayoutForm.getInstance().replaceContent(itemsMenuCreateForm.getRootPanel());
+                ItemMenuCategoryChooseForm dialog = new ItemMenuCategoryChooseForm();
+                dialog.pack();
+                dialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(crearItemMenuButton));
+                dialog.setVisible(true);
             }
         });
     }
@@ -75,9 +77,9 @@ public class ItemsMenuIndexForm {
             data[i][0] = im.getId();
             data[i][1] = im.getNombre();
             data[i][2] = im.getPrecio();
-            data[i][3] = im.getCategoria();
-            data[i][4] = im.aptoVegano();
-            data[i][5] = im.aptoCeliaco();
+            data[i][3] = im.getCategoria().getTipoItem().name();
+            data[i][4] = im.aptoVegano() ? "SI" : "NO";
+            data[i][5] = im.aptoCeliaco() ? "SI" : "NO";
             data[i][6] = im.getVendedor().getNombre();
             data[i][7] = "Editar";
             data[i][8] = "Eliminar";
@@ -108,13 +110,24 @@ public class ItemsMenuIndexForm {
                 JTable table = (JTable) e.getSource();
                 int modelRow = Integer.parseInt(e.getActionCommand());
                 long id = (long) table.getModel().getValueAt(modelRow, 0);
+                TIPO_ITEM tipo = TIPO_ITEM.valueOf((String) table.getModel().getValueAt(modelRow, 3));
                 ItemMenu im = controller.buscar(id);
-                ItemsMenuEditForm itemsMenuEditForm = new ItemsMenuEditForm(im);
-                AdminLayoutForm.getInstance().replaceContent(itemsMenuEditForm.getRootPanel());
+                switch (tipo) {
+                    case COMIDA:
+                        ComidasForm comidaForm = new ComidasForm((Plato) im);
+                        AdminLayoutForm.getInstance().replaceContent(comidaForm.getRootPanel());
+                        break;
+                    case BEBIDA:
+                        BebidasForm bebidasForm = new BebidasForm((Bebida) im);
+                        AdminLayoutForm.getInstance().replaceContent(bebidasForm.getRootPanel());
+                        break;
+                }
             }
         };
-        ButtonColumn buttonColumn = new ButtonColumn(listItemsMenu, delete, 5);
-        ButtonColumn buttonColumn2 = new ButtonColumn(listItemsMenu, openEdit, 4);
+        int editarIndex = listItemsMenu.getColumnModel().getColumnIndex("Editar");
+        int eliminarIndex = listItemsMenu.getColumnModel().getColumnIndex("Eliminar");
+        ButtonColumn buttonColumn = new ButtonColumn(listItemsMenu, delete, eliminarIndex);
+        ButtonColumn buttonColumn2 = new ButtonColumn(listItemsMenu, openEdit, editarIndex);
         buttonColumn.setMnemonic(KeyEvent.VK_D);
 
     }

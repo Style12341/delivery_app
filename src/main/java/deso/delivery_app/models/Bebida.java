@@ -11,6 +11,7 @@ public class Bebida extends ItemMenu {
     private boolean esAlcoholica;
     private boolean esGaseosa;
     private boolean esAptoCeliaco;
+    private boolean esAptoVegano = true;
 
     public Bebida(String nombre, String descripcion, double precio, double volumen, double graduacionAlcoholica, boolean esGaseosa, boolean esAptoCeliaco) {
         super(nombre, descripcion, precio, new Categoria("", TIPO_ITEM.BEBIDA));
@@ -44,7 +45,7 @@ public class Bebida extends ItemMenu {
 
     @Override
     public boolean aptoVegano() {
-        return true; // xd
+        return esAptoVegano; // xd
     }
 
     @Override
@@ -52,6 +53,9 @@ public class Bebida extends ItemMenu {
         return esAptoCeliaco; // xd
     }
 
+    public void setVegano(boolean veg) {
+        this.esAptoVegano = veg;
+    }
 
     public double getVolumen() {
         return volumen;

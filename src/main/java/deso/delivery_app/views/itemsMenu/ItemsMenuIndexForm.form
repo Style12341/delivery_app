@@ -8,7 +8,7 @@
     <border type="none"/>
     <children>
       <grid id="dcd72" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+        <margin top="5" left="5" bottom="5" right="5"/>
         <constraints border-constraint="North"/>
         <properties/>
         <border type="none"/>
@@ -56,13 +56,17 @@
                   <text value="Precio(min,max)"/>
                 </properties>
               </component>
-              <component id="60c38" class="javax.swing.JTextField" binding="precioMinField">
+              <component id="3d33a" class="javax.swing.JTextField" binding="precioMinField">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <preferredSize width="75" height="34"/>
+                </properties>
               </component>
-              <component id="df74" class="javax.swing.JTextField" binding="precioMaxField">
+              <component id="595e1" class="javax.swing.JTextField" binding="precioMaxField">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <preferredSize width="75" height="34"/>
+                </properties>
               </component>
               <component id="ca6d1" class="javax.swing.JLabel">
                 <constraints/>
@@ -96,9 +100,11 @@
                   <text value="Vendedor"/>
                 </properties>
               </component>
-              <component id="c3d9e" class="javax.swing.JTextField" binding="vendedorField">
+              <component id="950fb" class="javax.swing.JTextField" binding="vendedorField">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <preferredSize width="75" height="34"/>
+                </properties>
               </component>
               <hspacer id="837b6">
                 <constraints/>
@@ -113,7 +119,7 @@
             </children>
           </grid>
           <grid id="b1f2b" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
+            <margin top="5" left="5" bottom="5" right="5"/>
             <constraints border-constraint="Center"/>
             <properties/>
             <border type="none"/>
