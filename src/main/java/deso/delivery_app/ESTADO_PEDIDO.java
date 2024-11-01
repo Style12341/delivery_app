@@ -1,5 +1,5 @@
 package deso.delivery_app;
 
 public enum ESTADO_PEDIDO {
-    PENDIENTE, EN_ENVIO, RECIBIDO
+    PENDIENTE, EN_ENVIO, RECIBIDO, TODOS
 }

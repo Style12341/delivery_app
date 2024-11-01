@@ -2,6 +2,7 @@ package deso.delivery_app.views;
 
 import deso.delivery_app.views.clientes.ClientesIndexForm;
 import deso.delivery_app.views.itemsMenu.ItemsMenuIndexForm;
+import deso.delivery_app.views.pedidos.PedidosIndexForm;
 import deso.delivery_app.views.vendedores.VendedoresIndexForm;
 
 import javax.swing.*;
@@ -92,8 +93,9 @@ public class AdminLayoutForm {
                 break;
             case PEDIDO:
                 // Add pedido form when implemented
+                PedidosIndexForm pedidosForm = new PedidosIndexForm();
                 titleField.setText("Pedidos");
-                contentPanel.add(new JLabel("Pedido panel - To be implemented"), BorderLayout.CENTER);
+                contentPanel.add(pedidosForm.getRootPanel(), BorderLayout.CENTER);
                 break;
         }
 

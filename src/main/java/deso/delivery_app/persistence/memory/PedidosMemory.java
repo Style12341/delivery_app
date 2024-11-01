@@ -5,6 +5,7 @@ import deso.delivery_app.models.Pedido;
 import deso.delivery_app.models.Vendedor;
 import deso.delivery_app.exception.PedidoNoEncontradoException;
 import deso.delivery_app.persistence.DAO.PedidosDAO;
+import deso.delivery_app.persistence.filters.FiltrosPedido;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,5 +73,12 @@ public class PedidosMemory implements PedidosDAO {
             throw new PedidoNoEncontradoException("No se encontraron pedidos con el estado " + estado);
         }
         return pedidosEstado;
+    }
+
+    @Override
+    public List<Pedido> filtrar(FiltrosPedido filter) throws PedidoNoEncontradoException {
+        List<Pedido> lista = pedidos.stream().filter(filter.getFiltros()).toList();
+        if (lista.isEmpty()) throw new PedidoNoEncontradoException("No se encontraron pedidos con los filtros especificados");
+        return lista;
     }
 }

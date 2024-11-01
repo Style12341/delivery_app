@@ -128,6 +128,10 @@ public class Vendedor implements ISearcheable {
         return platos;
     }
 
+    public void addPedido(Pedido pedido) {
+        pedidos.add(pedido);
+    }
+
     public ArrayList<Plato> getComidasVeganas() {
         ArrayList<Plato> platos = getComidas();
         platos.removeIf(p -> !p.aptoVegano());

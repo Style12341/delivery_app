@@ -42,15 +42,12 @@ public class VendedorController {
         vendedorDAO.update(v);
     }
 
-
     public void eliminar(long id) {
         vendedorDAO.delete(id);
     }
 
-
     public Vendedor buscar(long id) {
         return vendedorDAO.get(id);
     }
-
 
 }

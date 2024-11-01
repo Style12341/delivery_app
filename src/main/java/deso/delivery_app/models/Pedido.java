@@ -84,4 +84,12 @@ public class Pedido extends Observable {
         this.setChanged();
         this.notifyObservers();
     }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
+    }
 }

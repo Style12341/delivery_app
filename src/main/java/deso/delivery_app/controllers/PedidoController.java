@@ -1,4 +1,73 @@
 package deso.delivery_app.controllers;
 
+import deso.delivery_app.ESTADO_PEDIDO;
+import deso.delivery_app.models.Cliente;
+import deso.delivery_app.models.Pedido;
+import deso.delivery_app.models.Vendedor;
+import deso.delivery_app.persistence.DAO.ClienteDAO;
+import deso.delivery_app.persistence.DAO.PedidosDAO;
+import deso.delivery_app.persistence.DAO.VendedorDAO;
+import deso.delivery_app.persistence.filters.FiltrosItemPedido;
+import deso.delivery_app.persistence.filters.FiltrosPedido;
+import deso.delivery_app.persistence.memory.ClienteMemory;
+import deso.delivery_app.persistence.memory.PedidosMemory;
+import deso.delivery_app.persistence.memory.VendedorMemory;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class PedidoController {
+    PedidosDAO pedidosDAO = PedidosMemory.getInstance();
+    VendedorDAO vendedorDAO = VendedorMemory.getInstance();
+    ClienteDAO clienteDAO = ClienteMemory.getInstance();
+    public static final int NO_FILTRAR_POR_ID = -1;
+    public static final int NO_FILTRAR_VENDEDOR = -1;
+
+
+    public List<Pedido> getLista() {
+        return getLista(NO_FILTRAR_POR_ID, ESTADO_PEDIDO.TODOS, NO_FILTRAR_VENDEDOR, "", "", 0, Double.MAX_VALUE);
+    }
+
+    public List<Pedido> getLista(long id, ESTADO_PEDIDO estado, long id_vendedor, String vendedor, String cliente, double precioMinimo, double precioMaximo) {
+        FiltrosPedido filters = new FiltrosPedido();
+        if(id != NO_FILTRAR_POR_ID) filters.addId(id);
+        switch (estado) {
+            case PENDIENTE -> filters.addEstado(ESTADO_PEDIDO.PENDIENTE);
+            case EN_ENVIO -> filters.addEstado(ESTADO_PEDIDO.EN_ENVIO);
+            case RECIBIDO -> filters.addEstado(ESTADO_PEDIDO.RECIBIDO);
+        }
+        if(id_vendedor != NO_FILTRAR_VENDEDOR) filters.addIdVendedor(id_vendedor);
+        filters.addNombreVendedor(vendedor);
+        filters.addNombreApellidoCliente(cliente);
+        filters.addPrecioAcumulado(precioMinimo, precioMaximo);
+        List<Pedido> ps = new ArrayList<Pedido>();
+        try {
+            ps = pedidosDAO.filtrar(filters);
+        } catch (Exception e) {
+            //:P
+        }
+        return ps;
+    }
+
+    public void crear(Pedido p, long idVendedor, long idCliente) {
+        Vendedor v = vendedorDAO.get(idVendedor);
+        Cliente c = clienteDAO.get(idCliente);
+        p.setVendedor(v);
+        p.setCliente(c);
+        v.addPedido(p);
+        c.addPedido(p);
+        pedidosDAO.create(p);
+    }
+
+    public void modificar(Pedido p) {
+        pedidosDAO.update(p);
+    }
+
+    public void eliminar(long id) {
+        pedidosDAO.delete(id);
+    }
+
+    public Pedido buscar(long id) {
+        return pedidosDAO.get(id);
+    }
 }

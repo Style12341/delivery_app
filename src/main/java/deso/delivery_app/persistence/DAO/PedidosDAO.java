@@ -4,6 +4,7 @@ import deso.delivery_app.ESTADO_PEDIDO;
 import deso.delivery_app.models.Pedido;
 import deso.delivery_app.models.Vendedor;
 import deso.delivery_app.exception.PedidoNoEncontradoException;
+import deso.delivery_app.persistence.filters.FiltrosPedido;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface PedidosDAO {
     void delete(long id);
 
     List<Pedido> buscarPorEstado(ESTADO_PEDIDO estado, Vendedor vendedor) throws PedidoNoEncontradoException;
+
+    List<Pedido> filtrar(FiltrosPedido filter) throws PedidoNoEncontradoException;
 }

@@ -1,6 +1,7 @@
 package deso.delivery_app.views.pedidos;
 
 import deso.delivery_app.controllers.VendedorController;
+import deso.delivery_app.models.Pedido;
 import deso.delivery_app.models.Vendedor;
 import deso.delivery_app.utils.Coordenada;
 import deso.delivery_app.views.AdminLayoutForm;
@@ -36,28 +37,28 @@ public class PedidosForm {
             backToIndex();
         });
     }
-    public PedidosForm(Vendedor v) {
+    public PedidosForm(Pedido v) {
         //Fill fields
         controller = new VendedorController();
-        CUITField.setText(v.getCuit());
-        DireccionField.setText(v.getDireccion());
-        NombreField.setText(v.getNombre());
-        Coordenada c = v.getCoordenadas();
-        latitudTextField.setText(String.valueOf(c.getLat()));
-        longitudTextField.setText(String.valueOf(c.getLng()));
-        // Add events to buttons
-        ActionButton.setText("Guardar");
-        ActionButton.addActionListener(e -> {
-            v.setCuit(CUITField.getText());
-            v.setDireccion(DireccionField.getText());
-            v.setNombre(NombreField.getText());
-            v.setCoordenadas(new Coordenada(Double.parseDouble(latitudTextField.getText()), Double.parseDouble(longitudTextField.getText())));
-            controller.modificar(v);
-            backToIndex();
-        });
-        CancelButton.addActionListener(e -> {
-            backToIndex();
-        });
+//        CUITField.setText(v.getCuit());
+//        DireccionField.setText(v.getDireccion());
+//        NombreField.setText(v.getNombre());
+//        Coordenada c = v.getCoordenadas();
+//        latitudTextField.setText(String.valueOf(c.getLat()));
+//        longitudTextField.setText(String.valueOf(c.getLng()));
+//        // Add events to buttons
+//        ActionButton.setText("Guardar");
+//        ActionButton.addActionListener(e -> {
+//            v.setCuit(CUITField.getText());
+//            v.setDireccion(DireccionField.getText());
+//            v.setNombre(NombreField.getText());
+//            v.setCoordenadas(new Coordenada(Double.parseDouble(latitudTextField.getText()), Double.parseDouble(longitudTextField.getText())));
+//            controller.modificar(v);
+//            backToIndex();
+//        });
+//        CancelButton.addActionListener(e -> {
+//            backToIndex();
+//        });
     }
     private void backToIndex() {
         PedidosIndexForm vif = new PedidosIndexForm();

@@ -127,6 +127,10 @@ public class Cliente implements ISearcheable, Observer {
         this.coordenadas = coordenadas;
     }
 
+    public void addPedido(Pedido pedido) {
+        pedidos.add(pedido);
+    }
+
     @Override
     public void update(Observable o, Object _arg) {
         Pedido p = (Pedido) o;

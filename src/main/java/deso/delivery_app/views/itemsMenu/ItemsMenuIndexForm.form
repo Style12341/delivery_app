@@ -76,7 +76,9 @@
               </component>
               <component id="7b718" class="javax.swing.JComboBox" binding="categoriaComboBox">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <editable value="true"/>
+                </properties>
               </component>
               <component id="90002" class="javax.swing.JCheckBox" binding="veganoCheck">
                 <constraints/>
