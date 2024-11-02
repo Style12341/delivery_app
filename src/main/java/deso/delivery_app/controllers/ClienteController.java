@@ -3,6 +3,7 @@ package deso.delivery_app.controllers;
 import deso.delivery_app.exception.ItemNoEncontradoException;
 import deso.delivery_app.models.Cliente;
 import deso.delivery_app.persistence.DAO.ClienteDAO;
+import deso.delivery_app.persistence.DAO.factories.ClienteDAOFactory;
 import deso.delivery_app.persistence.filters.FiltrosCliente;
 import deso.delivery_app.persistence.memory.ClienteMemory;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteController {
-    ClienteDAO clienteDAO = ClienteMemory.getInstance();
+    ClienteDAO clienteDAO = ClienteDAOFactory.getDAO();
     public List<Cliente> getLista(){
         return getLista("", "", "", "");
     }

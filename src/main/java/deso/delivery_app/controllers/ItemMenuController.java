@@ -4,19 +4,20 @@ import deso.delivery_app.TIPO_ITEM;
 import deso.delivery_app.exception.ItemNoEncontradoException;
 import deso.delivery_app.models.ItemMenu;
 import deso.delivery_app.models.Vendedor;
-import deso.delivery_app.persistence.DAO.ItemsMenuDAO;
+import deso.delivery_app.persistence.DAO.ItemMenuDAO;
 import deso.delivery_app.persistence.DAO.VendedorDAO;
+import deso.delivery_app.persistence.DAO.factories.ItemMenuDAOFactory;
+import deso.delivery_app.persistence.DAO.factories.VendedorDAOFactory;
 import deso.delivery_app.persistence.filters.FiltrosItemMenu;
-import deso.delivery_app.persistence.memory.ItemsMenuMemory;
+import deso.delivery_app.persistence.memory.ItemMenuMemory;
 import deso.delivery_app.persistence.memory.VendedorMemory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.*;
 
 public class ItemMenuController {
-    ItemsMenuDAO itemsMenuDAO = ItemsMenuMemory.getInstance();
-    VendedorDAO vendedorDAO = VendedorMemory.getInstance();
+    ItemMenuDAO itemMenuDAO = ItemMenuDAOFactory.getDAO();
+    VendedorDAO vendedorDAO = VendedorDAOFactory.getDAO();
     public static final int NO_FILTRAR_VENDEDOR = -1;
 
     public List<ItemMenu> getLista() {
@@ -39,7 +40,7 @@ public class ItemMenuController {
         }
         List<ItemMenu> ims = new ArrayList<ItemMenu>();
         try {
-            ims = itemsMenuDAO.filtrar(filters);
+            ims = itemMenuDAO.filtrar(filters);
         } catch (ItemNoEncontradoException e) {
             // :P
         }
@@ -50,19 +51,19 @@ public class ItemMenuController {
         Vendedor v = vendedorDAO.get(idVendedor);
         i.setVendedor(v);
         v.addItemToMenu(i);
-        itemsMenuDAO.create(i);
+        itemMenuDAO.create(i);
     }
 
     public void modificar(ItemMenu i) {
-        itemsMenuDAO.update(i);
+        itemMenuDAO.update(i);
     }
 
     public void eliminar(long id) {
-        itemsMenuDAO.delete(id);
+        itemMenuDAO.delete(id);
     }
 
     public ItemMenu buscar(long id) {
-        return itemsMenuDAO.get(id);
+        return itemMenuDAO.get(id);
     }
 
 }

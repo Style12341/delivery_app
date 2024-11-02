@@ -2,6 +2,7 @@ package deso.delivery_app.controllers;
 
 import deso.delivery_app.exception.ItemNoEncontradoException;
 import deso.delivery_app.models.Vendedor;
+import deso.delivery_app.persistence.DAO.factories.VendedorDAOFactory;
 import deso.delivery_app.persistence.filters.FiltrosVendedor;
 import deso.delivery_app.persistence.DAO.VendedorDAO;
 import deso.delivery_app.persistence.memory.VendedorMemory;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VendedorController {
-    VendedorDAO vendedorDAO = VendedorMemory.getInstance();
+    VendedorDAO vendedorDAO = VendedorDAOFactory.getDAO();
 
     public List<Vendedor> getLista() {
         return getLista("", "");

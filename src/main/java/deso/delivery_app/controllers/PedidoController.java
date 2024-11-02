@@ -2,24 +2,25 @@ package deso.delivery_app.controllers;
 
 import deso.delivery_app.ESTADO_PEDIDO;
 import deso.delivery_app.models.Cliente;
+import deso.delivery_app.models.ItemPedido;
 import deso.delivery_app.models.Pedido;
 import deso.delivery_app.models.Vendedor;
 import deso.delivery_app.persistence.DAO.ClienteDAO;
-import deso.delivery_app.persistence.DAO.PedidosDAO;
+import deso.delivery_app.persistence.DAO.ItemPedidoDAO;
+import deso.delivery_app.persistence.DAO.PedidoDAO;
 import deso.delivery_app.persistence.DAO.VendedorDAO;
-import deso.delivery_app.persistence.filters.FiltrosItemPedido;
+import deso.delivery_app.persistence.DAO.factories.PedidoDAOFactory;
+import deso.delivery_app.persistence.DAO.factories.VendedorDAOFactory;
 import deso.delivery_app.persistence.filters.FiltrosPedido;
-import deso.delivery_app.persistence.memory.ClienteMemory;
-import deso.delivery_app.persistence.memory.PedidosMemory;
-import deso.delivery_app.persistence.memory.VendedorMemory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PedidoController {
-    PedidosDAO pedidosDAO = PedidosMemory.getInstance();
-    VendedorDAO vendedorDAO = VendedorMemory.getInstance();
-    ClienteDAO clienteDAO = ClienteMemory.getInstance();
+    PedidoDAO pedidoDAO = PedidoDAOFactory.getDAO();
+    VendedorDAO vendedorDAO = VendedorDAOFactory.getDAO();
+    ClienteDAO clienteDAO = ClienteDAOFactory.getDAO();
+    ItemPedidoDAO itemPedidoDAO = ItemPedidoDAOFactory.getDAO();
     public static final int NO_FILTRAR_POR_ID = -1;
     public static final int NO_FILTRAR_VENDEDOR = -1;
 
@@ -51,7 +52,7 @@ public class PedidoController {
         filters.addPrecioAcumulado(precioMinimo, precioMaximo);
         List<Pedido> ps = new ArrayList<Pedido>();
         try {
-            ps = pedidosDAO.filtrar(filters);
+            ps = pedidoDAO.filtrar(filters);
         } catch (Exception e) {
             //:P
         }
@@ -65,18 +66,24 @@ public class PedidoController {
         p.setCliente(c);
         v.addPedido(p);
         c.addPedido(p);
-        pedidosDAO.create(p);
+        pedidoDAO.create(p);
     }
 
     public void modificar(Pedido p) {
-        pedidosDAO.update(p);
+        pedidoDAO.update(p);
     }
 
     public void eliminar(long id) {
-        pedidosDAO.delete(id);
+        pedidoDAO.delete(id);
     }
 
     public Pedido buscar(long id) {
-        return pedidosDAO.get(id);
+        return pedidoDAO.get(id);
+    }
+
+    public List<ItemPedido> getDetallePedido(Pedido p) {
+        if (!p.getDetallePedido().isEmpty()) return p.getDetallePedido();
+
+        return items;
     }
 }
