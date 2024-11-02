@@ -30,13 +30,22 @@ public class PedidoController {
 
     public List<Pedido> getLista(long id, ESTADO_PEDIDO estado, long id_vendedor, String vendedor, String cliente, double precioMinimo, double precioMaximo) {
         FiltrosPedido filters = new FiltrosPedido();
-        if(id != NO_FILTRAR_POR_ID) filters.addId(id);
+        if (id != NO_FILTRAR_POR_ID) filters.addId(id);
         switch (estado) {
-            case PENDIENTE -> filters.addEstado(ESTADO_PEDIDO.PENDIENTE);
-            case EN_ENVIO -> filters.addEstado(ESTADO_PEDIDO.EN_ENVIO);
-            case RECIBIDO -> filters.addEstado(ESTADO_PEDIDO.RECIBIDO);
+            case RECIBIDO:
+                filters.addEstado(ESTADO_PEDIDO.RECIBIDO);
+                break;
+            case ACEPTADO:
+                filters.addEstado(ESTADO_PEDIDO.ACEPTADO);
+                break;
+            case PREPARADO:
+                filters.addEstado(ESTADO_PEDIDO.PREPARADO);
+                break;
+            case ENVIADO:
+                filters.addEstado(ESTADO_PEDIDO.ENVIADO);
+                break;
         }
-        if(id_vendedor != NO_FILTRAR_VENDEDOR) filters.addIdVendedor(id_vendedor);
+        if (id_vendedor != NO_FILTRAR_VENDEDOR) filters.addIdVendedor(id_vendedor);
         filters.addNombreVendedor(vendedor);
         filters.addNombreApellidoCliente(cliente);
         filters.addPrecioAcumulado(precioMinimo, precioMaximo);

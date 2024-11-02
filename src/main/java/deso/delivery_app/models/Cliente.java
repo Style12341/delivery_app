@@ -136,7 +136,7 @@ public class Cliente implements ISearcheable, Observer {
         Pedido p = (Pedido) o;
         System.out.println(this.toString() + " ha sido notificado de un cambio en el pedido");
         System.out.println("El pedido ha cambiado de estado a " + p.getEstado());
-        if (p.getEstado() == ESTADO_PEDIDO.EN_ENVIO) {
+        if (p.getEstado() == ESTADO_PEDIDO.ENVIADO) {
             //Cliente crea el Pago
             Pago pago = new Pago(p.getPrecioAcumulado());
             p.setPago(pago);

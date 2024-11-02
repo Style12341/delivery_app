@@ -26,7 +26,7 @@ public class Pedido extends Observable {
         this.id = NEXT_ID++;
         this.vendedor = vendedor;
         this.cliente = cliente;
-        this.estado = ESTADO_PEDIDO.PENDIENTE;
+        this.estado = ESTADO_PEDIDO.RECIBIDO;
         for (Pair<ItemMenu, Integer> item : items) {
             agregarItem(item.first, item.second);
         }

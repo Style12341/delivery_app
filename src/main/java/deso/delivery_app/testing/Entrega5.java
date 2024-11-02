@@ -72,7 +72,7 @@ public class Entrega5 {
         try {
             List<Pedido> pedidosVendedor = pedidosDao.buscarPorEstado(ESTADO_PEDIDO.RECIBIDO, vendedorElegido);
             Pedido pEncontrado = pedidosVendedor.getFirst();
-            pEncontrado.setEstado(ESTADO_PEDIDO.EN_ENVIO);
+            pEncontrado.setEstado(ESTADO_PEDIDO.ENVIADO);
         } catch (PedidoNoEncontradoException e) {
             System.out.println("No se encontraron pedidos pendientes");
         }
