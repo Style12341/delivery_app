@@ -9,6 +9,8 @@ import deso.delivery_app.persistence.DAO.ClienteDAO;
 import deso.delivery_app.persistence.DAO.ItemPedidoDAO;
 import deso.delivery_app.persistence.DAO.PedidoDAO;
 import deso.delivery_app.persistence.DAO.VendedorDAO;
+import deso.delivery_app.persistence.DAO.factories.ClienteDAOFactory;
+import deso.delivery_app.persistence.DAO.factories.ItemPedidoDAOFactory;
 import deso.delivery_app.persistence.DAO.factories.PedidoDAOFactory;
 import deso.delivery_app.persistence.DAO.factories.VendedorDAOFactory;
 import deso.delivery_app.persistence.filters.FiltrosPedido;
@@ -84,6 +86,6 @@ public class PedidoController {
     public List<ItemPedido> getDetallePedido(Pedido p) {
         if (!p.getDetallePedido().isEmpty()) return p.getDetallePedido();
 
-        return items;
+        return  p.getDetallePedido();
     }
 }
