@@ -4,23 +4,23 @@ import deso.delivery_app.ESTADO_PEDIDO;
 import deso.delivery_app.models.Pedido;
 import deso.delivery_app.models.Vendedor;
 import deso.delivery_app.exception.PedidoNoEncontradoException;
-import deso.delivery_app.persistence.DAO.PedidosDAO;
+import deso.delivery_app.persistence.DAO.PedidoDAO;
 import deso.delivery_app.persistence.filters.FiltrosPedido;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PedidosMemory implements PedidosDAO {
+public class PedidoMemory implements PedidoDAO {
     ArrayList<Pedido> pedidos = new ArrayList<>();
 
-    private static PedidosMemory SINGLETON_INSTANCE;
+    private static PedidoMemory SINGLETON_INSTANCE;
 
-    private PedidosMemory() {
+    private PedidoMemory() {
         pedidos = new ArrayList<>();
     }
 
-    public static PedidosMemory getInstance() {
-        if (SINGLETON_INSTANCE == null) SINGLETON_INSTANCE = new PedidosMemory();
+    public static PedidoMemory getInstance() {
+        if (SINGLETON_INSTANCE == null) SINGLETON_INSTANCE = new PedidoMemory();
         return SINGLETON_INSTANCE;
     }
 

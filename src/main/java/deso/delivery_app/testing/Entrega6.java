@@ -1,10 +1,10 @@
 package deso.delivery_app.testing;
 
 import deso.delivery_app.models.*;
-import deso.delivery_app.persistence.DAO.ItemsMenuDAO;
-import deso.delivery_app.persistence.DAO.PedidosDAO;
-import deso.delivery_app.persistence.memory.ItemsMenuMemory;
-import deso.delivery_app.persistence.memory.PedidosMemory;
+import deso.delivery_app.persistence.DAO.ItemMenuDAO;
+import deso.delivery_app.persistence.DAO.PedidoDAO;
+import deso.delivery_app.persistence.memory.ItemMenuMemory;
+import deso.delivery_app.persistence.memory.PedidoMemory;
 import deso.delivery_app.persistence.memory.ClienteMemory;
 import deso.delivery_app.persistence.memory.VendedorMemory;
 import deso.delivery_app.utils.Coordenada;
@@ -76,12 +76,12 @@ public class Entrega6 {
         itemsBebidas.add(new Bebida("Fanta Naranja", "Bebida gaseosa con sabor a naranja", 2.80, 500.0, 0, true, true));
         itemsBebidas.add(new Bebida("Gin Tonic", "Gin mezclado con agua tónica y una rodaja de limón", 6.50, 400.0, 12.0, true, true));
         itemsBebidas.add(new Bebida("Jugo de naranja", "Jugo natural exprimido de naranjas frescas", 3.00, 350.0, 0, false, true));
-        ItemsMenuDAO itemsMenuDAO = ItemsMenuMemory.getInstance();
+        ItemMenuDAO itemMenuDAO = ItemMenuMemory.getInstance();
         for (ItemMenu item : itemsComidas) {
-            itemsMenuDAO.create(item);
+            itemMenuDAO.create(item);
         }
         for (ItemMenu item : itemsBebidas) {
-            itemsMenuDAO.create(item);
+            itemMenuDAO.create(item);
         }
     }
 
@@ -131,9 +131,9 @@ public class Entrega6 {
         itemsPedido5.add(new Pair<>(itemsBebidas.get(0), 2)); // Coca-Cola, 2 unidades
 
         pedidos.add(new Pedido(vendedores.get(0), clientes.get(0), itemsPedido5)); // Pedido del cliente 1 con el vendedor 1
-        PedidosDAO pedidosDao = PedidosMemory.getInstance();
+        PedidoDAO pedidoDao = PedidoMemory.getInstance();
         for (Pedido pedido : pedidos) {
-            pedidosDao.create(pedido);
+            pedidoDao.create(pedido);
         }
     }
 }

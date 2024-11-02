@@ -3,8 +3,8 @@ package deso.delivery_app.testing;
 import deso.delivery_app.exception.ItemNoEncontradoException;
 import deso.delivery_app.models.*;
 import deso.delivery_app.persistence.filters.FiltrosItemMenu;
-import deso.delivery_app.persistence.DAO.ItemsMenuDAO;
-import deso.delivery_app.persistence.memory.ItemsMenuMemory;
+import deso.delivery_app.persistence.DAO.ItemMenuDAO;
+import deso.delivery_app.persistence.memory.ItemMenuMemory;
 import deso.delivery_app.strategies.PagarConMercadoPago;
 import deso.delivery_app.strategies.PagarConTransferencia;
 import deso.delivery_app.utils.Coordenada;
@@ -42,12 +42,12 @@ public class Entrega4 {
         // Cliente elige itemsMenus del vendedor elegido
         ArrayList<Pair<ItemMenu, Integer>> itemsPedido = new ArrayList<>();
         Pedido pedido = new Pedido(vendedorElegido, cliente, itemsPedido);
-        ItemsMenuDAO itemsMenuDAO = ItemsMenuMemory.getInstance();
+        ItemMenuDAO itemMenuDAO = ItemMenuMemory.getInstance();
         FiltrosItemMenu filtros = new FiltrosItemMenu();
         filtros.addIdVendedor(vendedorElegido.getId());
         List<ItemMenu> menu;
         try {
-            menu = itemsMenuDAO.filtrar(filtros);
+            menu = itemMenuDAO.filtrar(filtros);
         } catch (ItemNoEncontradoException e) {
             System.out.println("No se encontraron itemsMenus");
             return;
@@ -134,12 +134,12 @@ public class Entrega4 {
         itemsBebidas.add(new Bebida("Fanta Naranja", "Bebida gaseosa con sabor a naranja", 2.80, 500.0, 0, true, true));
         itemsBebidas.add(new Bebida("Gin Tonic", "Gin mezclado con agua tónica y una rodaja de limón", 6.50, 400.0, 12.0, true, true));
         itemsBebidas.add(new Bebida("Jugo de naranja", "Jugo natural exprimido de naranjas frescas", 3.00, 350.0, 0, false, true));
-        ItemsMenuDAO itemsMenuDAO = ItemsMenuMemory.getInstance();
+        ItemMenuDAO itemMenuDAO = ItemMenuMemory.getInstance();
         for (ItemMenu item : itemsComidas) {
-            itemsMenuDAO.create(item);
+            itemMenuDAO.create(item);
         }
         for (ItemMenu item : itemsBebidas) {
-            itemsMenuDAO.create(item);
+            itemMenuDAO.create(item);
         }
     }
 

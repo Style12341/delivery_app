@@ -3,7 +3,7 @@ package deso.delivery_app.persistence.memory;
 import deso.delivery_app.models.ItemPedido;
 import deso.delivery_app.exception.ItemNoEncontradoException;
 import deso.delivery_app.persistence.filters.FiltrosItemPedido;
-import deso.delivery_app.persistence.DAO.ItemsPedidoDAO;
+import deso.delivery_app.persistence.DAO.ItemPedidoDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,17 +11,17 @@ import java.util.Optional;
 
 //singleton
 
-public class ItemsPedidoMemory implements ItemsPedidoDAO {
+public class ItemPedidoMemory implements ItemPedidoDAO {
 
-    private static ItemsPedidoMemory SINGLETON_INSTANCE;
+    private static ItemPedidoMemory SINGLETON_INSTANCE;
     private final List<ItemPedido> listaItemsPedido;
 
-    private ItemsPedidoMemory() {
+    private ItemPedidoMemory() {
         listaItemsPedido = new ArrayList<>();
     }
 
-    public static ItemsPedidoMemory getInstance() {
-        if (SINGLETON_INSTANCE == null) SINGLETON_INSTANCE = new ItemsPedidoMemory();
+    public static ItemPedidoMemory getInstance() {
+        if (SINGLETON_INSTANCE == null) SINGLETON_INSTANCE = new ItemPedidoMemory();
         return SINGLETON_INSTANCE;
     }
 

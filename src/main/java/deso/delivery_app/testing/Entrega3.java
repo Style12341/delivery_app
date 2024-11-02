@@ -2,7 +2,7 @@ package deso.delivery_app.testing;
 
 import deso.delivery_app.models.*;
 import deso.delivery_app.persistence.filters.FiltrosItemPedido;
-import deso.delivery_app.persistence.memory.ItemsPedidoMemory;
+import deso.delivery_app.persistence.memory.ItemPedidoMemory;
 import deso.delivery_app.utils.*;
 import deso.delivery_app.exception.ItemNoEncontradoException;
 
@@ -16,7 +16,7 @@ public class Entrega3 {
     public static ArrayList<Cliente> clientes = new ArrayList<>();
     public static ArrayList<Pedido> pedidos = new ArrayList<>();
 
-    public static ItemsPedidoMemory itemsPedidoMemory = ItemsPedidoMemory.getInstance();
+    public static ItemPedidoMemory itemsPedidoMemory = ItemPedidoMemory.getInstance();
 
 
     public static void run() {

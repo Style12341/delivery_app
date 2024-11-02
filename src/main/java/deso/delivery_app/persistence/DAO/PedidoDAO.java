@@ -8,7 +8,7 @@ import deso.delivery_app.persistence.filters.FiltrosPedido;
 
 import java.util.List;
 
-public interface PedidosDAO {
+public interface PedidoDAO {
     Pedido create(Pedido pedido);
 
     Pedido get(long id);

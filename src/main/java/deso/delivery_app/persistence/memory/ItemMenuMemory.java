@@ -3,22 +3,22 @@ package deso.delivery_app.persistence.memory;
 import deso.delivery_app.models.ItemMenu;
 import deso.delivery_app.exception.ItemNoEncontradoException;
 import deso.delivery_app.persistence.filters.FiltrosItemMenu;
-import deso.delivery_app.persistence.DAO.ItemsMenuDAO;
+import deso.delivery_app.persistence.DAO.ItemMenuDAO;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ItemsMenuMemory implements ItemsMenuDAO {
-    private static ItemsMenuMemory SINGLETON_INSTANCE;
+public class ItemMenuMemory implements ItemMenuDAO {
+    private static ItemMenuMemory SINGLETON_INSTANCE;
     private final List<ItemMenu> listaItemsMenu;
 
-    private ItemsMenuMemory() {
+    private ItemMenuMemory() {
         listaItemsMenu = new ArrayList<>();
     }
 
-    public static ItemsMenuMemory getInstance() {
-        if (SINGLETON_INSTANCE == null) SINGLETON_INSTANCE = new ItemsMenuMemory();
+    public static ItemMenuMemory getInstance() {
+        if (SINGLETON_INSTANCE == null) SINGLETON_INSTANCE = new ItemMenuMemory();
         return SINGLETON_INSTANCE;
     }
 

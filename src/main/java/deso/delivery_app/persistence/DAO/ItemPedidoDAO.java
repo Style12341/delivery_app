@@ -7,7 +7,7 @@ import deso.delivery_app.persistence.filters.FiltrosItemPedido;
 
 import java.util.List;
 
-public interface ItemsPedidoDAO {
+public interface ItemPedidoDAO {
     ItemPedido create(ItemPedido itemPedido);
 
     ItemPedido get(long id);

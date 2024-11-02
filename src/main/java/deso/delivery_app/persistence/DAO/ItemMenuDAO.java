@@ -6,7 +6,7 @@ import deso.delivery_app.persistence.filters.FiltrosItemMenu;
 
 import java.util.List;
 
-public interface ItemsMenuDAO {
+public interface ItemMenuDAO {
     ItemMenu create(ItemMenu ItemMenu);
 
     ItemMenu get(long id);
