@@ -48,6 +48,19 @@ public class DetallePedidoIndexForm {
                 backToIndex();
             }
         });
+        agregarItemsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(pedido.getEstado() != ESTADO_PEDIDO.ENVIADO && pedido.getEstado() != ESTADO_PEDIDO.PREPARADO) {
+                    // TO-DO
+                    // Renderizar algo que permita seleccionar items de menu del vendedor seleccionado para el pedido
+                    // Sin poder filtrar sobre esa lista ni nada, simplemente seleccionar con una checkbox
+                    // Y seleccionando la cantidad deseada en un input
+                    // Después se itera sobre los items seleccionados y se crean los items pedido
+                    // Se los agrega al pedido y se llamaria al update del dao supongo y se vuelve a renderizar esta vista de 0
+                }
+            }
+        });
     }
 
     public void createDetallePedidoItemsTable(Pedido p) {
