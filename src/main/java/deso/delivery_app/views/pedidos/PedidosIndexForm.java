@@ -15,7 +15,7 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Objects;
 
-public class PedidosIndexForm {
+public class PedidosIndexForm{
     private JPanel panel1;
     private JButton crearPedidoButton;
     private JTable listPedidos;
@@ -60,10 +60,11 @@ public class PedidosIndexForm {
     }
 
     private void createComboBox() {
-        estadoComboBox.addItem("TODOS");
-        estadoComboBox.addItem("PENDIENTE");
-        estadoComboBox.addItem("EN_ENVIO");
-        estadoComboBox.addItem("RECIBIDO");
+        estadoComboBox.addItem(ESTADO_PEDIDO.TODOS.toString());
+        estadoComboBox.addItem(ESTADO_PEDIDO.RECIBIDO.toString());
+        estadoComboBox.addItem(ESTADO_PEDIDO.ACEPTADO.toString());
+        estadoComboBox.addItem(ESTADO_PEDIDO.PREPARADO.toString());
+        estadoComboBox.addItem(ESTADO_PEDIDO.ENVIADO.toString());
     }
 
     public void createTable(List<Pedido> ps) {
@@ -74,21 +75,22 @@ public class PedidosIndexForm {
             data[i][1] = p.getEstado().toString();
             data[i][2] = p.getVendedor().getNombre();
             data[i][3] = p.getCliente().getNombre().concat(" ").concat(p.getCliente().getApellido());
-            data[i][4] = p.getPrecioAcumulado();
-            data[i][5] = "Editar";
+            data[i][4] = String.format("$%.2f",p.getPrecioAcumulado());
+            data[i][5] = "Ver";
             data[i][6] = "Eliminar";
         }
-        String[] columnNames = {"Id", "Estado", "Vendedor", "Cliente", "Precio Total", "Editar", "Eliminar"};
+        String[] columnNames = {"Id", "Estado", "Vendedor", "Cliente", "Precio Total", "Detalle", "Eliminar"};
 
         assert listPedidos != null;
         listPedidos.setModel(new DefaultTableModel(data, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                int editarIndex = listPedidos.getColumnModel().getColumnIndex("Editar");
+                int editarIndex = listPedidos.getColumnModel().getColumnIndex("Detalle");
                 int eliminarIndex = listPedidos.getColumnModel().getColumnIndex("Eliminar");
                 return column == editarIndex || column == eliminarIndex;
             }
         });
+        listPedidos.setAutoCreateRowSorter(true);
         Action delete = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,24 +101,25 @@ public class PedidosIndexForm {
                 controller.eliminar(id);
             }
         };
-        Action openEdit = new AbstractAction() {
+        Action openDetail = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JTable table = (JTable) e.getSource();
                 int modelRow = Integer.parseInt(e.getActionCommand());
                 long id = (long) table.getModel().getValueAt(modelRow, 0);
                 Pedido p = controller.buscar(id);
-                PedidosForm pedidosEditForm = new PedidosForm(p);
-                AdminLayoutForm.getInstance().replaceContent(pedidosEditForm.getRootPanel());
+                // Render detalle de pedido
+                DetallePedidoIndexForm dpIndexForm = new DetallePedidoIndexForm(p);
+                AdminLayoutForm.getInstance().replaceContent(dpIndexForm.getRootPanel());
             }
         };
         ButtonColumn buttonColumn = new ButtonColumn(listPedidos, delete, 6);
-        ButtonColumn buttonColumn2 = new ButtonColumn(listPedidos, openEdit, 5);
+        ButtonColumn buttonColumn2 = new ButtonColumn(listPedidos, openDetail, 5);
         buttonColumn.setMnemonic(KeyEvent.VK_D);
     }
 
     public long getIdField() {
-        if(idField.getText().isEmpty()) {
+        if (idField.getText().isEmpty()) {
             return -1;
         }
         return Long.parseLong(idField.getText());

@@ -3,12 +3,14 @@ package deso.delivery_app.models;
 import deso.delivery_app.ESTADO_PEDIDO;
 import deso.delivery_app.exception.EstrategiaNoSeleccionadaException;
 import deso.delivery_app.exception.PagoInexistenteException;
-import deso.delivery_app.persistence.DAO.ItemsPedidoDAO;
-import deso.delivery_app.persistence.memory.ItemsPedidoMemory;
+import deso.delivery_app.persistence.DAO.ItemPedidoDAO;
+import deso.delivery_app.persistence.DAO.factories.ItemPedidoDAOFactory;
+import deso.delivery_app.persistence.memory.ItemPedidoMemory;
 import deso.delivery_app.strategies.PagarStrategy;
 import deso.delivery_app.utils.Pair;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 public class Pedido extends Observable {
@@ -39,9 +41,19 @@ public class Pedido extends Observable {
     public void agregarItem(ItemMenu item, Integer cantidad) {
         this.precioAcumulado += item.getPrecio() * cantidad;
         ItemPedido i = new ItemPedido(cantidad, item, this);
-        ItemsPedidoDAO itemsPedidoDao = ItemsPedidoMemory.getInstance();
-        itemsPedidoDao.create(i);
         detallePedido.add(i);
+    }
+
+    public void removeItem(ItemPedido ip) {
+
+        boolean removed = detallePedido.removeIf(i -> i.getId() == ip.getId());
+        if (removed) {
+            this.precioAcumulado -= ip.getItemMenu().getPrecio() * ip.getCantidad();
+        }
+    }
+
+    public List<ItemPedido> getDetallePedido() {
+        return detallePedido;
     }
 
     public Vendedor getVendedor() {

@@ -2,11 +2,9 @@ package deso.delivery_app.testing;
 
 import deso.delivery_app.models.*;
 import deso.delivery_app.persistence.DAO.ItemMenuDAO;
+import deso.delivery_app.persistence.DAO.ItemPedidoDAO;
 import deso.delivery_app.persistence.DAO.PedidoDAO;
-import deso.delivery_app.persistence.memory.ItemMenuMemory;
-import deso.delivery_app.persistence.memory.PedidoMemory;
-import deso.delivery_app.persistence.memory.ClienteMemory;
-import deso.delivery_app.persistence.memory.VendedorMemory;
+import deso.delivery_app.persistence.memory.*;
 import deso.delivery_app.utils.Coordenada;
 import deso.delivery_app.utils.Pair;
 import deso.delivery_app.views.AdminLayoutForm;
@@ -132,8 +130,12 @@ public class Entrega6 {
 
         pedidos.add(new Pedido(vendedores.get(0), clientes.get(0), itemsPedido5)); // Pedido del cliente 1 con el vendedor 1
         PedidoDAO pedidoDao = PedidoMemory.getInstance();
+        ItemPedidoDAO itemPedidoDAO = ItemPedidoMemory.getInstance();
         for (Pedido pedido : pedidos) {
             pedidoDao.create(pedido);
+            for (ItemPedido item : pedido.getDetallePedido()) {
+                itemPedidoDAO.create(item);
+            }
         }
     }
 }

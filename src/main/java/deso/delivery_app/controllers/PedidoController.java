@@ -2,15 +2,12 @@ package deso.delivery_app.controllers;
 
 import deso.delivery_app.ESTADO_PEDIDO;
 import deso.delivery_app.models.Cliente;
-import deso.delivery_app.models.ItemPedido;
 import deso.delivery_app.models.Pedido;
 import deso.delivery_app.models.Vendedor;
 import deso.delivery_app.persistence.DAO.ClienteDAO;
-import deso.delivery_app.persistence.DAO.ItemPedidoDAO;
 import deso.delivery_app.persistence.DAO.PedidoDAO;
 import deso.delivery_app.persistence.DAO.VendedorDAO;
 import deso.delivery_app.persistence.DAO.factories.ClienteDAOFactory;
-import deso.delivery_app.persistence.DAO.factories.ItemPedidoDAOFactory;
 import deso.delivery_app.persistence.DAO.factories.PedidoDAOFactory;
 import deso.delivery_app.persistence.DAO.factories.VendedorDAOFactory;
 import deso.delivery_app.persistence.filters.FiltrosPedido;
@@ -22,7 +19,6 @@ public class PedidoController {
     PedidoDAO pedidoDAO = PedidoDAOFactory.getDAO();
     VendedorDAO vendedorDAO = VendedorDAOFactory.getDAO();
     ClienteDAO clienteDAO = ClienteDAOFactory.getDAO();
-    ItemPedidoDAO itemPedidoDAO = ItemPedidoDAOFactory.getDAO();
     public static final int NO_FILTRAR_POR_ID = -1;
     public static final int NO_FILTRAR_VENDEDOR = -1;
 
@@ -83,9 +79,8 @@ public class PedidoController {
         return pedidoDAO.get(id);
     }
 
-    public List<ItemPedido> getDetallePedido(Pedido p) {
-        if (!p.getDetallePedido().isEmpty()) return p.getDetallePedido();
-
-        return  p.getDetallePedido();
+    public Pedido cambiarEstado(Pedido pedido, ESTADO_PEDIDO estado) {
+        pedido.setEstado(estado);
+        return pedidoDAO.update(pedido);
     }
 }

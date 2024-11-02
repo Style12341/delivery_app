@@ -47,6 +47,10 @@ public class ItemMenuController {
         return ims;
     }
 
+    public List<ItemMenu> getLista(long idVendedor) {
+        return getLista("", TIPO_ITEM.TODOS, 0, Double.MAX_VALUE, idVendedor, "", false, false);
+    }
+
     public void crear(ItemMenu i, long idVendedor) {
         Vendedor v = vendedorDAO.get(idVendedor);
         i.setVendedor(v);

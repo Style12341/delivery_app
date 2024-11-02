@@ -39,7 +39,9 @@ public class FiltrosItemPedido {
         });
     }
 
-    public void addGaseosas() { filtros.add(i -> i.getItemMenu().esBebida()); }
+    public void addGaseosas() {
+        filtros.add(i -> i.getItemMenu().esBebida());
+    }
 
     public void addComida() {
         filtros.add(i -> i.getItemMenu().esComida());
@@ -71,6 +73,10 @@ public class FiltrosItemPedido {
 
     public void addApellidoCliente(String apellido) {
         filtros.add(i -> i.getPedido().getCliente().getApellido().startsWith(apellido));
+    }
+
+    public void addIdPedido(long id) {
+        filtros.add(i -> i.getPedido().getId() == id);
     }
 
     public Predicate<ItemPedido> getFiltros() {
