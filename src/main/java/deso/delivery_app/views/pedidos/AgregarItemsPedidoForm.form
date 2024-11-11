@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="deso.delivery_app.views.pedidos.AgregarItemsPedidoForm">
+  <grid id="27dc6" binding="panel1" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="5" left="5" bottom="5" right="5"/>
+    <constraints>
+      <xy x="109" y="20" width="1080" height="600"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="4a9ad" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="5" left="5" bottom="5" right="5"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="6f44" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Agregar items al pedido"/>
+            </properties>
+          </component>
+          <hspacer id="868fa">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+        </children>
+      </grid>
+      <grid id="65f2b" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="ba0b9" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+            <constraints border-constraint="North"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="57c7e" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <text value="Nombre"/>
+                </properties>
+              </component>
+              <component id="317cd" class="javax.swing.JTextField" binding="NombreField">
+                <constraints/>
+                <properties>
+                  <preferredSize width="75" height="34"/>
+                </properties>
+              </component>
+              <component id="8347b" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <text value="Precio(min,max)"/>
+                </properties>
+              </component>
+              <component id="13450" class="javax.swing.JTextField" binding="precioMinField">
+                <constraints/>
+                <properties>
+                  <preferredSize width="75" height="34"/>
+                </properties>
+              </component>
+              <component id="5f3cf" class="javax.swing.JTextField" binding="precioMaxField">
+                <constraints/>
+                <properties>
+                  <preferredSize width="75" height="34"/>
+                </properties>
+              </component>
+              <component id="ff83f" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <text value="Categoria"/>
+                </properties>
+              </component>
+              <component id="2f1a9" class="javax.swing.JComboBox" binding="categoriaComboBox">
+                <constraints/>
+                <properties>
+                  <editable value="true"/>
+                </properties>
+              </component>
+              <component id="2d280" class="javax.swing.JCheckBox" binding="veganoCheck">
+                <constraints/>
+                <properties>
+                  <horizontalAlignment value="10"/>
+                  <horizontalTextPosition value="10"/>
+                  <text value="Vegano"/>
+                </properties>
+              </component>
+              <component id="f81c6" class="javax.swing.JCheckBox" binding="celiacoCheck">
+                <constraints/>
+                <properties>
+                  <horizontalAlignment value="10"/>
+                  <horizontalTextPosition value="10"/>
+                  <text value="Celiaco"/>
+                </properties>
+              </component>
+              <component id="4eb45" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <text value="Vendedor"/>
+                </properties>
+              </component>
+              <component id="9a2e5" class="javax.swing.JTextField" binding="vendedorField">
+                <constraints/>
+                <properties>
+                  <preferredSize width="75" height="34"/>
+                </properties>
+              </component>
+              <hspacer id="9099f">
+                <constraints/>
+              </hspacer>
+              <component id="fbe2a" class="javax.swing.JButton" binding="buscarButton" default-binding="true">
+                <constraints/>
+                <properties>
+                  <horizontalAlignment value="0"/>
+                  <text value="Buscar"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <scrollpane id="13dcf">
+            <constraints border-constraint="Center"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="3545" class="javax.swing.JTable" binding="listItemsMenu">
+                <constraints/>
+                <properties/>
+              </component>
+            </children>
+          </scrollpane>
+        </children>
+      </grid>
+      <grid id="1834" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="951ec" class="javax.swing.JButton" binding="anadirItemsButton">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Añadir items"/>
+            </properties>
+          </component>
+          <component id="38720" class="javax.swing.JButton" binding="volverButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="volver"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

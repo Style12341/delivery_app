@@ -62,17 +62,20 @@ public class DetallePedidoIndexForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(pedido.getEstado() != ESTADO_PEDIDO.ENVIADO && pedido.getEstado() != ESTADO_PEDIDO.PREPARADO) {
-                    // TO-DO
-                    // Renderizar algo que permita seleccionar items de menu del vendedor seleccionado para el pedido
-                    // Sin poder filtrar sobre esa lista ni nada, simplemente seleccionar con una checkbox
-                    // Y seleccionando la cantidad deseada en un input
-                    // Después se itera sobre los items seleccionados y se crean los items pedido
-                    // Se los agrega al pedido y se llamaria al update del dao supongo y se vuelve a renderizar esta vista de 0
+                    agregarItemsAction();
+                }else{
+                    JOptionPane.showMessageDialog(null, "No se pueden agregar items a un pedido que ya fue enviado o preparado");
                 }
             }
         });
-    }
 
+    }
+    private void agregarItemsAction() {
+        //Add as child of this form a new form to add items to the pedido
+        AgregarItemsPedidoForm aipf = new AgregarItemsPedidoForm(pedido);
+        AdminLayoutForm.getInstance().replaceContent(aipf.getRootPanel());
+
+    }
     public void createDetallePedidoItemsTable(List<ItemPedido> ims) {
         String[] columnNames = {"Id", "Nombre", "Precio", "Cantidad", "Total", "Eliminar"};
         Object[][] data = new Object[ims.size()][columnNames.length];

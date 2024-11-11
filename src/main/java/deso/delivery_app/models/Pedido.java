@@ -41,10 +41,11 @@ public class Pedido extends Observable {
         return id;
     }
 
-    public void agregarItem(ItemMenu item, Integer cantidad) {
+    public ItemPedido agregarItem(ItemMenu item, Integer cantidad) {
         this.precioAcumulado += item.getPrecio() * cantidad;
         ItemPedido i = new ItemPedido(cantidad, item, this);
         detallePedido.add(i);
+        return i;
     }
 
     public void removeItem(ItemPedido ip) {
