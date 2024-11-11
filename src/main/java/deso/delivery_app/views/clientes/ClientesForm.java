@@ -36,6 +36,7 @@ public class ClientesForm {
             Coordenada coord = new Coordenada(Double.parseDouble(latitudTextField.getText()), Double.parseDouble(longitudTextField.getText()));
             Cliente c = new Cliente(nombre, apellido, CUIT, email, direccion, coord);
             controller.crear(c);
+            JOptionPane.showMessageDialog(null, "Cliente creado con éxito");
             backToIndex();
         });
         CancelButton.addActionListener(e -> {
@@ -65,6 +66,7 @@ public class ClientesForm {
             c.setApellido(ApellidoField.getText());
             c.setCoordenadas(new Coordenada(Double.parseDouble(latitudTextField.getText()), Double.parseDouble(longitudTextField.getText())));
             controller.modificar(c);
+            JOptionPane.showMessageDialog(null, "Cliente modificado con éxito");
             backToIndex();
         });
         CancelButton.addActionListener(e -> {

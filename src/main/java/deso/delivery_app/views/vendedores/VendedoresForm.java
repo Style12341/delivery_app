@@ -32,6 +32,7 @@ public class VendedoresForm {
             Coordenada c = new Coordenada(Double.parseDouble(latitudTextField.getText()), Double.parseDouble(longitudTextField.getText()));
             Vendedor v = new Vendedor(nombre, direccion, CUIT, c);
             controller.crear(v);
+            JOptionPane.showMessageDialog(null, "Vendedor creado con éxito");
             backToIndex();
         });
         CancelButton.addActionListener(e -> {
@@ -56,6 +57,7 @@ public class VendedoresForm {
             v.setNombre(NombreField.getText());
             v.setCoordenadas(new Coordenada(Double.parseDouble(latitudTextField.getText()), Double.parseDouble(longitudTextField.getText())));
             controller.modificar(v);
+            JOptionPane.showMessageDialog(null, "Vendedor modificado con éxito");
             backToIndex();
         });
         CancelButton.addActionListener(e -> {

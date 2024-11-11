@@ -37,6 +37,7 @@ public class ComidasForm {
             long idVendedor = getIdVendedorField();
             Plato p = new Plato(nombre, descripcion, precio, peso, vegano, celiaco);
             controller.crear(p, idVendedor);
+            JOptionPane.showMessageDialog(null, "Plato creado con éxito");
             backToIndex();
         });
         CancelButton.addActionListener(e -> {
@@ -62,14 +63,20 @@ public class ComidasForm {
         titleField.setText("Modificar Plato");
         ActionButton.setText("Modificar");
         ActionButton.addActionListener(e -> {
+            p.setNombre(getNombreField());
+            p.setDescripcion(getDescripcionField());
+            p.setPrecio(getPrecioField());
+            p.setPeso(getPesoField());
+            p.setVegano(getVeganoCheckBox());
+            p.setCeliaco(getCeliacoCheckBox());
             controller.modificar(p);
+            JOptionPane.showMessageDialog(null, "Plato modificado con éxito");
             backToIndex();
         });
         CancelButton.addActionListener(e -> {
             backToIndex();
         });
     }
-
 
     public JPanel getRootPanel() {
         return content;

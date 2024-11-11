@@ -8,6 +8,8 @@ public abstract class ItemMenu {
     protected Categoria categoria;
     protected static long NEXTID = 0;
     protected Vendedor vendedor;
+    protected boolean esAptoCeliaco;
+    protected boolean esAptoVegano = true;
 
     public abstract double peso();
 
@@ -28,7 +30,12 @@ public abstract class ItemMenu {
     }
 
     public long getId() { return id; }
-
+    public void setVegano(boolean vegano) {
+        this.esAptoVegano = vegano;
+    }
+    public void setCeliaco(boolean celiaco) {
+        this.esAptoCeliaco = celiaco;
+    }
     public void setVendedor(Vendedor vendedor) {
         this.vendedor = vendedor;
     }
@@ -58,6 +65,7 @@ public abstract class ItemMenu {
     public void setPrecio(double precio) {
         this.precio = precio;
     }
+
 
     public Categoria getCategoria() {
         return categoria;

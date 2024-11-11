@@ -4,8 +4,6 @@ import deso.delivery_app.TIPO_ITEM;
 
 public class Plato extends ItemMenu {
     private static final double FACTOR_PESO_POR_ENVASADO = 1.1;
-    private boolean esAptoVegano = false;
-    private boolean esAptoCeliaco = false;
     private double peso;
 
     public Plato(String nombre, String descripcion, double precio, double peso, boolean vegano, boolean celiaco) {
@@ -14,7 +12,9 @@ public class Plato extends ItemMenu {
         this.esAptoVegano = vegano;
         this.esAptoCeliaco = celiaco;
     }
-
+    public void setPeso(double peso) {
+        this.peso = peso;
+    }
     @Override
     public double peso() {
         return peso * FACTOR_PESO_POR_ENVASADO;

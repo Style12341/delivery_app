@@ -42,6 +42,7 @@ public class BebidasForm {
             Bebida i = new Bebida(nombre, descripcion, precio, volumen, graduacionAlcoholica, esGaseosa, celiaco);
             i.setVegano(vegano);
             controller.crear(i, idVendedor);
+            JOptionPane.showMessageDialog(null, "Bebida creada con éxito");
             backToIndex();
         });
         CancelButton.addActionListener(e -> {
@@ -69,7 +70,16 @@ public class BebidasForm {
         titleField.setText("Modificar Bebida");
         ActionButton.setText("Modificar");
         ActionButton.addActionListener(e -> {
+            b.setNombre(getNombreField());
+            b.setDescripcion(getDescripcionField());
+            b.setPrecio(getPrecioField());
+            b.setVolumen(getVolumenField());
+            b.setGraduacionAlcoholica(getGraduacionAlcoholicaField());
+            b.setGaseosa(getEsGaseosaField());
+            b.setVegano(getVeganoCheckBox());
+            b.setCeliaco(getCeliacoCheckBox());
             controller.modificar(b);
+            JOptionPane.showMessageDialog(null, "Bebida modificada con éxito");
             backToIndex();
         });
         CancelButton.addActionListener(e -> {
