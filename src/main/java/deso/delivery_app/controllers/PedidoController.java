@@ -56,7 +56,18 @@ public class PedidoController {
         }
         return ps;
     }
-
+    public void crear(Pedido p) {
+        pedidoDAO.create(p);
+    }
+    public void crear(Pedido p, Vendedor v, Cliente c) {
+        p.setVendedor(v);
+        p.setCliente(c);
+        v.addPedido(p);
+        c.addPedido(p);
+        vendedorDAO.update(v);
+        clienteDAO.update(c);
+        pedidoDAO.create(p);
+    }
     public void crear(Pedido p, long idVendedor, long idCliente) {
         Vendedor v = vendedorDAO.get(idVendedor);
         Cliente c = clienteDAO.get(idCliente);
@@ -64,6 +75,8 @@ public class PedidoController {
         p.setCliente(c);
         v.addPedido(p);
         c.addPedido(p);
+        vendedorDAO.update(v);
+        clienteDAO.update(c);
         pedidoDAO.create(p);
     }
 

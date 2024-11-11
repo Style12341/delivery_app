@@ -23,11 +23,14 @@ public class Pedido extends Observable {
     private double precioAcumulado;
     private ESTADO_PEDIDO estado;
 
+    public Pedido(){
+        this.id = NEXT_ID++;
+        this.estado = ESTADO_PEDIDO.RECIBIDO;
+    }
     public Pedido(Vendedor vendedor, Cliente cliente, ArrayList<Pair<ItemMenu, Integer>> items) {
-        this.addObserver(cliente);
         this.id = NEXT_ID++;
         this.vendedor = vendedor;
-        this.cliente = cliente;
+        setCliente(cliente);
         this.estado = ESTADO_PEDIDO.RECIBIDO;
         for (Pair<ItemMenu, Integer> item : items) {
             agregarItem(item.first, item.second);
@@ -99,6 +102,7 @@ public class Pedido extends Observable {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+        this.addObserver(cliente);
     }
 
     public void setVendedor(Vendedor vendedor) {
