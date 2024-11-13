@@ -6,7 +6,6 @@ public abstract class ItemMenu {
     protected String descripcion;
     protected double precio;
     protected Categoria categoria;
-    protected static long NEXTID = 0;
     protected Vendedor vendedor;
     protected boolean esAptoCeliaco;
     protected boolean esAptoVegano = true;
@@ -22,13 +21,14 @@ public abstract class ItemMenu {
     public abstract boolean aptoCeliaco();
 
     public ItemMenu(String nombre, String descripcion, double precio, Categoria categoria) {
-        this.id = NEXTID++;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.categoria = categoria;
     }
-
+    public void setId(long id) {
+        this.id = id;
+    }
     public long getId() { return id; }
     public void setVegano(boolean vegano) {
         this.esAptoVegano = vegano;

@@ -6,10 +6,8 @@ public class Categoria {
     private long id;
     private String descripcion;
     private TIPO_ITEM tipo_item;
-    private static long NEXTID = 0;
 
     public Categoria(String descripcion, TIPO_ITEM tipo_item) {
-        this.id = NEXTID++;
         this.descripcion = descripcion;
         this.tipo_item = tipo_item;
     }
@@ -17,4 +15,10 @@ public class Categoria {
     public TIPO_ITEM getTipoItem() {
         return tipo_item;
     }
+
+    public long getId() {return id;}
+    public void setId(long id) {
+        this.id = id;
+    }
+    public String getDescripcion() {return descripcion;}
 }

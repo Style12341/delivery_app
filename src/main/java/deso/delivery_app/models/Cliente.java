@@ -25,10 +25,8 @@ public class Cliente implements ISearcheable, Observer {
     private String direccion;
     private Coordenada coordenadas;
     private ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
-    private static long NEXT_ID = 0;
 
     public Cliente(String nombre, String apellido, String cuit, String email, String direccion, Coordenada coordenadas) {
-        this.id = NEXT_ID++;
         this.nombre = nombre;
         this.apellido = apellido;
         this.cuit = cuit;
@@ -142,7 +140,9 @@ public class Cliente implements ISearcheable, Observer {
             p.setPago(pago);
         }
     }
-
+    public void setId(long id) {
+        this.id = id;
+    }
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }

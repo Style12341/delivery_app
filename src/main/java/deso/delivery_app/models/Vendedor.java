@@ -15,12 +15,10 @@ public class Vendedor implements ISearcheable {
     private String direccion;
     private String cuit;
     private Coordenada coordenadas;
-    private static long nextId = 0;
     private ArrayList<ItemMenu> menu = new ArrayList<ItemMenu>();
     private ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
 
     public Vendedor(String nombre, String direccion, String cuit, Coordenada coordenadas) {
-        this.id = nextId++;
         this.nombre = nombre;
         this.direccion = direccion;
         this.cuit = cuit;
@@ -58,6 +56,9 @@ public class Vendedor implements ISearcheable {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
     /**
      * @return the nombre
      */

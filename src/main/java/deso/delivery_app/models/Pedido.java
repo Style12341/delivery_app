@@ -17,18 +17,15 @@ public class Pedido extends Observable {
     private long id;
     private Cliente cliente;
     private Vendedor vendedor;
-    private static long NEXT_ID = 0;
     private final ArrayList<ItemPedido> detallePedido = new ArrayList<>();
     private Pago pago;
     private double precioAcumulado;
     private ESTADO_PEDIDO estado;
 
     public Pedido(){
-        this.id = NEXT_ID++;
         this.estado = ESTADO_PEDIDO.RECIBIDO;
     }
     public Pedido(Vendedor vendedor, Cliente cliente, ArrayList<Pair<ItemMenu, Integer>> items) {
-        this.id = NEXT_ID++;
         this.vendedor = vendedor;
         setCliente(cliente);
         this.estado = ESTADO_PEDIDO.RECIBIDO;
@@ -36,7 +33,9 @@ public class Pedido extends Observable {
             agregarItem(item.first, item.second);
         }
     }
-
+    public void setId(long id) {
+        this.id = id;
+    }
     public long getId() {
         return id;
     }

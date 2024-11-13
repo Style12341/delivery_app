@@ -1,11 +1,12 @@
 package deso.delivery_app.models;
 
+import deso.delivery_app.strategies.PagarConMercadoPago;
+import deso.delivery_app.strategies.PagarConTransferencia;
 import deso.delivery_app.strategies.PagarStrategy;
 
 import java.util.Date;
 
 public class Pago {
-    private static long NEXT_ID = 0;
     private long id;
     private Date fecha;
     private PagarStrategy pagarStrategy;
@@ -13,14 +14,15 @@ public class Pago {
     private double precioTotalConRecargo;
 
     public Pago(double precioTotalSinRecargo) {
-        this.id = NEXT_ID++;
         this.precioTotalSinRecargo = precioTotalSinRecargo;
     }
 
     public void setStrategy(PagarStrategy pagarStrategy) {
         this.pagarStrategy = pagarStrategy;
     }
-
+    public void setId(long id) {
+        this.id = id;
+    }
     public void pagar(Pedido pedido) {
         try {
             precioTotalConRecargo = pagarStrategy.pagar(pedido);
@@ -41,5 +43,13 @@ public class Pago {
 
     public double getPrecioTotalSinRecargo() {
         return precioTotalSinRecargo;
+    }
+
+    public long getId() { return id; }
+
+    public String getStrategyStr() {
+        if(pagarStrategy instanceof PagarConTransferencia) return "Transferencia";
+        if(pagarStrategy instanceof PagarConMercadoPago) return "MercadoPago";
+        return "";
     }
 }

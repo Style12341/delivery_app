@@ -1,15 +1,12 @@
 package deso.delivery_app.models;
 
 public class ItemPedido {
-    private long id;
     private int cantidad;
     private double precioTotal;
     private ItemMenu itemMenu;
     private Pedido pedido;
-    private static long NEXTID = 0;
 
     public ItemPedido(int cantidad, ItemMenu itemMenu, Pedido pedido) {
-        this.id = NEXTID++;
         this.cantidad = cantidad;
         this.itemMenu = itemMenu;
         this.pedido = pedido;
@@ -20,9 +17,6 @@ public class ItemPedido {
         return itemMenu;
     }
 
-    public long getId() {
-        return id;
-    }
 
     public int getCantidad() {
         return cantidad;
