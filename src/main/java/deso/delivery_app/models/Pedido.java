@@ -49,7 +49,7 @@ public class Pedido extends Observable {
 
     public void removeItem(ItemPedido ip) {
 
-        boolean removed = detallePedido.removeIf(i -> i.getId() == ip.getId());
+        boolean removed = detallePedido.removeIf(i -> i.equals(ip));
         if (removed) {
             this.precioAcumulado -= ip.getItemMenu().getPrecio() * ip.getCantidad();
         }

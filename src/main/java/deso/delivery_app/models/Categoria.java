@@ -6,8 +6,8 @@ public class Categoria {
     private long id;
     private String descripcion;
     private TIPO_ITEM tipo_item;
-
     public Categoria(String descripcion, TIPO_ITEM tipo_item) {
+
         this.descripcion = descripcion;
         this.tipo_item = tipo_item;
     }

@@ -11,7 +11,15 @@ public class Bebida extends ItemMenu {
     private boolean esAlcoholica;
     private boolean esGaseosa;
 
-
+    public Bebida(String nombre, String descripcion, double precio, double volumen, double graduacionAlcoholica, boolean esGaseosa, boolean esAptoCeliaco){
+        super(nombre, descripcion, precio, new Categoria("Bebida",TIPO_ITEM.BEBIDA));
+        this.volumen = volumen;
+        this.graduacionAlcoholica = graduacionAlcoholica;
+        this.esAlcoholica = graduacionAlcoholica > 0;
+        this.esGaseosa = esGaseosa;
+        this.esAptoCeliaco = esAptoCeliaco;
+        this.esAptoVegano = true;
+    }
     public Bebida(String nombre, String descripcion, double precio, double volumen, double graduacionAlcoholica, boolean esGaseosa, boolean esAptoCeliaco, Categoria c) {
         super(nombre, descripcion, precio, c);
         this.volumen = volumen;
