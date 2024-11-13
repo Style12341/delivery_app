@@ -30,12 +30,12 @@ public class ClienteController {
         return cs;
     }
 
-    public void crear(Cliente c) {
-        clienteDAO.create(c);
+    public Cliente crear(Cliente c) {
+        return clienteDAO.create(c);
     }
 
-    public void modificar(Cliente c) {
-        clienteDAO.update(c);
+    public Cliente modificar(Cliente c) {
+        return clienteDAO.update(c);
     }
 
 

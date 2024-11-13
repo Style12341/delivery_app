@@ -51,15 +51,15 @@ public class ItemMenuController {
         return getLista("", TIPO_ITEM.TODOS, 0, Double.MAX_VALUE, idVendedor, "", false, false);
     }
 
-    public void crear(ItemMenu i, long idVendedor) {
+    public ItemMenu crear(ItemMenu i, long idVendedor) {
         Vendedor v = vendedorDAO.get(idVendedor);
         i.setVendedor(v);
         v.addItemToMenu(i);
-        itemMenuDAO.create(i);
+        return itemMenuDAO.create(i);
     }
 
-    public void modificar(ItemMenu i) {
-        itemMenuDAO.update(i);
+    public ItemMenu modificar(ItemMenu i) {
+        return itemMenuDAO.update(i);
     }
 
     public void eliminar(long id) {

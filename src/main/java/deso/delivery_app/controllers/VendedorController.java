@@ -35,12 +35,12 @@ public class VendedorController {
         return vs;
     }
 
-    public void crear(Vendedor v) {
-        vendedorDAO.create(v);
+    public Vendedor crear(Vendedor v) {
+        return vendedorDAO.create(v);
     }
 
-    public void modificar(Vendedor v) {
-        vendedorDAO.update(v);
+    public Vendedor modificar(Vendedor v) {
+        return vendedorDAO.update(v);
     }
 
     public void eliminar(long id) {

@@ -30,22 +30,23 @@ public class ItemPedidoController {
         }
         return items;
     }
-    public void crear(long idPedido,long idItemMenu,int cantidad) {
+    public ItemPedido crear(long idPedido,long idItemMenu,int cantidad) {
         ItemMenuDAO itemMenuDAO = ItemMenuDAOFactory.getDAO();
         PedidoDAO pedidoDAO = PedidoDAOFactory.getDAO();
         Pedido p = pedidoDAO.get(idPedido);
         ItemMenu im = itemMenuDAO.get(idItemMenu);
         ItemPedido ip = p.agregarItem(im,cantidad);
-        itemPedidoDAO.create(ip);
+        ip = itemPedidoDAO.create(ip);
         pedidoDAO.update(p);
+        return ip;
 
     }
-    public void crear(ItemPedido it) {
-        itemPedidoDAO.create(it);
+    public ItemPedido crear(ItemPedido it) {
+        return itemPedidoDAO.create(it);
     }
 
-    public void modificar(ItemPedido it) {
-        itemPedidoDAO.update(it);
+    public ItemPedido modificar(ItemPedido it) {
+        return itemPedidoDAO.update(it);
     }
 
     public void eliminar(long id) {
