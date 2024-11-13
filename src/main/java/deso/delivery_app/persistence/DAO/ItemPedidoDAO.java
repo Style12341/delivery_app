@@ -10,11 +10,11 @@ import java.util.List;
 public interface ItemPedidoDAO {
     ItemPedido create(ItemPedido itemPedido);
 
-    ItemPedido get(long id);
+    ItemPedido get(long idPedido, long idItemMenu);
 
     ItemPedido update(ItemPedido itemPedido);
 
-    void delete(long id);
+    void delete(long idPedido, long idItemMenu);
 
     List<ItemPedido> filtrar(FiltrosItemPedido f) throws ItemNoEncontradoException;
 

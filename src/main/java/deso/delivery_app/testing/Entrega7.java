@@ -1,0 +1,177 @@
+package deso.delivery_app.testing;
+
+import deso.delivery_app.TIPO_ITEM;
+import deso.delivery_app.controllers.ClienteController;
+import deso.delivery_app.models.*;
+import deso.delivery_app.models.serializers.VendedorSerializer;
+import deso.delivery_app.persistence.DAO.ItemMenuDAO;
+import deso.delivery_app.persistence.DAO.ItemPedidoDAO;
+import deso.delivery_app.persistence.DAO.PedidoDAO;
+import deso.delivery_app.persistence.DBConnector;
+import deso.delivery_app.persistence.memory.*;
+import deso.delivery_app.utils.Coordenada;
+import deso.delivery_app.utils.Pair;
+import deso.delivery_app.views.AdminLayoutForm;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+public class Entrega7 {
+
+    public static ArrayList<Vendedor> vendedores = new ArrayList<>();
+    public static ArrayList<ItemMenu> itemsBebidas = new ArrayList<>();
+    public static ArrayList<ItemMenu> itemsComidas = new ArrayList<>();
+    public static ArrayList<Cliente> clientes = new ArrayList<>();
+    public static ArrayList<Pedido> pedidos = new ArrayList<>();
+
+
+    public static void run() {
+        // Magic
+        // 10 ItemMenu
+        createItems();
+        // 2 Clientes
+        createClientes();
+        // 2 Vendedores
+        createVendedores();
+        // 5 Pedidos
+        createPedidos();
+
+        Connection conn = DBConnector.getConnection();
+
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        VendedorSerializer vendedorSerializer = new VendedorSerializer();
+        String query = vendedorSerializer.getInsertString(vendedores.getFirst());
+        ResultSet rs = null;
+        try {
+            System.out.println(query);
+            boolean b = stmt.execute(query);
+            String query2 = vendedorSerializer.getSelectedString(2);
+            System.out.println(query2);
+            rs = stmt.executeQuery(query2);
+            while (rs.next()) {
+                System.out.println(rs.getString("nombre"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //AdminLayoutForm.getInstance();
+        //AdminLayoutForm.getInstance();
+
+    }
+
+    private static void createVendedores() {
+        // Vendedor 1
+        vendedores.add(new Vendedor("La Dominga", "Herndarias 833", "27-40727599-8", new Coordenada(-40, -63)));
+        for (int i = 0; i < itemsBebidas.size() / 2; i++) {
+            vendedores.getFirst().addItemToMenu(itemsBebidas.get(i));
+        }
+        for (int i = 0; i < itemsComidas.size() / 2; i++) {
+            vendedores.getFirst().addItemToMenu(itemsComidas.get(i));
+        }
+        // Vendedor 2
+        vendedores.add(new Vendedor("Lo de Mario", "General Paz 6000", "26-13787921-6", new Coordenada(-40.5, -63.5)));
+        for (int i = itemsBebidas.size() / 2; i < itemsBebidas.size(); i++) {
+            vendedores.get(1).addItemToMenu(itemsBebidas.get(i));
+        }
+        for (int i = itemsComidas.size() / 2; i < itemsComidas.size(); i++) {
+            vendedores.get(1).addItemToMenu(itemsComidas.get(i));
+        }
+        VendedorMemory vendedorMemory = VendedorMemory.getInstance();
+        for (Vendedor vendedor : vendedores) {
+            vendedorMemory.create(vendedor);
+        }
+
+    }
+
+    private static void createItems() {
+        // Comidas
+        Categoria platoCat = new Categoria("Plato", TIPO_ITEM.COMIDA);
+        Categoria bebidaCat = new Categoria("Bebida", TIPO_ITEM.BEBIDA);
+        itemsComidas.add(new Plato("Ensalada Mixta", "Lechuga, tomate, cebolla, zanahoria", 5.99, 300.0, true, true, platoCat));
+        itemsComidas.add(new Plato("Milanesa con papas fritas", "Milanesa de carne con papas fritas", 9.50, 450.0, false, false, platoCat));
+        itemsComidas.add(new Plato("Pizza Margarita", "Pizza con queso, tomate y albahaca", 8.25, 400.0, false, false, platoCat));
+        itemsComidas.add(new Plato("Tarta de espinaca", "Tarta con relleno de espinaca y ricota", 6.80, 350.0, true, false, platoCat));
+        itemsComidas.add(new Plato("Risotto de hongos", "Risotto cremoso con champiñones y queso parmesano", 10.75, 350.0, false, true, platoCat));
+        itemsComidas.add(new Plato("Wrap de falafel", "Wrap de garbanzos, hummus, y vegetales frescos", 7.99, 300.0, true, false, platoCat));
+        // Bebidas
+        itemsBebidas.add(new Bebida("Coca-Cola", "Bebida gaseosa clásica", 2.50, 500.0, 0, true, true, bebidaCat));
+        itemsBebidas.add(new Bebida("Cerveza Corona", "Cerveza rubia ligera", 3.99, 355.0, 4.5, false, false, bebidaCat));
+        itemsBebidas.add(new Bebida("Agua Mineral", "Agua embotellada sin gas", 1.50, 600.0, 0, false, true, bebidaCat));
+        itemsBebidas.add(new Bebida("Vino Tinto", "Vino tinto de la casa", 8.50, 750.0, 13.5, false, true, bebidaCat));
+        itemsBebidas.add(new Bebida("Fanta Naranja", "Bebida gaseosa con sabor a naranja", 2.80, 500.0, 0, true, true, bebidaCat));
+        itemsBebidas.add(new Bebida("Gin Tonic", "Gin mezclado con agua tónica y una rodaja de limón", 6.50, 400.0, 12.0, true, true, bebidaCat));
+        itemsBebidas.add(new Bebida("Jugo de naranja", "Jugo natural exprimido de naranjas frescas", 3.00, 350.0, 0, false, true, bebidaCat));
+        ItemMenuDAO itemMenuDAO = ItemMenuMemory.getInstance();
+        for (ItemMenu item : itemsComidas) {
+            itemMenuDAO.create(item);
+        }
+        for (ItemMenu item : itemsBebidas) {
+            itemMenuDAO.create(item);
+        }
+    }
+
+    private static void createClientes() {
+        // Cliente 1
+        Cliente c1 = new Cliente("Pepito", "Perez", "27-28033214-8", "pepe@test.com", "Herndarias 836", new Coordenada(-40, -63.5));
+        Cliente c2 = new Cliente("Marito", "Ledesma", "27-28033414-8", "mario@test.com", "General Paz 6002", new Coordenada(-40.5, -64));
+        ClienteController clienteController = new ClienteController();
+        clienteController.crear(c1);
+        clienteController.crear(c2);
+        clientes.add(c1);
+        // Cliente 2
+        clientes.add(c2);
+    }
+
+    private static void createPedidos() {
+        // Pedido 1
+        ArrayList<Pair<ItemMenu, Integer>> itemsPedido1 = new ArrayList<Pair<ItemMenu, Integer>>();
+        itemsPedido1.add(new Pair<>(itemsComidas.getFirst(), 2)); // Ensalada Mixta, 2 unidades
+        itemsPedido1.add(new Pair<>(itemsBebidas.get(1), 1)); // Cerveza Corona, 1 unidad
+
+        pedidos.add(new Pedido(vendedores.getFirst(), clientes.getFirst(), itemsPedido1)); // Pedido del cliente 1 con el vendedor 1
+
+        // Pedido 2
+        ArrayList<Pair<ItemMenu, Integer>> itemsPedido2 = new ArrayList<>();
+        itemsPedido2.add(new Pair<>(itemsComidas.get(3), 1)); // Tarta de espinaca, 1 unidad
+        itemsPedido2.add(new Pair<>(itemsBebidas.get(6), 3)); // Jugo de naranja, 3 unidades
+
+        pedidos.add(new Pedido(vendedores.get(1), clientes.get(1), itemsPedido2)); // Pedido del cliente 2 con el vendedor 2
+
+        // Pedido 3
+        ArrayList<Pair<ItemMenu, Integer>> itemsPedido3 = new ArrayList<>();
+        itemsPedido3.add(new Pair<>(itemsComidas.get(5), 1)); // Wrap de falafel, 1 unidad
+        itemsPedido3.add(new Pair<>(itemsBebidas.get(4), 2)); // Fanta Naranja, 2 unidades
+
+        pedidos.add(new Pedido(vendedores.get(1), clientes.getFirst(), itemsPedido3)); // Pedido del cliente 1 con el vendedor 2
+
+        // Pedido 4
+        ArrayList<Pair<ItemMenu, Integer>> itemsPedido4 = new ArrayList<>();
+        itemsPedido4.add(new Pair<>(itemsComidas.get(4), 2)); // Risotto de hongos, 2 unidades
+        itemsPedido4.add(new Pair<>(itemsBebidas.get(5), 1)); // Gin Tonic, 1 unidad
+
+        pedidos.add(new Pedido(vendedores.getFirst(), clientes.get(1), itemsPedido4)); // Pedido del cliente 2 con el vendedor 1
+
+        // Pedido 5
+        ArrayList<Pair<ItemMenu, Integer>> itemsPedido5 = new ArrayList<>();
+        itemsPedido5.add(new Pair<>(itemsComidas.get(1), 1)); // Milanesa con papas fritas, 1 unidad
+        itemsPedido5.add(new Pair<>(itemsBebidas.getFirst(), 2)); // Coca-Cola, 2 unidades
+
+        pedidos.add(new Pedido(vendedores.getFirst(), clientes.getFirst(), itemsPedido5)); // Pedido del cliente 1 con el vendedor 1
+        PedidoDAO pedidoDao = PedidoMemory.getInstance();
+        ItemPedidoDAO itemPedidoDAO = ItemPedidoMemory.getInstance();
+        for (Pedido pedido : pedidos) {
+            pedidoDao.create(pedido);
+            for (ItemPedido item : pedido.getDetallePedido()) {
+                itemPedidoDAO.create(item);
+            }
+        }
+    }
+}

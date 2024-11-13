@@ -3,7 +3,13 @@
  */
 package deso.delivery_app;
 
+import deso.delivery_app.persistence.DBConnector;
 import deso.delivery_app.testing.Entrega6;
+import deso.delivery_app.testing.Entrega7;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * @author BMPC
@@ -18,7 +24,9 @@ public class Delivery_app {
         //Entrega4.run();
         //Entrega5.run();
         //new AdminLayoutForm();
-        Entrega6.run();
+        //Entrega6.run();
+        Entrega7.run();
+
     }
 
 }

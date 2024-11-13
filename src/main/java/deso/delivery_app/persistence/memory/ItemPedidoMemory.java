@@ -32,23 +32,24 @@ public class ItemPedidoMemory implements ItemPedidoDAO {
     }
 
     @Override
-    public ItemPedido get(long id) {
-        return listaItemsPedido.stream().filter(i -> i.getId() == id).findFirst().orElse(null);
+    public ItemPedido get(long idPedido, long idItemMenu) {
+        return listaItemsPedido.stream().filter(i -> i.getPedido().getId() == idPedido && i.getItemMenu().getId() == idItemMenu).findFirst().orElse(null);
     }
-    
+
     public ItemPedido update(ItemPedido itemPedido) {
         for (int i = 0; i < listaItemsPedido.size(); i++) {
-            if(listaItemsPedido.get(i).getId() == itemPedido.getId()) {
+            if (listaItemsPedido.get(i).equals(itemPedido)) {
                 listaItemsPedido.set(i, itemPedido);
                 return itemPedido;
             }
+            return null;
         }
         return null;
     }
 
     @Override
-    public void delete(long id) {
-        Optional<ItemPedido> item = listaItemsPedido.stream().filter(i -> i.getId() == id).findFirst();
+    public void delete(long idPedido, long idItemMenu) {
+        Optional<ItemPedido> item = listaItemsPedido.stream().filter(i -> i.getPedido().getId() == idPedido && i.getItemMenu().getId() == idItemMenu).findFirst();
         item.ifPresent(listaItemsPedido::remove);
     }
 

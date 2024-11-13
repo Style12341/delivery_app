@@ -8,7 +8,7 @@ import deso.delivery_app.persistence.sql.ClienteSQL;
 public class ClienteDAOFactory {
     public static ClienteDAO getDAO() {
         String daoType = Config.getProperty("dao.type");
-        if ("database".equalsIgnoreCase(daoType)) {
+        if ("sql".equalsIgnoreCase(daoType)) {
             // Return database DAO implementation
             return new ClienteSQL();
         } else {

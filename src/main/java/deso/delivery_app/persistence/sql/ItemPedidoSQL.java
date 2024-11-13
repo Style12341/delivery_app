@@ -14,7 +14,7 @@ public class ItemPedidoSQL implements ItemPedidoDAO {
     }
 
     @Override
-    public ItemPedido get(long id) {
+    public ItemPedido get(long idPedido, long idItemMenu) {
         return null;
     }
 
@@ -24,7 +24,7 @@ public class ItemPedidoSQL implements ItemPedidoDAO {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(long idPedido, long idItemMenu) {
 
     }
 
