@@ -39,11 +39,11 @@ public class ItemMenuSerializer implements ISerializable<ItemMenu>{
 
     @Override
     public String getSelectedString(long id) {
-        return String.format("SELECT * FROM Item_menu WHERE id=%d", id);
+        return String.format("SELECT * FROM item_menu WHERE id=%d", id);
     }
 
     @Override
     public String getSelectAllString() {
-        return "SELECT * FROM Item_menu";
+        return "SELECT * FROM item_menu";
     }
 }
