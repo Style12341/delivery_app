@@ -61,28 +61,30 @@ public class DetallePedidoIndexForm {
         agregarItemsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(pedido.getEstado() != ESTADO_PEDIDO.ENVIADO && pedido.getEstado() != ESTADO_PEDIDO.PREPARADO) {
+                if (pedido.getEstado() != ESTADO_PEDIDO.ENVIADO && pedido.getEstado() != ESTADO_PEDIDO.PREPARADO) {
                     agregarItemsAction();
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(null, "No se pueden agregar items a un pedido que ya fue enviado o preparado");
                 }
             }
         });
 
     }
+
     private void agregarItemsAction() {
         //Add as child of this form a new form to add items to the pedido
         AgregarItemsPedidoForm aipf = new AgregarItemsPedidoForm(pedido);
         AdminLayoutForm.getInstance().replaceContent(aipf.getRootPanel());
 
     }
+
     public void createDetallePedidoItemsTable(List<ItemPedido> ims) {
         String[] columnNames = {"Id", "Nombre", "Precio", "Cantidad", "Total", "Eliminar"};
         Object[][] data = new Object[ims.size()][columnNames.length];
         for (int i = 0; i < ims.size(); i++) {
             ItemPedido ip = ims.get(i);
             ItemMenu im = ip.getItemMenu();
-            data[i][0] = ip.getId();
+            data[i][0] = ip.getPedido().getId() + "-" + im.getId();
             data[i][1] = im.getNombre();
             data[i][2] = String.format("$%.2f", im.getPrecio());
             data[i][3] = ip.getCantidad();
@@ -104,9 +106,12 @@ public class DetallePedidoIndexForm {
             public void actionPerformed(ActionEvent e) {
                 JTable table = (JTable) e.getSource();
                 int modelRow = Integer.parseInt(e.getActionCommand());
-                long id = (long) table.getModel().getValueAt(modelRow, 0);
-                pedido.removeItem(controller.buscar(id));
-                controller.eliminar(id);
+                String idComp = (String) table.getModel().getValueAt(modelRow, 0);
+                long idPedido = Long.parseLong(idComp.split("-")[0]);
+                long idItemMenu = Long.parseLong(idComp.split("-")[1]);
+
+                pedido.removeItem(controller.buscar(idPedido, idItemMenu));
+                controller.eliminar(idPedido, idItemMenu);
                 ((DefaultTableModel) table.getModel()).removeRow(modelRow);
                 updatePrice();
             }
@@ -154,10 +159,12 @@ public class DetallePedidoIndexForm {
     public void setTituloLabel(Pedido p) {
         titleLabel.setText("Pedido #" + p.getId());
     }
+
     private void backToIndex() {
         PedidosIndexForm vif = new PedidosIndexForm();
         AdminLayoutForm.getInstance().replaceContent(vif.getRootPanel());
     }
+
     public JPanel getRootPanel() {
         return panel1;
     }

@@ -49,12 +49,12 @@ public class ItemPedidoController {
         return itemPedidoDAO.update(it);
     }
 
-    public void eliminar(long id) {
-        itemPedidoDAO.delete(id);
+    public void eliminar(long pedidoId, long itemMenuId) {
+        itemPedidoDAO.delete(pedidoId, itemMenuId);
     }
 
-    public ItemPedido buscar(long id) {
-        return itemPedidoDAO.get(id);
+    public ItemPedido buscar(long pedidoId, long itemMenuId) {
+        return itemPedidoDAO.get(pedidoId, itemMenuId);
     }
 
 }

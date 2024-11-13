@@ -17,6 +17,14 @@ public class ItemPedido {
         return itemMenu;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ItemPedido) {
+            ItemPedido ip = (ItemPedido) obj;
+            return this.getItemMenu().getId() == ip.getItemMenu().getId() && this.getPedido().getId() == ip.getPedido().getId();
+        }
+        return super.equals(obj);
+    }
 
     public int getCantidad() {
         return cantidad;
