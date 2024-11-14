@@ -1,35 +1,52 @@
 package deso.delivery_app.models.serializers;
 
 import deso.delivery_app.models.Pago;
+import deso.delivery_app.persistence.DBConnector;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Locale;
 
 public class PagoSerializer implements ISerializable<Pago> {
-
+    private Connection conn = DBConnector.getConnection();
     @Override
-    public String getInsertString(Pago p) {
-        return String.format(Locale.US,"INSERT INTO pago (metodo_pago, fecha, precio_total_sin_recargo, precio_total_con_recargo) VALUES ('%s', '%s', '%f', '%f')",
-                p.getStrategyStr(), p.getFecha().toString(), p.getPrecioTotalSinRecargo(), p.getPrecioTotalConRecargo());
+    public PreparedStatement getInsertString(Pago p) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO pago (metodo_pago, fecha, precio_total_sin_recargo, precio_total_con_recargo) VALUES (?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+        ps.setString(1,p.getStrategyStr());
+        ps.setDate(2,new java.sql.Date(p.getFecha().getTime()));
+        ps.setDouble(3,p.getPrecioTotalSinRecargo());
+        ps.setDouble(4,p.getPrecioTotalConRecargo());
+        return ps;
     }
 
     @Override
-    public String getUpdateString(Pago p) {
-        return String.format(Locale.US,"UPDATE pago SET metodo_pago='%s', fecha='%s', precio_total_sin_recargo=%f, precio_total_con_recargo=%f WHERE id=%d",
-                p.getStrategyStr(), p.getFecha().toString(), p.getPrecioTotalSinRecargo(), p.getPrecioTotalConRecargo(), p.getId());
+    public PreparedStatement getUpdateString(Pago p) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("UPDATE pago SET metodo_pago=?, fecha=?, precio_total_sin_recargo=?, precio_total_con_recargo=? WHERE id=?");
+        ps.setString(1,p.getStrategyStr());
+        ps.setDate(2,new java.sql.Date(p.getFecha().getTime()));
+        ps.setDouble(3,p.getPrecioTotalSinRecargo());
+        ps.setDouble(4,p.getPrecioTotalConRecargo());
+        return ps;
     }
 
     @Override
-    public String getDeleteString(long id) {
-        return String.format("DELETE FROM pago WHERE id=%d", id);
+    public PreparedStatement getDeleteString(long id) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("DELETE FROM pago WHERE id=?");
+        ps.setLong(1,id);
+        return ps;
     }
 
     @Override
-    public String getSelectedString(long id) {
-        return String.format("SELECT * FROM pago WHERE id=%d", id);
+    public PreparedStatement getSelectedString(long id) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM pago WHERE id=?");
+        ps.setLong(1,id);
+        return ps;
     }
 
     @Override
-    public String getSelectAllString() {
-        return "SELECT * FROM pago";
+    public PreparedStatement getSelectAllString() throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM pago");
+        return ps;
     }
 }

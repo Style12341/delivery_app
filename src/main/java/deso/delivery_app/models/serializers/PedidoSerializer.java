@@ -1,35 +1,58 @@
 package deso.delivery_app.models.serializers;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import deso.delivery_app.models.Cliente;
 import deso.delivery_app.models.Pedido;
+import deso.delivery_app.persistence.DBConnector;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Locale;
 
 public class PedidoSerializer implements ISerializable<Pedido> {
+    Connection conn = DBConnector.getConnection();
+
     @Override
-    public String getInsertString(Pedido p) {
-        return String.format(Locale.US,"INSERT INTO pedido (cliente_id, vendedor_id, pago_id, precio_acumulado, estado) VALUES (%d, %d, %d, %f, '%s')",
-                p.getCliente().getId(), p.getVendedor().getId(), p.getPago().getId(), p.getPrecioAcumulado(), p.getEstado().toString());
+    public PreparedStatement getInsertString(Pedido p) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO pedido (cliente_id, vendedor_id, pago_id, precio_acumulado, estado) VALUES (?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+        ps.setLong(1, p.getCliente().getId());
+        ps.setLong(2, p.getVendedor().getId());
+        ps.setLong(3, p.getPago().getId());
+        ps.setDouble(4, p.getPrecioAcumulado());
+        ps.setString(5, p.getEstado().toString());
+        return ps;
     }
 
     @Override
-    public String getUpdateString(Pedido p) {
-        return String.format(Locale.US,"UPDATE pedido SET cliente_id=%d, vendedor_id=%d, pago_id=%d, precio_acumulado=%f, estado='%s' WHERE id=%d",
-                p.getCliente().getId(), p.getVendedor().getId(), p.getPago().getId(), p.getPrecioAcumulado(), p.getEstado().toString(), p.getId());
+    public PreparedStatement getUpdateString(Pedido p) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("UPDATE pedido SET cliente_id=?, vendedor_id=?, pago_id=?, precio_acumulado=?, estado=? WHERE id=?");
+        ps.setLong(1, p.getCliente().getId());
+        ps.setLong(2, p.getVendedor().getId());
+        ps.setLong(3, p.getPago().getId());
+        ps.setDouble(4, p.getPrecioAcumulado());
+        ps.setString(5, p.getEstado().toString());
+        ps.setLong(6, p.getId());
+        return ps;
     }
 
     @Override
-    public String getDeleteString(long id) {
-        return String.format("DELETE FROM pedido WHERE id=%d", id);
+    public PreparedStatement getDeleteString(long id) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("DELETE FROM pedido WHERE id=?");
+        ps.setLong(1,id);
+        return ps;
     }
 
     @Override
-    public String getSelectedString(long id) {
-        return String.format("SELECT * FROM pedido WHERE id=%d", id);
+    public PreparedStatement getSelectedString(long id) throws SQLException{
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM pedido WHERE id=?");
+        ps.setLong(1,id);
+        return ps;
     }
 
     @Override
-    public String getSelectAllString() {
-        return "SELECT * FROM pedido";
+    public PreparedStatement getSelectAllString() throws SQLException{
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM pedido");
+        return ps;
     }
 }

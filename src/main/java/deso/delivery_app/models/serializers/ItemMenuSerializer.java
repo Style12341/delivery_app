@@ -4,46 +4,99 @@ import deso.delivery_app.TIPO_ITEM;
 import deso.delivery_app.models.Bebida;
 import deso.delivery_app.models.ItemMenu;
 import deso.delivery_app.models.Plato;
+import deso.delivery_app.persistence.DBConnector;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Locale;
 
 
 public class ItemMenuSerializer implements ISerializable<ItemMenu>{
+    Connection conn = DBConnector.getConnection();
+
     @Override
-    public String getInsertString(ItemMenu i) {
+    public PreparedStatement getInsertString(ItemMenu i) throws SQLException {
         if(i.getCategoria().getTipoItem() == TIPO_ITEM.BEBIDA){
-            return String.format(Locale.US,"INSERT INTO item_menu (nombre, descripcion, categoria_id, tipo, vendedor_id, es_apto_celiaco, es_apto_vegano, peso, volumen, graduacion_alcoholica, es_alcoholica, es_gaseosa) VALUES ('%s', '%s', %d, '%s', %d, %d, %d, %f, %f, %f, %d, %d)",
-                    i.getNombre(), i.getDescripcion(), i.getCategoria().getId() ,i.getCategoria().getTipoItem().toString(), i.getVendedor().getId(), i.aptoCeliaco()?1:0, i.aptoVegano()?1:0, i.peso(), ((Bebida)i).getVolumen(), ((Bebida)i).getGraduacionAlcoholica(), ((Bebida)i).esAlcoholica()?1:0, ((Bebida)i).esGaseosa()?1:0);
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO item_menu (nombre, descripcion, categoria_id, tipo, vendedor_id, es_apto_celiaco, es_apto_vegano, peso, volumen, graduacion_alcoholica, es_alcoholica, es_gaseosa) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1,i.getNombre());
+            ps.setString(2,i.getDescripcion());
+            ps.setLong(3,i.getCategoria().getId());
+            ps.setString(4,i.getCategoria().getTipoItem().toString());
+            ps.setLong(5,i.getVendedor().getId());
+            ps.setInt(6,i.aptoCeliaco()?1:0);
+            ps.setInt(7,i.aptoVegano()?1:0);
+            ps.setDouble(8,i.peso());
+            ps.setDouble(9,((Bebida)i).getVolumen());
+            ps.setDouble(10,((Bebida)i).getGraduacionAlcoholica());
+            ps.setInt(11,((Bebida)i).esAlcoholica()?1:0);
+            ps.setInt(12,((Bebida)i).esGaseosa()?1:0);
+            return ps;
         }else{
-            return String.format(Locale.US,"INSERT INTO item_menu (nombre, descripcion, categoria_id, tipo, vendedor_id, es_apto_celiaco, es_apto_vegano, peso) VALUES ('%s', '%s', %d, '%s', %d, %d, %d, %f)",
-                    i.getNombre(), i.getDescripcion(), i.getCategoria().getId(), i.getCategoria().getTipoItem().toString(), i.getVendedor().getId(), i.aptoCeliaco()?1:0, i.aptoVegano()?1:0, i.peso());
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO item_menu (nombre, descripcion, categoria_id, tipo, vendedor_id, es_apto_celiaco, es_apto_vegano, peso) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1,i.getNombre());
+            ps.setString(2,i.getDescripcion());
+            ps.setLong(3,i.getCategoria().getId());
+            ps.setString(4,i.getCategoria().getTipoItem().toString());
+            ps.setLong(5,i.getVendedor().getId());
+            ps.setInt(6,i.aptoCeliaco()?1:0);
+            ps.setInt(7,i.aptoVegano()?1:0);
+            ps.setDouble(8,i.peso());
+            return ps;
         }
     }
 
     @Override
-    public String getUpdateString(ItemMenu i) {
-
+    public PreparedStatement getUpdateString(ItemMenu i) throws SQLException{
         if(i.getCategoria().getTipoItem() == TIPO_ITEM.BEBIDA){
-            return String.format(Locale.US,"UPDATE item_menu SET nombre='%s', descripcion='%s', categoria_id=%d, tipo='%s', vendedor_id=%d, es_apto_celiaco=%d, es_apto_vegano=%d, peso=%f, volumen=%f, graduacion_alcoholica=%f, es_alcoholica=%d, es_gaseosa=%d WHERE id=%d",
-                    i.getNombre(), i.getDescripcion(), i.getCategoria().getId(), i.getCategoria().getTipoItem().toString(), i.getVendedor().getId(), i.aptoCeliaco()?1:0, i.aptoVegano()?1:0, i.peso(), ((Bebida)i).getVolumen(), ((Bebida)i).getGraduacionAlcoholica(), ((Bebida)i).esAlcoholica()?1:0, ((Bebida)i).esGaseosa()?1:0, i.getId());
+            PreparedStatement ps = conn.prepareStatement("UPDATE item_menu SET nombre=?, descripcion=?, categoria_id=?, tipo=?, vendedor_id=?, es_apto_celiaco=?, es_apto_vegano=?, peso=?, volumen=?, graduacion_alcoholica=?, es_alcoholica=?, es_gaseosa=? WHERE id=?");
+            ps.setString(1,i.getNombre());
+            ps.setString(2,i.getDescripcion());
+            ps.setLong(3,i.getCategoria().getId());
+            ps.setString(4,i.getCategoria().getTipoItem().toString());
+            ps.setLong(5,i.getVendedor().getId());
+            ps.setInt(6,i.aptoCeliaco()?1:0);
+            ps.setInt(7,i.aptoVegano()?1:0);
+            ps.setDouble(8,i.peso());
+            ps.setDouble(9,((Bebida)i).getVolumen());
+            ps.setDouble(10,((Bebida)i).getGraduacionAlcoholica());
+            ps.setInt(11,((Bebida)i).esAlcoholica()?1:0);
+            ps.setInt(12,((Bebida)i).esGaseosa()?1:0);
+            ps.setLong(13,i.getId());
+            return ps;
         }else{
-            return String.format(Locale.US,"UPDATE item_menu SET nombre='%s', descripcion='%s', categoria_id=%d, tipo='%s', vendedor_id=%d, es_apto_celiaco=%d, es_apto_vegano=%d, peso=%f WHERE id=%d",
-                    i.getNombre(), i.getDescripcion(), i.getCategoria().getId(), i.getCategoria().getTipoItem().toString(), i.getVendedor().getId(), i.aptoCeliaco()?1:0, i.aptoVegano()?1:0, i.peso(), i.getId());
+            PreparedStatement ps = conn.prepareStatement("UPDATE item_menu SET nombre=?, descripcion=?, categoria_id=?, tipo=?, vendedor_id=?, es_apto_celiaco=?, es_apto_vegano=?, peso=? WHERE id=?");
+            ps.setString(1,i.getNombre());
+            ps.setString(2,i.getDescripcion());
+            ps.setLong(3,i.getCategoria().getId());
+            ps.setString(4,i.getCategoria().getTipoItem().toString());
+            ps.setLong(5,i.getVendedor().getId());
+            ps.setInt(6,i.aptoCeliaco()?1:0);
+            ps.setInt(7,i.aptoVegano()?1:0);
+            ps.setDouble(8,i.peso());
+            ps.setLong(9,i.getId());
+            return ps;
         }
     }
 
     @Override
-    public String getDeleteString(long id) {
-        return String.format("DELETE FROM item_menu WHERE id=%d", id);
+    public PreparedStatement getDeleteString(long id) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("DELETE FROM item_menu WHERE id=?");
+        ps.setLong(1,id);
+        return ps;
     }
 
     @Override
-    public String getSelectedString(long id) {
-        return String.format("SELECT * FROM item_menu WHERE id=%d", id);
+    public PreparedStatement getSelectedString(long id) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM item_menu WHERE id=?");
+        ps.setLong(1,id);
+        return ps;
     }
 
     @Override
-    public String getSelectAllString() {
-        return "SELECT * FROM item_menu";
+    public PreparedStatement getSelectAllString() throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM item_menu");
+        return ps;
     }
 }
