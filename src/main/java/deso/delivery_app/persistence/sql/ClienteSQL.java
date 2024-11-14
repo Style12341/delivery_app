@@ -20,23 +20,10 @@ public class ClienteSQL implements ClienteDAO {
 
     @Override
     public Cliente create(Cliente cliente) {
-        String query = serializer.getInsertString(cliente);
         try {
-            PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected > 0) {
-                // Retrieve the auto-generated keys (insert ID)
-                ResultSet generatedKeys = stmt.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    int insertId = generatedKeys.getInt(1);
-                    cliente.setId(insertId);
-                    return cliente;
-                } else {
-                    System.out.println("Failed to retrieve client ID.");
-                }
-            } else {
-                System.out.println("No client inserted.");
-            }
+            PreparedStatement ps = serializer.getInsertString(cliente);
+            int rowsAffected = ps.executeUpdate();
+            long insertId = sqlUtils.fetchId(rowsAffected, stmt);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,10 +33,9 @@ public class ClienteSQL implements ClienteDAO {
     @Override
     public Cliente get(long id) {
 
-        String query = serializer.getSelectedString(id);
         try {
-            Statement stmt = DBConnector.getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            PreparedStatement ps = serializer.getSelectedString(id);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String nombre = rs.getString("nombre");
                 String apellido = rs.getString("apellido");
@@ -69,12 +55,25 @@ public class ClienteSQL implements ClienteDAO {
 
     @Override
     public Cliente update(Cliente cliente) {
+        try {
+            PreparedStatement ps = serializer.getUpdateString(cliente);
+            ps.executeUpdate();
+            return cliente;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
+
     }
 
     @Override
     public void delete(long id) {
-
+        try {
+            PreparedStatement ps = serializer.getDeleteString(id);
+            ps.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
