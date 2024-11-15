@@ -2,7 +2,7 @@ package deso.delivery_app.persistence.sql;
 
 import deso.delivery_app.exception.ItemNoEncontradoException;
 import deso.delivery_app.models.Cliente;
-import deso.delivery_app.models.serializers.ClienteSerializer;
+import deso.delivery_app.models.serializers.ClienteMapper;
 import deso.delivery_app.persistence.DAO.ClienteDAO;
 import deso.delivery_app.persistence.DBConnector;
 import deso.delivery_app.persistence.filters.FiltrosCliente;
@@ -12,13 +12,13 @@ import java.sql.*;
 import java.util.List;
 
 public class ClienteSQL implements ClienteDAO {
-    ClienteSerializer serializer = new ClienteSerializer();
+    ClienteMapper mapper = new ClienteMapper();
     Connection conn = DBConnector.getConnection();
 
     @Override
     public Cliente create(Cliente cliente) {
         try {
-            PreparedStatement ps = serializer.getInsertString(cliente);
+            PreparedStatement ps = mapper.getInsertStatement(cliente);
             int rowsAffected = ps.executeUpdate();
             long insertId = sqlUtils.fetchId(rowsAffected, ps);
             cliente.setId(insertId);
@@ -31,11 +31,10 @@ public class ClienteSQL implements ClienteDAO {
 
     @Override
     public Cliente get(long id) {
-
         try {
-            PreparedStatement ps = serializer.getSelectedString(id);
+            PreparedStatement ps = mapper.getSelectedStatement(id);
             ResultSet rs = ps.executeQuery();
-            Cliente c = serializer.deserialize(rs).getFirst();
+            Cliente c = mapper.deserialize(rs).getFirst();
             if (c == null) throw new ItemNoEncontradoException("Cliente no encontrado");
             return c;
         } catch (Exception e) {
@@ -47,7 +46,7 @@ public class ClienteSQL implements ClienteDAO {
     @Override
     public Cliente update(Cliente cliente) {
         try {
-            PreparedStatement ps = serializer.getUpdateString(cliente);
+            PreparedStatement ps = mapper.getUpdateStatement(cliente);
             ps.executeUpdate();
             return cliente;
         } catch (Exception e) {
@@ -60,7 +59,7 @@ public class ClienteSQL implements ClienteDAO {
     @Override
     public void delete(long id) {
         try {
-            PreparedStatement ps = serializer.getDeleteString(id);
+            PreparedStatement ps = mapper.getDeleteStatement(id);
             ps.execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,9 +69,9 @@ public class ClienteSQL implements ClienteDAO {
     @Override
     public List<Cliente> filtrar(FiltrosCliente f) throws ItemNoEncontradoException {
         try {
-            PreparedStatement ps = serializer.getSelectAllString();
+            PreparedStatement ps = mapper.getSelectAllStatement();
             ResultSet rs = ps.executeQuery();
-            List<Cliente> clientes = serializer.deserialize(rs);
+            List<Cliente> clientes = mapper.deserialize(rs);
             var filtros = f.getFiltros();
             List<Cliente> lista = clientes.stream().filter(filtros).toList();
             if (lista.isEmpty()) throw new ItemNoEncontradoException("Item no encontrado");

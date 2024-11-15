@@ -41,6 +41,11 @@ public class DetallePedidoIndexForm {
         createComboBox(pedido);
         setComboBox(pedido);
         controller = new ItemPedidoController();
+        List<ItemPedido> ips = controller.getLista(pedido);
+            pedido.setPrecioAcumulado(0);
+        for (ItemPedido ip : ips) {
+            pedido.agregarItem(ip.getItemMenu(),ip.getCantidad());
+        }
         createDetallePedidoItemsTable(controller.getLista(pedido));
 
         estadoComboBox.addActionListener(new ActionListener() {
@@ -109,8 +114,9 @@ public class DetallePedidoIndexForm {
                 String idComp = (String) table.getModel().getValueAt(modelRow, 0);
                 long idPedido = Long.parseLong(idComp.split("-")[0]);
                 long idItemMenu = Long.parseLong(idComp.split("-")[1]);
-
                 pedido.removeItem(controller.buscar(idPedido, idItemMenu));
+                PedidoController pc = new PedidoController();
+                pc.modificar(pedido);
                 controller.eliminar(idPedido, idItemMenu);
                 ((DefaultTableModel) table.getModel()).removeRow(modelRow);
                 updatePrice();

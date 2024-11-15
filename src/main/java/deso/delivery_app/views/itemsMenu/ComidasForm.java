@@ -2,6 +2,7 @@ package deso.delivery_app.views.itemsMenu;
 
 import deso.delivery_app.controllers.ItemMenuController;
 import deso.delivery_app.models.Bebida;
+import deso.delivery_app.models.Categoria;
 import deso.delivery_app.models.Plato;
 import deso.delivery_app.views.AdminLayoutForm;
 
@@ -36,7 +37,7 @@ public class ComidasForm {
             double peso = getPesoField();
             long idVendedor = getIdVendedorField();
             Plato p = new Plato(nombre, descripcion, precio, peso, vegano, celiaco);
-            controller.crear(p, idVendedor);
+            controller.crearPlato(p, idVendedor);
             JOptionPane.showMessageDialog(null, "Plato creado con éxito");
             backToIndex();
         });

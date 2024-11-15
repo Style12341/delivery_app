@@ -14,7 +14,7 @@ public class sqlUtils {
                 long insertId = generatedKeys.getLong(1);
                 return insertId;
             } else {
-                System.out.println("Failed to retrieve client ID.");
+                System.out.println("Failed to retrieve compund id or id is missing.");
             }
         } else {
             System.out.println("No client inserted.");

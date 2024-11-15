@@ -10,13 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-public class ClienteSerializer implements ISerializable<Cliente> {
+public class ClienteMapper implements ISQLMapper<Cliente> {
     private Connection conn = DBConnector.getConnection();
 
     @Override
-    public PreparedStatement getInsertString(Cliente c) throws SQLException {
+    public PreparedStatement getInsertStatement(Cliente c) throws SQLException {
         PreparedStatement ps = conn.prepareStatement("INSERT INTO cliente (nombre, apellido, direccion, cuit, email, latitud, longitud) VALUES (?,?,?,?,?,?,?) ", PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, c.getNombre());
         ps.setString(2, c.getApellido());
@@ -30,7 +29,7 @@ public class ClienteSerializer implements ISerializable<Cliente> {
     }
 
     @Override
-    public PreparedStatement getUpdateString(Cliente c) throws SQLException {
+    public PreparedStatement getUpdateStatement(Cliente c) throws SQLException {
         PreparedStatement ps = conn.prepareStatement("UPDATE cliente SET nombre=?, apellido=?, direccion=?, cuit=?, email=?, latitud=?, longitud=? WHERE id=?");
         ps.setString(1, c.getNombre());
         ps.setString(2, c.getApellido());
@@ -45,21 +44,21 @@ public class ClienteSerializer implements ISerializable<Cliente> {
     }
 
     @Override
-    public PreparedStatement getDeleteString(long id) throws SQLException {
+    public PreparedStatement getDeleteStatement(long id) throws SQLException {
         PreparedStatement ps = conn.prepareStatement("DELETE FROM cliente WHERE id=?");
         ps.setLong(1, id);
         return ps;
     }
 
     @Override
-    public PreparedStatement getSelectedString(long id) throws SQLException {
+    public PreparedStatement getSelectedStatement(long id) throws SQLException {
         PreparedStatement ps = conn.prepareStatement("SELECT * FROM cliente WHERE id=?");
         ps.setLong(1, id);
         return ps;
     }
 
     @Override
-    public PreparedStatement getSelectAllString() throws SQLException {
+    public PreparedStatement getSelectAllStatement() throws SQLException {
         return conn.prepareStatement("SELECT * FROM cliente");
     }
 

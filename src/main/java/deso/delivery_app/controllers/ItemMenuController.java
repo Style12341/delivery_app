@@ -2,15 +2,14 @@ package deso.delivery_app.controllers;
 
 import deso.delivery_app.TIPO_ITEM;
 import deso.delivery_app.exception.ItemNoEncontradoException;
-import deso.delivery_app.models.ItemMenu;
-import deso.delivery_app.models.Vendedor;
+import deso.delivery_app.models.*;
+import deso.delivery_app.persistence.DAO.CategoriaDAO;
 import deso.delivery_app.persistence.DAO.ItemMenuDAO;
 import deso.delivery_app.persistence.DAO.VendedorDAO;
+import deso.delivery_app.persistence.DAO.factories.CategoriaDAOFactory;
 import deso.delivery_app.persistence.DAO.factories.ItemMenuDAOFactory;
 import deso.delivery_app.persistence.DAO.factories.VendedorDAOFactory;
 import deso.delivery_app.persistence.filters.FiltrosItemMenu;
-import deso.delivery_app.persistence.memory.ItemMenuMemory;
-import deso.delivery_app.persistence.memory.VendedorMemory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +50,20 @@ public class ItemMenuController {
         return getLista("", TIPO_ITEM.TODOS, 0, Double.MAX_VALUE, idVendedor, "", false, false);
     }
 
-    public ItemMenu crear(ItemMenu i, long idVendedor) {
+    public ItemMenu crearBebida(Bebida i, long idVendedor) {
         Vendedor v = vendedorDAO.get(idVendedor);
+        CategoriaDAO c_dao= CategoriaDAOFactory.getDAO();
+        Categoria c = c_dao.getCategoriaByTipoItem(TIPO_ITEM.BEBIDA);
+        i.setCategoria(c);
+        i.setVendedor(v);
+        v.addItemToMenu(i);
+        return itemMenuDAO.create(i);
+    }
+    public ItemMenu crearPlato(Plato i, long idVendedor) {
+        Vendedor v = vendedorDAO.get(idVendedor);
+        CategoriaDAO c_dao= CategoriaDAOFactory.getDAO();
+        Categoria c = c_dao.getCategoriaByTipoItem(TIPO_ITEM.COMIDA);
+        i.setCategoria(c);
         i.setVendedor(v);
         v.addItemToMenu(i);
         return itemMenuDAO.create(i);
@@ -67,7 +78,7 @@ public class ItemMenuController {
     }
 
     public ItemMenu buscar(long id) {
-        return itemMenuDAO.get(id);
+            return itemMenuDAO.get(id);
     }
 
 }

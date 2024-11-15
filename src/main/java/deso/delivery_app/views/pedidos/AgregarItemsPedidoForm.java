@@ -3,6 +3,7 @@ package deso.delivery_app.views.pedidos;
 import deso.delivery_app.TIPO_ITEM;
 import deso.delivery_app.controllers.ItemMenuController;
 import deso.delivery_app.controllers.ItemPedidoController;
+import deso.delivery_app.controllers.PedidoController;
 import deso.delivery_app.models.*;
 import deso.delivery_app.views.AdminLayoutForm;
 
@@ -60,11 +61,23 @@ public class AgregarItemsPedidoForm {
                 int total = 0;
                 for (int i = 0; i < table.getRowCount(); i++) {
                     int cantidadColIdx = table.getColumnModel().getColumnIndex("Cantidad");
-                    int cantidad = Integer.parseInt((String)table.getValueAt(i, cantidadColIdx));
+                    int cantidad = Integer.parseInt((String) table.getValueAt(i, cantidadColIdx));
                     if (cantidad > 0) {
                         total += cantidad;
                         long id = (long) table.getValueAt(i, 0);
-                        itemPedidoController.crear(pedido.getId(), id, cantidad);
+                        ItemPedido ip;
+                        if (p.includesItem(id)) {
+                            ip = p.getItemPedido(id);
+                            ip.setCantidad(cantidad);
+                            ip = p.agregarItem(ip);
+                            itemPedidoController.modificar(ip);
+                            PedidoController pedidoController = new PedidoController();
+                            pedidoController.modificar(p);
+                        } else {
+                            ip = itemPedidoController.crear(p.getId(), id, cantidad);
+                            p.agregarItem(ip);
+                        }
+
                     }
                 }
                 JOptionPane.showMessageDialog(null, Integer.toString(total) + " items añadidos al pedido");
@@ -92,7 +105,7 @@ public class AgregarItemsPedidoForm {
     }
 
     public void createTable(List<ItemMenu> ims) {
-        String[] columnNames = {"Id","Nombre", "Precio", "Categoria", "Vegano", "Celiaco", "Cantidad"};
+        String[] columnNames = {"Id", "Nombre", "Precio", "Categoria", "Vegano", "Celiaco", "Cantidad"};
         Object[][] data = new Object[ims.size()][columnNames.length];
         for (int i = 0; i < ims.size(); i++) {
             ItemMenu im = ims.get(i);

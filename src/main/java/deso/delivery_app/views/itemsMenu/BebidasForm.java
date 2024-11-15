@@ -41,7 +41,7 @@ public class BebidasForm {
             long idVendedor = getIdVendedorField();
             Bebida i = new Bebida(nombre, descripcion, precio, volumen, graduacionAlcoholica, esGaseosa, celiaco);
             i.setVegano(vegano);
-            controller.crear(i, idVendedor);
+            controller.crearBebida(i, idVendedor);
             JOptionPane.showMessageDialog(null, "Bebida creada con éxito");
             backToIndex();
         });

@@ -13,6 +13,19 @@ public class Pago {
     private double precioTotalSinRecargo;
     private double precioTotalConRecargo;
 
+    public Pago(double precioTotalSinRecargo, double precioTotalConRecargo, Date fecha, String metodoPago) {
+        this.precioTotalSinRecargo = precioTotalSinRecargo;
+        this.precioTotalConRecargo = precioTotalConRecargo;
+        this.fecha = fecha;
+        if (metodoPago.equals("TRANSFERENCIA")) {
+            this.pagarStrategy = new PagarConTransferencia("", "");
+        } else if (metodoPago.equals("MERCADO_PAGO")) {
+            this.pagarStrategy = new PagarConMercadoPago("");
+        } else {
+            this.pagarStrategy = null;
+        }
+    }
+
     public Pago(double precioTotalSinRecargo) {
         this.precioTotalSinRecargo = precioTotalSinRecargo;
     }
@@ -20,9 +33,11 @@ public class Pago {
     public void setStrategy(PagarStrategy pagarStrategy) {
         this.pagarStrategy = pagarStrategy;
     }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public void pagar(Pedido pedido) {
         try {
             precioTotalConRecargo = pagarStrategy.pagar(pedido);
@@ -45,11 +60,13 @@ public class Pago {
         return precioTotalSinRecargo;
     }
 
-    public long getId() { return id; }
+    public long getId() {
+        return id;
+    }
 
     public String getStrategyStr() {
-        if(pagarStrategy instanceof PagarConTransferencia) return "Transferencia";
-        if(pagarStrategy instanceof PagarConMercadoPago) return "MercadoPago";
+        if (pagarStrategy instanceof PagarConTransferencia) return "Transferencia";
+        if (pagarStrategy instanceof PagarConMercadoPago) return "MercadoPago";
         return "";
     }
 }

@@ -2,21 +2,22 @@ package deso.delivery_app.testing;
 
 import deso.delivery_app.TIPO_ITEM;
 import deso.delivery_app.controllers.ClienteController;
+import deso.delivery_app.controllers.ItemMenuController;
+import deso.delivery_app.controllers.ItemPedidoController;
+import deso.delivery_app.controllers.PedidoController;
 import deso.delivery_app.models.*;
-import deso.delivery_app.models.serializers.VendedorSerializer;
-import deso.delivery_app.persistence.DAO.ItemMenuDAO;
-import deso.delivery_app.persistence.DAO.ItemPedidoDAO;
-import deso.delivery_app.persistence.DAO.PedidoDAO;
+import deso.delivery_app.persistence.DAO.*;
+import deso.delivery_app.persistence.DAO.factories.*;
 import deso.delivery_app.persistence.DBConnector;
 import deso.delivery_app.persistence.memory.*;
+import deso.delivery_app.persistence.sql.CategoriaSQL;
 import deso.delivery_app.utils.Coordenada;
 import deso.delivery_app.utils.Pair;
 import deso.delivery_app.views.AdminLayoutForm;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Entrega7 {
@@ -29,6 +30,28 @@ public class Entrega7 {
 
 
     public static void run() {
+        //Delete everything from all tables
+        Connection conn = DBConnector.getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM item_pedido");
+            ps.executeUpdate();
+            ps = conn.prepareStatement("DELETE FROM pedido");
+            ps.executeUpdate();
+            ps = conn.prepareStatement("DELETE FROM item_menu");
+            ps.executeUpdate();
+            ps = conn.prepareStatement("DELETE FROM categoria");
+            ps.executeUpdate();
+            ps = conn.prepareStatement("DELETE FROM vendedor");
+            ps.executeUpdate();
+            ps = conn.prepareStatement("DELETE FROM cliente");
+            ps.executeUpdate();
+            ps = conn.prepareStatement("DELETE FROM pago");
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         // Magic
         // 10 ItemMenu
         createItems();
@@ -46,25 +69,31 @@ public class Entrega7 {
 
     private static void createVendedores() {
         // Vendedor 1
+        ItemMenuController imc = new ItemMenuController();
         vendedores.add(new Vendedor("La Dominga", "Herndarias 833", "27-40727599-8", new Coordenada(-40, -63)));
+        vendedores.add(new Vendedor("Lo de Mario", "General Paz 6000", "26-13787921-6", new Coordenada(-40.5, -63.5)));
+        VendedorDAO dao = VendedorDAOFactory.getDAO();
+        for (Vendedor vendedor : vendedores) {
+            dao.create(vendedor);
+        }
         for (int i = 0; i < itemsBebidas.size() / 2; i++) {
             vendedores.getFirst().addItemToMenu(itemsBebidas.get(i));
+            imc.crearBebida((Bebida)itemsBebidas.get(i), vendedores.getFirst().getId());
         }
         for (int i = 0; i < itemsComidas.size() / 2; i++) {
             vendedores.getFirst().addItemToMenu(itemsComidas.get(i));
+            imc.crearPlato((Plato)itemsComidas.get(i), vendedores.getFirst().getId());
         }
         // Vendedor 2
-        vendedores.add(new Vendedor("Lo de Mario", "General Paz 6000", "26-13787921-6", new Coordenada(-40.5, -63.5)));
         for (int i = itemsBebidas.size() / 2; i < itemsBebidas.size(); i++) {
             vendedores.get(1).addItemToMenu(itemsBebidas.get(i));
+            imc.crearBebida((Bebida)itemsBebidas.get(i), vendedores.get(1).getId());
         }
         for (int i = itemsComidas.size() / 2; i < itemsComidas.size(); i++) {
             vendedores.get(1).addItemToMenu(itemsComidas.get(i));
+            imc.crearPlato((Plato)itemsComidas.get(i), vendedores.get(1).getId());
         }
-        VendedorMemory vendedorMemory = VendedorMemory.getInstance();
-        for (Vendedor vendedor : vendedores) {
-            vendedorMemory.create(vendedor);
-        }
+
 
     }
 
@@ -72,6 +101,10 @@ public class Entrega7 {
         // Comidas
         Categoria platoCat = new Categoria("Plato", TIPO_ITEM.COMIDA);
         Categoria bebidaCat = new Categoria("Bebida", TIPO_ITEM.BEBIDA);
+        CategoriaDAO categoriaDAO = CategoriaDAOFactory.getDAO();
+        categoriaDAO.create(platoCat);
+        categoriaDAO.create(bebidaCat);
+
         itemsComidas.add(new Plato("Ensalada Mixta", "Lechuga, tomate, cebolla, zanahoria", 5.99, 300.0, true, true, platoCat));
         itemsComidas.add(new Plato("Milanesa con papas fritas", "Milanesa de carne con papas fritas", 9.50, 450.0, false, false, platoCat));
         itemsComidas.add(new Plato("Pizza Margarita", "Pizza con queso, tomate y albahaca", 8.25, 400.0, false, false, platoCat));
@@ -86,13 +119,7 @@ public class Entrega7 {
         itemsBebidas.add(new Bebida("Fanta Naranja", "Bebida gaseosa con sabor a naranja", 2.80, 500.0, 0, true, true, bebidaCat));
         itemsBebidas.add(new Bebida("Gin Tonic", "Gin mezclado con agua tónica y una rodaja de limón", 6.50, 400.0, 12.0, true, true, bebidaCat));
         itemsBebidas.add(new Bebida("Jugo de naranja", "Jugo natural exprimido de naranjas frescas", 3.00, 350.0, 0, false, true, bebidaCat));
-        ItemMenuDAO itemMenuDAO = ItemMenuMemory.getInstance();
-        for (ItemMenu item : itemsComidas) {
-            itemMenuDAO.create(item);
-        }
-        for (ItemMenu item : itemsBebidas) {
-            itemMenuDAO.create(item);
-        }
+
     }
 
     private static void createClientes() {
@@ -109,18 +136,22 @@ public class Entrega7 {
 
     private static void createPedidos() {
         // Pedido 1
+        ItemPedidoController ipc = new ItemPedidoController();
+        PedidoController pc = new PedidoController();
+
         ArrayList<Pair<ItemMenu, Integer>> itemsPedido1 = new ArrayList<Pair<ItemMenu, Integer>>();
         itemsPedido1.add(new Pair<>(itemsComidas.getFirst(), 2)); // Ensalada Mixta, 2 unidades
         itemsPedido1.add(new Pair<>(itemsBebidas.get(1), 1)); // Cerveza Corona, 1 unidad
 
         pedidos.add(new Pedido(vendedores.getFirst(), clientes.getFirst(), itemsPedido1)); // Pedido del cliente 1 con el vendedor 1
-
+        //pedidos.getFirst().getDetallePedido().forEach(item -> ipc.crear(item));
         // Pedido 2
         ArrayList<Pair<ItemMenu, Integer>> itemsPedido2 = new ArrayList<>();
         itemsPedido2.add(new Pair<>(itemsComidas.get(3), 1)); // Tarta de espinaca, 1 unidad
         itemsPedido2.add(new Pair<>(itemsBebidas.get(6), 3)); // Jugo de naranja, 3 unidades
 
         pedidos.add(new Pedido(vendedores.get(1), clientes.get(1), itemsPedido2)); // Pedido del cliente 2 con el vendedor 2
+        //pedidos.get(1).getDetallePedido().forEach(item -> ipc.crear(item));
 
         // Pedido 3
         ArrayList<Pair<ItemMenu, Integer>> itemsPedido3 = new ArrayList<>();
@@ -128,22 +159,23 @@ public class Entrega7 {
         itemsPedido3.add(new Pair<>(itemsBebidas.get(4), 2)); // Fanta Naranja, 2 unidades
 
         pedidos.add(new Pedido(vendedores.get(1), clientes.getFirst(), itemsPedido3)); // Pedido del cliente 1 con el vendedor 2
-
+        //pedidos.get(2).getDetallePedido().forEach(item -> ipc.crear(item));
         // Pedido 4
         ArrayList<Pair<ItemMenu, Integer>> itemsPedido4 = new ArrayList<>();
         itemsPedido4.add(new Pair<>(itemsComidas.get(4), 2)); // Risotto de hongos, 2 unidades
         itemsPedido4.add(new Pair<>(itemsBebidas.get(5), 1)); // Gin Tonic, 1 unidad
 
         pedidos.add(new Pedido(vendedores.getFirst(), clientes.get(1), itemsPedido4)); // Pedido del cliente 2 con el vendedor 1
-
+        // pedidos.get(3).getDetallePedido().forEach(item -> ipc.crear(item));
         // Pedido 5
         ArrayList<Pair<ItemMenu, Integer>> itemsPedido5 = new ArrayList<>();
         itemsPedido5.add(new Pair<>(itemsComidas.get(1), 1)); // Milanesa con papas fritas, 1 unidad
         itemsPedido5.add(new Pair<>(itemsBebidas.getFirst(), 2)); // Coca-Cola, 2 unidades
 
         pedidos.add(new Pedido(vendedores.getFirst(), clientes.getFirst(), itemsPedido5)); // Pedido del cliente 1 con el vendedor 1
-        PedidoDAO pedidoDao = PedidoMemory.getInstance();
-        ItemPedidoDAO itemPedidoDAO = ItemPedidoMemory.getInstance();
+        // pedidos.get(4).getDetallePedido().forEach(item -> ipc.crear(item));
+        PedidoDAO pedidoDao = PedidoDAOFactory.getDAO();
+        ItemPedidoDAO itemPedidoDAO = ItemPedidoDAOFactory.getDAO();
         for (Pedido pedido : pedidos) {
             pedidoDao.create(pedido);
             for (ItemPedido item : pedido.getDetallePedido()) {

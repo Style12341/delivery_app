@@ -31,6 +31,7 @@ public class ItemPedido {
     }
 
     public void setCantidad(int cantidad) {
+        this.precioTotal = cantidad * itemMenu.getPrecio();
         this.cantidad = cantidad;
     }
 

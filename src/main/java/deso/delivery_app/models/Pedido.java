@@ -22,9 +22,16 @@ public class Pedido extends Observable {
     private double precioAcumulado;
     private ESTADO_PEDIDO estado;
 
-    public Pedido(){
+    public Pedido() {
         this.estado = ESTADO_PEDIDO.RECIBIDO;
     }
+
+    public Pedido(Vendedor v, Cliente c) {
+        this.vendedor = v;
+        this.cliente = c;
+        this.estado = ESTADO_PEDIDO.RECIBIDO;
+    }
+
     public Pedido(Vendedor vendedor, Cliente cliente, ArrayList<Pair<ItemMenu, Integer>> items) {
         this.vendedor = vendedor;
         setCliente(cliente);
@@ -33,11 +40,27 @@ public class Pedido extends Observable {
             agregarItem(item.first, item.second);
         }
     }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public long getId() {
         return id;
+    }
+
+    public ItemPedido agregarItem(ItemPedido ip) {
+        this.precioAcumulado += ip.getItemMenu().getPrecio() * ip.getCantidad();
+        if (this.includesItem(ip.getItemMenu().getId())) {
+            for (ItemPedido i : detallePedido) {
+                if (i.getItemMenu().getId() == ip.getItemMenu().getId()) {
+                    i.setCantidad(ip.getCantidad() + i.getCantidad());
+                    return i;
+                }
+            }
+        }
+        detallePedido.add(ip);
+        return ip;
     }
 
     public ItemPedido agregarItem(ItemMenu item, Integer cantidad) {
@@ -107,5 +130,25 @@ public class Pedido extends Observable {
 
     public void setVendedor(Vendedor vendedor) {
         this.vendedor = vendedor;
+    }
+
+    public void setPrecioAcumulado(double precioTotal) {
+        this.precioAcumulado = precioTotal;
+    }
+
+    public boolean includesItem(long idItemMenu) {
+        for (ItemPedido ip : detallePedido) {
+            if (ip.getItemMenu().getId() == idItemMenu)
+                return true;
+        }
+        return false;
+    }
+
+    public ItemPedido getItemPedido(long id) {
+        for (ItemPedido ip : detallePedido) {
+            if (ip.getItemMenu().getId() == id)
+                return ip;
+        }
+        return null;
     }
 }
