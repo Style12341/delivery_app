@@ -8,10 +8,7 @@ import deso.delivery_app.persistence.DBConnector;
 import deso.delivery_app.persistence.filters.FiltrosCliente;
 import deso.delivery_app.utils.Coordenada;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 public class ClienteSQL implements ClienteDAO {
@@ -23,7 +20,9 @@ public class ClienteSQL implements ClienteDAO {
         try {
             PreparedStatement ps = serializer.getInsertString(cliente);
             int rowsAffected = ps.executeUpdate();
-            long insertId = sqlUtils.fetchId(rowsAffected, stmt);
+            long insertId = sqlUtils.fetchId(rowsAffected, ps);
+            cliente.setId(insertId);
+            return cliente;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,17 +35,9 @@ public class ClienteSQL implements ClienteDAO {
         try {
             PreparedStatement ps = serializer.getSelectedString(id);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                String nombre = rs.getString("nombre");
-                String apellido = rs.getString("apellido");
-                String email = rs.getString("email");
-                String cuit = rs.getString("cuit");
-                String direccion = rs.getString("direccion");
-                double latitud = rs.getDouble("latitud");
-                double longitud = rs.getDouble("longitud");
-                Coordenada coord = new Coordenada(latitud, longitud);
-                return new Cliente(nombre, apellido, cuit, email, direccion, coord);
-            }
+            Cliente c = serializer.deserialize(rs).getFirst();
+            if (c == null) throw new ItemNoEncontradoException("Cliente no encontrado");
+            return c;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,16 +69,32 @@ public class ClienteSQL implements ClienteDAO {
 
     @Override
     public List<Cliente> filtrar(FiltrosCliente f) throws ItemNoEncontradoException {
-        return List.of();
+        try {
+            PreparedStatement ps = serializer.getSelectAllString();
+            ResultSet rs = ps.executeQuery();
+            List<Cliente> clientes = serializer.deserialize(rs);
+            var filtros = f.getFiltros();
+            List<Cliente> lista = clientes.stream().filter(filtros).toList();
+            if (lista.isEmpty()) throw new ItemNoEncontradoException("Item no encontrado");
+            return lista;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public List<Cliente> buscarOrdenarPorNombre(FiltrosCliente f, Boolean descendente) throws ItemNoEncontradoException {
-        return List.of();
+        List<Cliente> lista = this.filtrar(f);
+        int desc = descendente ? 1 : -1;
+        // CompareTo devuelve negativo si es menor y positivo si es mayor, para invertirlo se multiplica por -1
+        return lista.stream().sorted((v1, v2) -> v2.getNombre().compareTo(v1.getNombre()) * desc).toList();
+
     }
 
     @Override
     public List<Cliente> buscarOrdenarPorProximidad(FiltrosCliente f, Coordenada coord, Boolean descendente) throws ItemNoEncontradoException {
-        return List.of();
+        List<Cliente> lista = this.filtrar(f);
+        int desc = descendente ? 1 : -1;
+        return lista.stream().sorted((v1, v2) -> (int) (Double.compare(coord.calcularDistancia(v1.getCoordenadas()), coord.calcularDistancia(v2.getCoordenadas()))) * desc).toList();
     }
 }

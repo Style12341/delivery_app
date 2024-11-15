@@ -1,15 +1,19 @@
 package deso.delivery_app.models.serializers;
 
 import deso.delivery_app.models.Cliente;
+import deso.delivery_app.persistence.DBConnector;
 import deso.delivery_app.utils.Coordenada;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class ClienteSerializer implements ISerializable<Cliente> {
-    private Connection conn;
+    private Connection conn = DBConnector.getConnection();
 
     @Override
     public PreparedStatement getInsertString(Cliente c) throws SQLException {
@@ -57,5 +61,24 @@ public class ClienteSerializer implements ISerializable<Cliente> {
     @Override
     public PreparedStatement getSelectAllString() throws SQLException {
         return conn.prepareStatement("SELECT * FROM cliente");
+    }
+
+    public List<Cliente> deserialize(ResultSet rs) throws SQLException {
+        List<Cliente> clientes = new ArrayList<Cliente>();
+        while (rs.next()) {
+            long id = rs.getLong("id");
+            String nombre = rs.getString("nombre");
+            String apellido = rs.getString("apellido");
+            String email = rs.getString("email");
+            String cuit = rs.getString("cuit");
+            String direccion = rs.getString("direccion");
+            double latitud = rs.getDouble("latitud");
+            double longitud = rs.getDouble("longitud");
+            Coordenada coord = new Coordenada(latitud, longitud);
+            Cliente cliente = new Cliente(nombre, apellido, cuit, email, direccion, coord);
+            cliente.setId(id);
+            clientes.add(cliente);
+        }
+        return clientes;
     }
 }

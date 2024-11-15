@@ -39,31 +39,8 @@ public class Entrega7 {
         // 5 Pedidos
         createPedidos();
 
-        Connection conn = DBConnector.getConnection();
-
-        Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        VendedorSerializer vendedorSerializer = new VendedorSerializer();
-        String query = vendedorSerializer.getInsertString(vendedores.getFirst());
-        ResultSet rs = null;
-        try {
-            System.out.println(query);
-            boolean b = stmt.execute(query);
-            String query2 = vendedorSerializer.getSelectedString(2);
-            System.out.println(query2);
-            rs = stmt.executeQuery(query2);
-            while (rs.next()) {
-                System.out.println(rs.getString("nombre"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //AdminLayoutForm.getInstance();
-        //AdminLayoutForm.getInstance();
+        AdminLayoutForm.getInstance();
+        AdminLayoutForm.getInstance();
 
     }
 
