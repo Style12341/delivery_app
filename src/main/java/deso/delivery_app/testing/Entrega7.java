@@ -1,10 +1,7 @@
 package deso.delivery_app.testing;
 
 import deso.delivery_app.TIPO_ITEM;
-import deso.delivery_app.controllers.ClienteController;
-import deso.delivery_app.controllers.ItemMenuController;
-import deso.delivery_app.controllers.ItemPedidoController;
-import deso.delivery_app.controllers.PedidoController;
+import deso.delivery_app.controllers.*;
 import deso.delivery_app.models.*;
 import deso.delivery_app.persistence.DAO.*;
 import deso.delivery_app.persistence.DAO.factories.*;
@@ -19,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Entrega7 {
 
@@ -32,37 +30,27 @@ public class Entrega7 {
     public static void run() {
         //Delete everything from all tables
         Connection conn = DBConnector.getConnection();
-        try {
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM item_pedido");
-            ps.executeUpdate();
-            ps = conn.prepareStatement("DELETE FROM pedido");
-            ps.executeUpdate();
-            ps = conn.prepareStatement("DELETE FROM item_menu");
-            ps.executeUpdate();
-            ps = conn.prepareStatement("DELETE FROM categoria");
-            ps.executeUpdate();
-            ps = conn.prepareStatement("DELETE FROM vendedor");
-            ps.executeUpdate();
-            ps = conn.prepareStatement("DELETE FROM cliente");
-            ps.executeUpdate();
-            ps = conn.prepareStatement("DELETE FROM pago");
-            ps.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        ClienteController clienteController = new ClienteController();
+        VendedorController vendedorController = new VendedorController();
+        PedidoController pedidoController = new PedidoController();
+        ItemMenuController itemMenuController = new ItemMenuController();
+        List<Cliente> lc = clienteController.getLista();
+        List<Vendedor> lv = vendedorController.getLista();
+        List<Pedido> lp = pedidoController.getLista();
+        List<ItemMenu> iml = itemMenuController.getLista();
+        boolean reseed = lc.isEmpty() && lv.isEmpty() && lp.isEmpty() && iml.isEmpty();
+
+        if (reseed) {
+            // 10 ItemMenu
+            createItems();
+            // 2 Clientes
+            createClientes();
+            // 2 Vendedores
+            createVendedores();
+            // 5 Pedidos
+            createPedidos();
         }
-
-        // Magic
-        // 10 ItemMenu
-        createItems();
-        // 2 Clientes
-        createClientes();
-        // 2 Vendedores
-        createVendedores();
-        // 5 Pedidos
-        createPedidos();
-
-        AdminLayoutForm.getInstance();
         AdminLayoutForm.getInstance();
 
     }
@@ -78,20 +66,20 @@ public class Entrega7 {
         }
         for (int i = 0; i < itemsBebidas.size() / 2; i++) {
             vendedores.getFirst().addItemToMenu(itemsBebidas.get(i));
-            imc.crearBebida((Bebida)itemsBebidas.get(i), vendedores.getFirst().getId());
+            imc.crearBebida((Bebida) itemsBebidas.get(i), vendedores.getFirst().getId());
         }
         for (int i = 0; i < itemsComidas.size() / 2; i++) {
             vendedores.getFirst().addItemToMenu(itemsComidas.get(i));
-            imc.crearPlato((Plato)itemsComidas.get(i), vendedores.getFirst().getId());
+            imc.crearPlato((Plato) itemsComidas.get(i), vendedores.getFirst().getId());
         }
         // Vendedor 2
         for (int i = itemsBebidas.size() / 2; i < itemsBebidas.size(); i++) {
             vendedores.get(1).addItemToMenu(itemsBebidas.get(i));
-            imc.crearBebida((Bebida)itemsBebidas.get(i), vendedores.get(1).getId());
+            imc.crearBebida((Bebida) itemsBebidas.get(i), vendedores.get(1).getId());
         }
         for (int i = itemsComidas.size() / 2; i < itemsComidas.size(); i++) {
             vendedores.get(1).addItemToMenu(itemsComidas.get(i));
-            imc.crearPlato((Plato)itemsComidas.get(i), vendedores.get(1).getId());
+            imc.crearPlato((Plato) itemsComidas.get(i), vendedores.get(1).getId());
         }
 
 
