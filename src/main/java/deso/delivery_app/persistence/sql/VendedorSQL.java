@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class VendedorSQL implements VendedorDAO {
     VendedorMapper mapper = new VendedorMapper();
@@ -39,10 +40,12 @@ public class VendedorSQL implements VendedorDAO {
         try {
             PreparedStatement ps = mapper.getSelectedStatement(id);
             ResultSet rs = ps.executeQuery();
-            Vendedor c = mapper.deserialize(rs).getFirst();
-            if (c == null) throw new ItemNoEncontradoException("Vendedor no encontrado");
+            Vendedor c = mapper.deserialize(rs).stream().findFirst().orElseThrow();
             return c;
+        }catch (NoSuchElementException e) {
+            System.out.println("Vendedor no encontrado");
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
         return null;
@@ -54,7 +57,8 @@ public class VendedorSQL implements VendedorDAO {
             PreparedStatement ps = mapper.getUpdateStatement(vendedor);
             ps.executeUpdate();
             return vendedor;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
         return null;

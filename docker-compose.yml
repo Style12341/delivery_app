@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_delivery_app
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: delivery_app
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./TPDESO-GRUPO4-TARDE.sql:/docker-entrypoint-initdb.d/TPDESO-GRUPO4-TARDE.sql
+    command: --default-authentication-plugin=mysql_native_password
+
+volumes:
+  mysql_data:

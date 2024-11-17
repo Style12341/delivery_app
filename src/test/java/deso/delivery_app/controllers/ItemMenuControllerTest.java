@@ -2,12 +2,11 @@ package deso.delivery_app.controllers;
 
 import deso.delivery_app.TIPO_ITEM;
 import deso.delivery_app.exception.ItemNoEncontradoException;
-import deso.delivery_app.models.Bebida;
-import deso.delivery_app.models.ItemMenu;
-import deso.delivery_app.models.Plato;
-import deso.delivery_app.models.Vendedor;
+import deso.delivery_app.models.*;
+import deso.delivery_app.persistence.DAO.CategoriaDAO;
 import deso.delivery_app.persistence.DAO.ItemMenuDAO;
 import deso.delivery_app.persistence.DAO.VendedorDAO;
+import deso.delivery_app.persistence.DAO.factories.CategoriaDAOFactory;
 import deso.delivery_app.utils.Coordenada;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,20 +56,31 @@ public class ItemMenuControllerTest {
     }
 
     @Test
-    void testCrearItemMenu(){
+    void testCrearBebida(){
         Vendedor vendedor = new Vendedor("La Dominga", "Herndarias 833", "27-40727599-8", new Coordenada(-40, -63));
-        ItemMenu item1 = new Bebida("Coca-Cola", "Bebida gaseosa clásica", 2.50, 500.0, 0, true, true);
-
         when(mockVendedorDAO.get(1)).thenReturn(vendedor);
-        when(mockItemMenuDAO.create(any())).thenReturn(item1);
 
-        ItemMenu result = controller.crear(item1,1);
+        Bebida item1 = new Bebida("Coca-Cola", "Bebida gaseosa clásica", 2.50, 500.0, 0, true, true);
+        Bebida resultItem = new Bebida("Coca-Cola", "Bebida gaseosa clásica", 2.50, 500.0, 0, true, true);
+        resultItem.setId(1);
+        resultItem.setVendedor(vendedor);
+        resultItem.setCategoria(new Categoria("Bebida", TIPO_ITEM.BEBIDA));
 
-        assertNotNull(result);
+        when(mockItemMenuDAO.create(item1)).thenReturn(resultItem);
+
+        ItemMenu result = controller.crearBebida(item1, 1);
+
         assertEquals("Coca-Cola", result.getNombre());
-        verify(mockVendedorDAO, times(1)).get(1);
+        assertEquals(1, result.getId());
+        assertEquals("La Dominga", result.getVendedor().getNombre());
+        assertEquals("Bebida", result.getCategoria().getDescripcion());
+
         verify(mockItemMenuDAO, times(1)).create(item1);
+
+
     }
+
+
 
     @Test
     void testBuscarItemMenu(){
