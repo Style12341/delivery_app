@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class VendedorSQLTest {
     private VendedorSQL vendedorSQL;
     private long testId;
-    private final ArrayList<Long> filterIds = new ArrayList<Long>();
+    private final ArrayList<Long> arrayIds = new ArrayList<Long>();
 
     @BeforeAll
     void setup() {
@@ -74,15 +74,15 @@ public class VendedorSQLTest {
     void testFiltrar(){
         Vendedor vendedor = new Vendedor("Lo de Juan", "Calle falsa 111", "11111111111", new Coordenada(10.0, 20.0));
         vendedorSQL.create(vendedor);
-        filterIds.add(vendedor.getId());
+        arrayIds.add(vendedor.getId());
 
         Vendedor vendedor2 = new Vendedor("Lo de María", "Calle falsa 112", "222222222222", new Coordenada(10.0, 20.0));
         vendedorSQL.create(vendedor2);
-        filterIds.add(vendedor2.getId());
+        arrayIds.add(vendedor2.getId());
 
         Vendedor vendedor3 = new Vendedor("Lo de Ana", "Calle falsa 113", "33333333333", new Coordenada(10.0, 20.0));
         vendedorSQL.create(vendedor3);
-        filterIds.add(vendedor3.getId());
+        arrayIds.add(vendedor3.getId());
 
         FiltrosVendedor filtros = new FiltrosVendedor();
 
@@ -103,14 +103,30 @@ public class VendedorSQLTest {
 
     }
 
-    @AfterAll
-    void cleanup() {
-        for (long id : filterIds) {
-            vendedorSQL.delete(id);
+    @Test
+    @Order(6)
+    void testNotRepeatCuit (){
+        List<Vendedor> vendedores = null;
+        try {
+            vendedores = vendedorSQL.filtrar(new FiltrosVendedor());
+        } catch (ItemNoEncontradoException e) {
+            throw new RuntimeException(e);
         }
+
+        for (int i =0; i< vendedores.size(); i++){
+            for (int j = i+1 ; j< vendedores.size(); j++){
+                assertNotEquals(vendedores.get(i).getCuit(), vendedores.get(j).getCuit());
+            }
+        }
+
     }
 
 
-
+    @AfterAll
+    void cleanup() {
+        for (long id : arrayIds) {
+            vendedorSQL.delete(id);
+        }
+    }
 
 }

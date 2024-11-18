@@ -8,6 +8,7 @@ import deso.delivery_app.persistence.sql.ClienteSQL;
 import deso.delivery_app.utils.Coordenada;
 import org.junit.jupiter.api.*;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ClienteSQLTest {
     private ClienteSQL clienteSQL;
     private long testId;
-    private ArrayList<Long>filterIds = new ArrayList<Long>();
+    private ArrayList<Long>arrayIds = new ArrayList<Long>();
 
     @BeforeAll
     void setup() {
@@ -101,13 +102,13 @@ public class ClienteSQLTest {
                 new Coordenada(15.0, 25.0)
         );
         Cliente createdCliente = clienteSQL.create(cliente);
-        filterIds.add(createdCliente.getId());
+        arrayIds.add(createdCliente.getId());
 
         Cliente createdCliente2 = clienteSQL.create(cliente2);
-        filterIds.add(createdCliente2.getId());
+        arrayIds.add(createdCliente2.getId());
 
         Cliente createdCliente3 = clienteSQL.create(cliente3);
-        filterIds.add(createdCliente3.getId());
+        arrayIds.add(createdCliente3.getId());
 
         FiltrosCliente filtros = new FiltrosCliente();
         filtros.addNombre("María");
@@ -124,6 +125,34 @@ public class ClienteSQLTest {
         // Verificar que esteban no esté en la lista
         assertFalse(clientes.stream().anyMatch(c -> c.getNombre().equals("Esteban")));
     }
+     @Test
+    @Order(6)
+     void testNotRepeatCuit() {
+         List<Cliente> clientes = null;
+         try {
+            clientes = clienteSQL.filtrar(new FiltrosCliente());
+         } catch (ItemNoEncontradoException e) {
+             throw new RuntimeException(e);
+         }
+
+         //Iterar sobre los clientes y verificar que no haya dos con el mismo CUIT
+            for (int i = 0; i < clientes.size(); i++) {
+                for (int j = i + 1; j < clientes.size(); j++) {
+                    assertNotEquals(clientes.get(i).getCuit(), clientes.get(j).getCuit());
+                }
+            }
+            //Crear un cliente con un CUIT ya existente
+            Cliente cliente = new Cliente(
+                "Juan",
+                "Pérez",
+                clientes.getFirst().getCuit(),
+                    "juan2@gmail.com",
+                "Calle Falsa 123",
+                new Coordenada(10.0, 20.0)
+            );
+
+        }
+         
 
     @AfterAll
     void cleanup() {
@@ -132,7 +161,7 @@ public class ClienteSQLTest {
         if (cliente != null) {
             clienteSQL.delete(testId);
         }
-        for (Long id : filterIds) {
+        for (Long id : arrayIds) {
             cliente = clienteSQL.get(id);
             if (cliente != null) {
                 clienteSQL.delete(id);

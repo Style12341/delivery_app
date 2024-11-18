@@ -10,6 +10,7 @@ import deso.delivery_app.utils.Coordenada;
 
 import java.sql.*;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class ClienteSQL implements ClienteDAO {
     ClienteMapper mapper = new ClienteMapper();
@@ -35,8 +36,9 @@ public class ClienteSQL implements ClienteDAO {
             PreparedStatement ps = mapper.getSelectedStatement(id);
             ResultSet rs = ps.executeQuery();
             Cliente c = mapper.deserialize(rs).getFirst();
-            if (c == null) throw new ItemNoEncontradoException("Cliente no encontrado");
             return c;
+        }catch (NoSuchElementException e){
+            System.out.println("Cliente No Encontrado");
         } catch (Exception e) {
             e.printStackTrace();
         }
