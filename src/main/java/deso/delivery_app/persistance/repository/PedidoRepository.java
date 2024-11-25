@@ -1,8 +1,8 @@
 package deso.delivery_app.persistance.repository;
 
-import deso.delivery_app.persistance.models.Comida;
+import deso.delivery_app.persistance.models.Pedido;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface ComidaRepository extends JpaRepository<Comida, Long>, JpaSpecificationExecutor<Comida> {
+public interface PedidoRepository extends JpaRepository<Pedido, Long>, JpaSpecificationExecutor<Pedido> {
 }

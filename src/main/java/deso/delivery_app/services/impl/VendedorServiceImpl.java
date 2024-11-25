@@ -36,7 +36,12 @@ public class VendedorServiceImpl implements VendedorService {
     }
 
     public Vendedor updateVendedor(Long id, Vendedor vendedor) {
-        return vendedorRepository.save(vendedor);
+        if (vendedorRepository.existsById(id)) {
+            vendedor.setId(id);
+            return vendedorRepository.save(vendedor);
+        } else {
+            return null;
+        }
     }
 
     public void deleteVendedor(Long id) {

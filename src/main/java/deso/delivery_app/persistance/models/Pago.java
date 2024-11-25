@@ -19,4 +19,5 @@ public class Pago {
     private Double precioTotalConRecargo;
     @Column(nullable = false)
     private METODO_PAGO metodo;
+
 }

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "item_menu")
 @SQLDelete(sql = "UPDATE item_menu SET deleted_at = now() WHERE id = ?")
-    @Where(clause = "deleted_at is null")
+@Where(clause = "deleted_at is null")
 public abstract class ItemMenu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,11 +29,12 @@ public abstract class ItemMenu {
     @ManyToOne
     @JoinColumn(name = "vendedor_id")
     private Vendedor vendedor;
-    @Column(name = "apto_celiaco",nullable = false)
+    @Column(name = "apto_celiaco", nullable = false)
     private Boolean esAptoCeliaco;
-    @Column(name = "apto_vegano",nullable = false)
+    @Column(name = "apto_vegano", nullable = false)
     private Boolean esAptoVegano;
     @Column
     private LocalDateTime deleted_at;
+    private Double peso;
 
 }

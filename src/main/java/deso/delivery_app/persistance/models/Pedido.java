@@ -1,5 +1,7 @@
 package deso.delivery_app.persistance.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import deso.delivery_app.enums.ESTADO_PEDIDO;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -7,6 +9,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "pedido")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +27,9 @@ public class Pedido {
     private Cliente cliente;
 
     @Column(nullable = false)
-    private Double precio_acumulado;
+    private Double precioAcumulado = 0.0;
 
     @Column(nullable = false)
-    private ESTADO_PEDIDO estado;
+    private ESTADO_PEDIDO estado = ESTADO_PEDIDO.RECIBIDO;
 
 }

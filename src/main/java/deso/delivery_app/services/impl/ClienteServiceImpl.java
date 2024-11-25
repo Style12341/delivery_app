@@ -14,6 +14,7 @@ import java.util.List;
 public class ClienteServiceImpl implements ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
+
     public List<Cliente> getAllClientes() {
         return clienteRepository.findAll();
     }
@@ -34,7 +35,13 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     public Cliente updateCliente(Long id, Cliente cliente) {
-        return clienteRepository.save(cliente);
+        if (clienteRepository.existsById(id)) {
+            cliente.setId(id); // Ensure the ID is set to the provided ID
+            return clienteRepository.save(cliente);
+        } else {
+            // Handle the case where the Cliente does not exist
+            return null; // Or throw an exception
+        }
     }
 
     public void deleteCliente(Long id) {

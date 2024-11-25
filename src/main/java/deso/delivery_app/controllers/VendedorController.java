@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/vendedor")
 public class VendedorController {
-
+    @Autowired
     private VendedorService vendedorService;
 
     @Autowired
@@ -47,7 +47,7 @@ public class VendedorController {
 
     @GetMapping("/{id}")
     public Vendedor getVendedorById(@PathVariable Long id) {
-        return vendedorService.getVendedorById(id);
+        return vendedorService.getVendedorById(id) == null ? null : vendedorService.getVendedorById(id);
     }
 
     @PostMapping
@@ -59,9 +59,8 @@ public class VendedorController {
     @PutMapping("/{id}")
     public ResponseEntity<Vendedor> updateVendedor(@PathVariable Long id, @RequestBody Vendedor vendedor) {
         Vendedor updatedVendedor = vendedorService.updateVendedor(id, vendedor);
-        return ResponseEntity.ok(updatedVendedor);
+        return updatedVendedor != null ? ResponseEntity.ok(updatedVendedor) : ResponseEntity.notFound().build();
     }
-
 
     //soft delete, return 200 OK
     @DeleteMapping("/{id}")
@@ -70,6 +69,11 @@ public class VendedorController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{id}/menu")
+    public ResponseEntity<Void> getVendedorMenu(@PathVariable Long id) {
+
+        return ResponseEntity.ok().build();
+    }
 
 
 }

@@ -1,14 +1,20 @@
 package deso.delivery_app.persistance.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "cliente")
+@SQLDelete(sql = "UPDATE vendedor SET deleted_at = now() WHERE id = ?")
+@Where(clause = "deleted_at is null")
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +32,10 @@ public class Cliente {
     @Getter
     @Embedded
     private Coordenada coordenada;
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos;
-
-    public Coordenada setCoodenada(Coordenada coordenada) {
-        this.coordenada = coordenada;
-        return coordenada;
-    }
+    @Column
+    @JsonIgnore
+    private LocalDateTime deleted_at;
 }

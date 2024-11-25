@@ -49,7 +49,7 @@ public class ClienteController {
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> getClienteById(@PathVariable Long id) {
         Cliente cliente = clienteService.getClienteById(id);
-        return ResponseEntity.ok(cliente);
+        return cliente == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(cliente);
     }
 
     @PostMapping
@@ -61,7 +61,7 @@ public class ClienteController {
     @PutMapping("/{id}")
     public ResponseEntity<Cliente> updateCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
         Cliente updatedCliente = clienteService.updateCliente(id, cliente);
-        return ResponseEntity.ok(updatedCliente);
+        return updatedCliente == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(updatedCliente);
     }
 
     @DeleteMapping("/{id}")

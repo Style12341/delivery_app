@@ -1,5 +1,6 @@
 package deso.delivery_app.persistance.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
@@ -25,12 +26,14 @@ public class Vendedor {
     private String cuit;
     @Column(nullable = false)
     private String direccion;
+    @JsonIgnore
     @OneToMany(mappedBy = "vendedor")
     private List<Pedido> pedidos;
+    @JsonIgnore
     @OneToMany(mappedBy = "vendedor")
     private List<ItemMenu> items;
     @Column
+    @JsonIgnore
     private LocalDateTime deleted_at;
-
 
 }
