@@ -1,22 +1,30 @@
 package deso.delivery_app.services;
 
+import deso.delivery_app.dto.BebidaFilterDTO;
+import deso.delivery_app.dto.ComidaFilterDTO;
+import deso.delivery_app.dto.MenuDTO;
+import deso.delivery_app.dto.ItemMenuFilterDTO;
+import deso.delivery_app.persistance.models.Bebida;
+import deso.delivery_app.persistance.models.Comida;
 import deso.delivery_app.persistance.models.ItemMenu;
 
-import java.util.List;
-
-public interface ItemMenuService<T extends ItemMenu> {
-    public T create(T itemMenu);
-
-    public T update(T itemMenu);
+public interface ItemMenuService {
+    BebidaService bebidaService = null;
+    ComidaService comidaService = null;
 
     public void delete(Long id);
 
-    public T findById(Long id);
+    public ItemMenu findById(Long id);
 
-    public List<T> findAll();
+    public MenuDTO getAllItemMenus();
 
-    public List<ItemMenu> getMatchingItemMenus(ItemMenu itemMenuFilter);
+    public MenuDTO getMatchingItemMenus(ItemMenuFilterDTO itemMenuFilter);
 
+    public Comida createItem(Comida itemMenu);
 
+    public Bebida createItem(Bebida itemMenu);
 
+    public Comida updateItem(Long id, Comida itemMenu);
+
+    public Bebida updateItem(Long id, Bebida itemMenu);
 }
