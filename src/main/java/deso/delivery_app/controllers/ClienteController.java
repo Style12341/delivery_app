@@ -1,8 +1,8 @@
 package deso.delivery_app.controllers;
 
 import deso.delivery_app.persistance.models.Cliente;
-import deso.delivery_app.persistance.models.Coordenada;
 import deso.delivery_app.services.ClienteService;
+import deso.delivery_app.services.impl.ClienteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +13,12 @@ import java.util.List;
 @RequestMapping("/cliente")
 public class ClienteController {
 
+    private final ClienteService clienteService;
+
     @Autowired
-    private ClienteService clienteService;
+    public ClienteController(ClienteService clienteService) {
+        this.clienteService = clienteService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Cliente>> getAllClientes() {
