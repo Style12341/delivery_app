@@ -1,18 +1,20 @@
 package deso.delivery_app.persistance.models.listeners;
 
 import deso.delivery_app.persistance.models.ItemPedido;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
+import deso.delivery_app.persistance.models.Pedido;
+import deso.delivery_app.persistance.repository.ItemPedidoRepository;
+import deso.delivery_app.persistance.repository.PedidoRepository;
+import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 public class ItemPedidoListener {
 
     @PrePersist
     @PreUpdate
-    public void calculatePrecioTotal(ItemPedido itemPedido) {
-        if (itemPedido.getId() != null && itemPedido.getId().getItemMenu() != null) {
-            Double itemMenuPrice = itemPedido.getId().getItemMenu().getPrecio();
-            Integer cantidad = itemPedido.getCantidad();
-            itemPedido.setPrecioTotal(itemMenuPrice * cantidad);
-        }
+    public void setTotalPrice(ItemPedido itemPedido) {
+        itemPedido.setPrecioTotal(itemPedido.getId().getItemMenu().getPrecio() * itemPedido.getCantidad());
     }
+
+
 }
