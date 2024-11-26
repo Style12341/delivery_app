@@ -168,10 +168,10 @@ public class Seeder implements CommandLineRunner {
         ip1.setId(ipk1);
         itemsPedido1.add(ip1);
         ItemPedido ip2 = new ItemPedido();
-        ip2.setCantidad(2);
+        ip2.setCantidad(1);
         ItemPedidoKey ipk2 = new ItemPedidoKey();
         ipk2.setPedido(p1);
-        ipk2.setItemMenu(itemsComidas.getFirst());
+        ipk2.setItemMenu(itemsBebidas.getFirst());
         ip2.setId(ipk2);
         itemsPedido1.add(ip2);
         p1.setItems(itemsPedido1);
