@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Data
 @Embeddable
 public class ItemPedidoKey implements Serializable {
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "item_menu_id", nullable = false)
     private ItemMenu itemMenu;
     @ManyToOne

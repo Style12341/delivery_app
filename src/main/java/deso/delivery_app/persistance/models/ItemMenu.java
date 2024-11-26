@@ -1,5 +1,6 @@
 package deso.delivery_app.persistance.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import deso.delivery_app.enums.TIPO_ITEM;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -29,6 +31,9 @@ public abstract class ItemMenu {
     @ManyToOne
     @JoinColumn(name = "vendedor_id")
     private Vendedor vendedor;
+    @OneToMany(mappedBy = "id.itemMenu")
+    @JsonIgnore
+    private List<ItemPedido> items;
     @Column(name = "apto_celiaco", nullable = false)
     private Boolean esAptoCeliaco;
     @Column(name = "apto_vegano", nullable = false)

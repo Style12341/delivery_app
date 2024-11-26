@@ -11,13 +11,13 @@ public class Bebida extends ItemMenu {
     private static final double FACTOR_PESO_POR_ENVASADO = 1.2;
     private static final double FACTOR_PESO_PARA_ALCOHOL = 0.99;
     private static final double FACTOR_PESO_PARA_GASEOSA = 1.04;
-    @Column(nullable = false)
+    @Column
     private double volumen;
-    @Column(name = "graduacion_alcoholica", nullable = false)
+    @Column(name = "graduacion_alcoholica")
     private double graduacionAlcoholica;
-    @Column(name = "es_alcoholica", nullable = false)
+    @Column(name = "es_alcoholica")
     private boolean esAlcoholica;
-    @Column(name = "es_gaseosa", nullable = false)
+    @Column(name = "es_gaseosa")
     private boolean esGaseosa;
 
     @Override
@@ -31,4 +31,8 @@ public class Bebida extends ItemMenu {
         return result * FACTOR_PESO_POR_ENVASADO;
     }
 
+    public void setGraduacionAlcoholica(double graduacionAlcoholica) {
+        this.graduacionAlcoholica = graduacionAlcoholica;
+        this.esAlcoholica = graduacionAlcoholica > 0;
+    }
 }

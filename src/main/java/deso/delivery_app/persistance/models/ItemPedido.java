@@ -1,18 +1,27 @@
 package deso.delivery_app.persistance.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import deso.delivery_app.persistance.models.composed_keys.ItemPedidoKey;
+import deso.delivery_app.persistance.models.listeners.ItemPedidoListener;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "item_pedido")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@EntityListeners(ItemPedidoListener.class)
 public class ItemPedido {
     @EmbeddedId
     private ItemPedidoKey id;
     @Column(nullable = false)
     private Integer cantidad;
-    @Column(name = "precio_total",nullable = false)
+    @Column(name = "precio_total", nullable = false)
     private Double precioTotal;
+
+    public Double getPrecioTotal() {
+        return id.getItemMenu().getPrecio() * cantidad;
+    }
 
 }
