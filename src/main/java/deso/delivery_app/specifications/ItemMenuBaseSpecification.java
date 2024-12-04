@@ -1,33 +1,37 @@
 package deso.delivery_app.specifications;
 
 import deso.delivery_app.dto.ItemMenuFilterDTO;
-import deso.delivery_app.persistance.models.ItemMenu;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
+import deso.delivery_app.persistance.models.Bebida;
+import deso.delivery_app.persistance.models.Comida;
+import deso.delivery_app.persistance.models.Vendedor;
 import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemMenuSpecification {
-    public static Specification<ItemMenu> fromFilter(
-            Double precioMinimo,
-            Double precioMaximo,
-            Boolean esAptoCeliaco,
-            Boolean esAptoVegano) {
+public abstract class ItemMenuBaseSpecification<T> {
+
+    public Specification<T> fromFilter(ItemMenuFilterDTO filter) {
 
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
-
-            if (precioMinimo != null && precioMaximo != null) {
-                predicates.add(criteriaBuilder.between(root.get("precio"), precioMinimo, precioMaximo));
-            } else if (precioMinimo != null) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("precio"), precioMinimo));
-            } else if (precioMaximo != null) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("precio"), precioMaximo));
+            Long v = filter.getVendedorId();
+            Double precioMinimo = filter.getPrecioMinimo();
+            Double precioMaximo = filter.getPrecioMaximo();
+            Boolean esAptoCeliaco = filter.getEsAptoCeliaco();
+            Boolean esAptoVegano = filter.getEsAptoVegano();
+            Double pesoMinimo = filter.getPesoMinimo();
+            Double pesoMaximo = filter.getPesoMaximo();
+            String nombre = filter.getNombre();
+            if(nombre!=null){
+                predicates.add(criteriaBuilder.like(root.get("nombre"), "%"+nombre+"%"));
             }
+            predicates.add(criteriaBuilder.between(root.get("peso"), pesoMinimo, pesoMaximo));
+            if(v!=null){
+                predicates.add(criteriaBuilder.equal(root.get("vendedor").get("id"), v));
+            }
+            predicates.add(criteriaBuilder.between(root.get("precio"), precioMinimo, precioMaximo));
             if (esAptoCeliaco != null) {
                 predicates.add(criteriaBuilder.equal(root.get("esAptoCeliaco"), esAptoCeliaco));
             }

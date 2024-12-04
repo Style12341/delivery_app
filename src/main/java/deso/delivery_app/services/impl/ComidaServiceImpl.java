@@ -5,6 +5,7 @@ import deso.delivery_app.dto.ItemMenuFilterDTO;
 import deso.delivery_app.persistance.models.Comida;
 import deso.delivery_app.persistance.repository.ComidaRepository;
 import deso.delivery_app.services.ComidaService;
+import deso.delivery_app.specifications.ComidaSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class ComidaServiceImpl implements ComidaService {
 
     @Override
     public List<Comida> getMatchingComidas(ItemMenuFilterDTO itemFilter) {
-        Specification<Comida> spec = Specification.where(null);
+        Specification<Comida> spec =  new ComidaSpecification().fromFilter(itemFilter);
         return comidaRepository.findAll(spec);
     }
 

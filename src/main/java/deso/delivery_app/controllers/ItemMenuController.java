@@ -1,5 +1,7 @@
 package deso.delivery_app.controllers;
 
+import deso.delivery_app.dto.BebidaFilterDTO;
+import deso.delivery_app.dto.ComidaFilterDTO;
 import deso.delivery_app.dto.MenuDTO;
 import deso.delivery_app.dto.ItemMenuFilterDTO;
 import deso.delivery_app.persistance.models.Bebida;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/item-menu")
 public class ItemMenuController {
+    private static final String MAX_DOUBLE = "999999999999";
     // Nombre, rango precio, comida vegana, comida celiaca, no alcoholica, gaseosa, bebida, gaseosa, comida, vendedor
     @Autowired
     private ItemMenuService itemMenuService;
@@ -53,7 +56,40 @@ public class ItemMenuController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<MenuDTO> getMatchingItemMenus(@RequestBody ItemMenuFilterDTO filter) {
+    public ResponseEntity<MenuDTO> getMatchingItemMenus(
+            @RequestParam(required = false) Long vendedorId,
+            @RequestParam(required = false, defaultValue = "0.0") Double precioMinimo,
+            @RequestParam(required = false, defaultValue = MAX_DOUBLE) Double precioMaximo,
+            @RequestParam(required = false) Boolean esAptoCeliaco,
+            @RequestParam(required = false) Boolean esAptoVegano,
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false, defaultValue = "false") Boolean soloComidas,
+            @RequestParam(required = false, defaultValue = "false") Boolean soloBebidas,
+            @RequestParam(required = false, defaultValue = "0.0") Double pesoMinimo,
+            @RequestParam(required = false, defaultValue = MAX_DOUBLE) Double pesoMaximo,
+            @RequestParam(required = false) Boolean alcoholica,
+            @RequestParam(required = false) Boolean gaseosa,
+            @RequestParam(required = false, defaultValue = "0.0") Double volumenMinimo,
+            @RequestParam(required = false, defaultValue = MAX_DOUBLE) Double volumenMaximo,
+            @RequestParam(required = false, defaultValue = "0.0") Double gradMinima,
+            @RequestParam(required = false, defaultValue = "100.0") Double gradMaxima) {
+        BebidaFilterDTO bebidaFilter = new BebidaFilterDTO(
+                alcoholica, gaseosa, volumenMinimo, volumenMaximo, gradMinima, gradMaxima);
+        ComidaFilterDTO comidaFilter = new ComidaFilterDTO();
+        ItemMenuFilterDTO filter = new ItemMenuFilterDTO(
+                vendedorId,
+                precioMinimo,
+                precioMaximo,
+                esAptoCeliaco,
+                esAptoVegano,
+                nombre,
+                soloComidas,
+                soloBebidas,
+                pesoMinimo,
+                pesoMaximo,
+                comidaFilter,
+                bebidaFilter);
+
         MenuDTO menu = itemMenuService.getMatchingItemMenus(filter);
         return ResponseEntity.ok(menu);
     }

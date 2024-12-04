@@ -4,6 +4,7 @@ import deso.delivery_app.dto.ItemMenuFilterDTO;
 import deso.delivery_app.persistance.models.Bebida;
 import deso.delivery_app.persistance.repository.BebidaRepository;
 import deso.delivery_app.services.BebidaService;
+import deso.delivery_app.specifications.BebidaSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class BebidaServiceImpl implements BebidaService {
 
     @Override
     public List<Bebida> getMatchingBebidas(ItemMenuFilterDTO itemMenu) {
-        Specification<Bebida> spec = Specification.where(null);
+        Specification<Bebida> spec = new BebidaSpecification().fromFilter(itemMenu);
         return bebidaRepository.findAll(spec);
     }
 
