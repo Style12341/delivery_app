@@ -40,6 +40,7 @@ public abstract class ItemMenu {
     private Boolean esAptoVegano;
     @Column
     private LocalDateTime deleted_at;
-    private Double peso;
+    @Column
+    protected Double peso;
 
 }
