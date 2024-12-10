@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "cliente")
-@SQLDelete(sql = "UPDATE vendedor SET deleted_at = now() WHERE id = ?")
+@SQLDelete(sql = "UPDATE cliente SET deleted_at = now() WHERE id = ?")
 @Where(clause = "deleted_at is null")
 public class Cliente {
     @Id
