@@ -39,6 +39,7 @@ public abstract class ItemMenu {
     @Column(name = "apto_vegano", nullable = false)
     private Boolean esAptoVegano;
     @Column
+    @JsonIgnore
     private LocalDateTime deleted_at;
     @Column
     protected Double peso;

@@ -7,10 +7,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Table;
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
 
 @Data
 @Entity
 @EntityListeners(BebidaListener.class)
+@SQLDelete(sql = "UPDATE item_menu SET deleted_at = now() WHERE id = ?")
 public class Bebida extends ItemMenu {
     private static final double FACTOR_PESO_POR_ENVASADO = 1.2;
     private static final double FACTOR_PESO_PARA_ALCOHOL = 0.99;
