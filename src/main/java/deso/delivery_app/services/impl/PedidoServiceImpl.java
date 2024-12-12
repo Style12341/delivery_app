@@ -49,7 +49,7 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public Pedido getPedidoById(Long id) {
-        return pedidoRepository.findById(id).orElse(null);
+        return pedidoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pedido with ID " + id + " not found"));
     }
 
     @Override
@@ -72,10 +72,7 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     @Transactional
     public Pedido updatePedido(Long id, PedidoDTO pedidoDto) {
-        Pedido p = pedidoRepository.findById(id).orElse(null);
-        if (p == null) {
-            throw new ResourceNotFoundException("Pedido not found");
-        }
+        Pedido p = pedidoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pedido with ID " + id + " not found"));
         if (!Objects.equals(p.getCliente().getId(), pedidoDto.getClienteId())) {
             Cliente c = clienteService.getClienteById(pedidoDto.getClienteId());
             if (c == null) {
@@ -100,10 +97,7 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     @Transactional
     public Pedido addItemsToPedido(Long id, List<ItemPedidoDTO> items) {
-        Pedido pedido = pedidoRepository.findById(id).orElse(null);
-        if (pedido == null) {
-            throw new ResourceNotFoundException("Pedido" + id + " not found");
-        }
+        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pedido with ID " + id + " not found"));
         List<ItemPedido> itemsToSave = new ArrayList<>();
         for (ItemPedidoDTO item : items) {
             ItemMenu itemMenu = itemMenuService.findById(item.getItemMenuId());
@@ -131,10 +125,7 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public Pedido editItemsOfPedido(Long id, List<ItemPedidoDTO> items) {
-        Pedido pedido = pedidoRepository.findById(id).orElse(null);
-        if (pedido == null) {
-            throw new ResourceNotFoundException("Pedido" + id + " not found");
-        }
+        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pedido with ID " + id + " not found"));
         List<ItemPedido> itemsToSave = new ArrayList<>();
         for (ItemPedidoDTO item : items) {
             // Find the itemPedido in the database
