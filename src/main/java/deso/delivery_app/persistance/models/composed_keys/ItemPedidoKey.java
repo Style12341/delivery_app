@@ -6,12 +6,16 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Data
 @Embeddable
+@AllArgsConstructor
+@NoArgsConstructor
 public class ItemPedidoKey implements Serializable {
     @ManyToOne
     @JoinColumn(name = "item_menu_id", nullable = false)

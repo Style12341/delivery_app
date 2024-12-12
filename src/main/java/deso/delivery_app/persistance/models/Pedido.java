@@ -43,4 +43,23 @@ public class Pedido {
                 .mapToDouble(ItemPedido::getPrecioTotal)
                 .sum();
     }
+
+    public void addItems(List<ItemPedido> items) {
+        this.items.addAll(items);
+    }
+    public void updateItems(List<ItemPedido> items) {
+        // Updates quanity of items in the pedido existing in passed items
+        items.forEach(itemPedido -> {
+            ItemPedido existingItem = findItemByItemMenuId(itemPedido.getItemMenuId());
+            if (existingItem != null) {
+                existingItem.setCantidad(itemPedido.getCantidad());
+            }
+        });
+    }
+    public ItemPedido findItemByItemMenuId(Long itemMenuId) {
+        return items.stream()
+                .filter(itemPedido -> itemPedido.getItemMenuId().equals(itemMenuId))
+                .findFirst()
+                .orElse(null);
+    }
 }

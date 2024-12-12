@@ -1,9 +1,11 @@
 // src/main/java/deso/delivery_app/controllers/PedidoController.java
 package deso.delivery_app.controllers;
 
+import deso.delivery_app.dto.ItemPedidoDTO;
 import deso.delivery_app.dto.PedidoDTO;
 import deso.delivery_app.dto.PedidoFilterDTO;
 import deso.delivery_app.enums.ESTADO_PEDIDO;
+import deso.delivery_app.persistance.models.ItemPedido;
 import deso.delivery_app.persistance.models.Pedido;
 import deso.delivery_app.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,17 @@ public class PedidoController {
     public ResponseEntity<Void> deletePedido(@PathVariable Long id) {
         pedidoService.deletePedido(id);
         return ResponseEntity.noContent().build();
+    }
+    @PostMapping("/{id}/items")
+    public ResponseEntity<Pedido> addItemsToPedido(@PathVariable Long id, @RequestBody List<ItemPedidoDTO> items) {
+        Pedido updatedPedido = pedidoService.addItemsToPedido(id, items);
+        return updatedPedido != null ? ResponseEntity.ok(updatedPedido) : ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}/items")
+    public ResponseEntity<Pedido> editItemsOfPedido(@PathVariable Long id, @RequestBody List<ItemPedidoDTO> items) {
+        Pedido updatedPedido = pedidoService.editItemsOfPedido(id, items);
+        return updatedPedido != null ? ResponseEntity.ok(updatedPedido) : ResponseEntity.notFound().build();
     }
 
     @GetMapping("/search")
