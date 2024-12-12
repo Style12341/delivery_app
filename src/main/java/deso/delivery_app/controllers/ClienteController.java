@@ -4,6 +4,7 @@ import deso.delivery_app.persistance.models.Cliente;
 import deso.delivery_app.services.ClienteService;
 import deso.delivery_app.services.impl.ClienteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,19 +50,19 @@ public class ClienteController {
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> getClienteById(@PathVariable Long id) {
         Cliente cliente = clienteService.getClienteById(id);
-        return cliente == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(cliente);
+        return  ResponseEntity.ok(cliente);
     }
 
     @PostMapping
     public ResponseEntity<Cliente> createCliente(@RequestBody Cliente cliente) {
         Cliente newCliente = clienteService.createCliente(cliente);
-        return ResponseEntity.ok(newCliente);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newCliente);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Cliente> updateCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
         Cliente updatedCliente = clienteService.updateCliente(id, cliente);
-        return updatedCliente == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(updatedCliente);
+        return ResponseEntity.ok(updatedCliente);
     }
 
     @DeleteMapping("/{id}")

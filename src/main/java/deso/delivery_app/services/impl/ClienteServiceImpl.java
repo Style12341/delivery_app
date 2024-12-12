@@ -1,5 +1,6 @@
 package deso.delivery_app.services.impl;
 
+import deso.delivery_app.exceptions.ResourceNotFoundException;
 import deso.delivery_app.persistance.models.Cliente;
 import deso.delivery_app.persistance.repository.ClienteRepository;
 import deso.delivery_app.services.ClienteService;
@@ -27,7 +28,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     public Cliente getClienteById(Long id) {
-        return clienteRepository.findById(id).orElse(null);
+        return clienteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cliente with ID " + id + " not found"));
     }
 
     public Cliente createCliente(Cliente cliente) {
@@ -39,8 +40,7 @@ public class ClienteServiceImpl implements ClienteService {
             cliente.setId(id); // Ensure the ID is set to the provided ID
             return clienteRepository.save(cliente);
         } else {
-            // Handle the case where the Cliente does not exist
-            return null; // Or throw an exception
+            throw new ResourceNotFoundException("Cliente with ID " + id + " not found");
         }
     }
 

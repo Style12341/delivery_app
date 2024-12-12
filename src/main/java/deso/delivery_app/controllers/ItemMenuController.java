@@ -8,6 +8,7 @@ import deso.delivery_app.persistance.models.Bebida;
 import deso.delivery_app.persistance.models.Comida;
 import deso.delivery_app.services.ItemMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,13 +35,13 @@ public class ItemMenuController {
     @PostMapping("/comida")
     public ResponseEntity<Comida> createComida(@RequestBody Comida comida) {
         Comida c = itemMenuService.createItem(comida);
-        return ResponseEntity.ok(c);
+        return ResponseEntity.status(HttpStatus.CREATED).body(c);
     }
 
     @PutMapping("/comida/{id}")
     public ResponseEntity<Comida> updateComida(@PathVariable Long id, @RequestBody Comida comida) {
         Comida updatedComida = itemMenuService.updateItem(id, comida);
-        return updatedComida != null ? ResponseEntity.ok(updatedComida) : ResponseEntity.notFound().build();
+        return ResponseEntity.ok(updatedComida);
     }
 
     @PostMapping("/bebida")
@@ -52,7 +53,7 @@ public class ItemMenuController {
     @PutMapping("/bebida/{id}")
     public ResponseEntity<Bebida> updateBebida(@PathVariable Long id, @RequestBody Bebida bebida) {
         Bebida updatedBebida = itemMenuService.updateItem(id, bebida);
-        return updatedBebida != null ? ResponseEntity.ok(updatedBebida) : ResponseEntity.notFound().build();
+        return ResponseEntity.ok(updatedBebida);
     }
 
     @GetMapping("/search")

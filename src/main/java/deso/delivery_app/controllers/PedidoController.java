@@ -9,6 +9,7 @@ import deso.delivery_app.persistance.models.ItemPedido;
 import deso.delivery_app.persistance.models.Pedido;
 import deso.delivery_app.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,20 +31,20 @@ public class PedidoController {
     @GetMapping("/{id}")
     public ResponseEntity<Pedido> getPedidoById(@PathVariable Long id) {
         Pedido pedido = pedidoService.getPedidoById(id);
-        return pedido != null ? ResponseEntity.ok(pedido) : ResponseEntity.notFound().build();
+        return ResponseEntity.ok(pedido);
     }
 
     @PostMapping
     public ResponseEntity<Pedido> createPedido(@RequestBody PedidoDTO pedido) {
 
         Pedido createdPedido = pedidoService.createPedido(pedido);
-        return ResponseEntity.ok(createdPedido);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdPedido);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Pedido> updatePedido(@PathVariable Long id, @RequestBody PedidoDTO pedido) {
         Pedido updatedPedido = pedidoService.updatePedido(id, pedido);
-        return updatedPedido != null ? ResponseEntity.ok(updatedPedido) : ResponseEntity.notFound().build();
+        return ResponseEntity.ok(updatedPedido);
     }
 
     @DeleteMapping("/{id}")
@@ -54,13 +55,13 @@ public class PedidoController {
     @PostMapping("/{id}/items")
     public ResponseEntity<Pedido> addItemsToPedido(@PathVariable Long id, @RequestBody List<ItemPedidoDTO> items) {
         Pedido updatedPedido = pedidoService.addItemsToPedido(id, items);
-        return updatedPedido != null ? ResponseEntity.ok(updatedPedido) : ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(updatedPedido);
     }
 
     @PutMapping("/{id}/items")
     public ResponseEntity<Pedido> editItemsOfPedido(@PathVariable Long id, @RequestBody List<ItemPedidoDTO> items) {
         Pedido updatedPedido = pedidoService.editItemsOfPedido(id, items);
-        return updatedPedido != null ? ResponseEntity.ok(updatedPedido) : ResponseEntity.notFound().build();
+        return ResponseEntity.ok(updatedPedido);
     }
 
     @GetMapping("/search")

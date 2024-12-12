@@ -2,6 +2,7 @@ package deso.delivery_app.services.impl;
 
 import deso.delivery_app.dto.ComidaFilterDTO;
 import deso.delivery_app.dto.ItemMenuFilterDTO;
+import deso.delivery_app.exceptions.ResourceNotFoundException;
 import deso.delivery_app.persistance.models.Comida;
 import deso.delivery_app.persistance.repository.ComidaRepository;
 import deso.delivery_app.services.ComidaService;
@@ -39,8 +40,7 @@ public class ComidaServiceImpl implements ComidaService {
             comida.setId(id); // Ensure the ID is set to the provided ID
             return comidaRepository.save(comida);
         } else {
-            // Handle the case where the Cliente does not exist
-            return null; // Or throw an exception
+            throw new ResourceNotFoundException("Comida with ID " + id + " not found");
         }
     }
 }

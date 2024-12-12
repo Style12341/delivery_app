@@ -46,8 +46,9 @@ public class VendedorController {
     }
 
     @GetMapping("/{id}")
-    public Vendedor getVendedorById(@PathVariable Long id) {
-        return vendedorService.getVendedorById(id) == null ? null : vendedorService.getVendedorById(id);
+    public ResponseEntity<Vendedor> getVendedorById(@PathVariable Long id) {
+        Vendedor vendedor = vendedorService.getVendedorById(id);
+        return ResponseEntity.ok(vendedor);
     }
 
     @PostMapping
@@ -59,7 +60,7 @@ public class VendedorController {
     @PutMapping("/{id}")
     public ResponseEntity<Vendedor> updateVendedor(@PathVariable Long id, @RequestBody Vendedor vendedor) {
         Vendedor updatedVendedor = vendedorService.updateVendedor(id, vendedor);
-        return updatedVendedor != null ? ResponseEntity.ok(updatedVendedor) : ResponseEntity.notFound().build();
+        return ResponseEntity.ok(updatedVendedor);
     }
 
     //soft delete, return 200 OK

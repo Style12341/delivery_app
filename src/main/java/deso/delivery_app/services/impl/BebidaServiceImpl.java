@@ -1,6 +1,7 @@
 package deso.delivery_app.services.impl;
 
 import deso.delivery_app.dto.ItemMenuFilterDTO;
+import deso.delivery_app.exceptions.ResourceNotFoundException;
 import deso.delivery_app.persistance.models.Bebida;
 import deso.delivery_app.persistance.repository.BebidaRepository;
 import deso.delivery_app.services.BebidaService;
@@ -40,8 +41,7 @@ public class BebidaServiceImpl implements BebidaService {
             bebida.setId(id); // Ensure the ID is set to the provided ID
             return bebidaRepository.save(bebida);
         } else {
-            // Handle the case where the Cliente does not exist
-            return null; // Or throw an exception
+            throw new ResourceNotFoundException("Bebida with ID " + id + " not found");
         }
     }
 }

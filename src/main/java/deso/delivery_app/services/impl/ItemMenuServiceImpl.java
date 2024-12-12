@@ -5,6 +5,7 @@ import deso.delivery_app.dto.BebidaFilterDTO;
 import deso.delivery_app.dto.ComidaFilterDTO;
 import deso.delivery_app.dto.MenuDTO;
 import deso.delivery_app.dto.ItemMenuFilterDTO;
+import deso.delivery_app.exceptions.ResourceNotFoundException;
 import deso.delivery_app.persistance.models.Bebida;
 import deso.delivery_app.persistance.models.Comida;
 import deso.delivery_app.persistance.models.ItemMenu;
@@ -34,7 +35,7 @@ public class ItemMenuServiceImpl implements ItemMenuService {
 
     @Override
     public ItemMenu findById(Long id) {
-        return itemMenuRepository.findById(id).orElse(null);
+        return itemMenuRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ItemMenu with ID " + id + " not found"));
     }
 
     @Override

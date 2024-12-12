@@ -1,6 +1,7 @@
 package deso.delivery_app.services.impl;
 
 
+import deso.delivery_app.exceptions.ResourceNotFoundException;
 import deso.delivery_app.persistance.models.Vendedor;
 import deso.delivery_app.persistance.repository.VendedorRepository;
 import deso.delivery_app.services.VendedorService;
@@ -28,7 +29,7 @@ public class VendedorServiceImpl implements VendedorService {
     }
 
     public Vendedor getVendedorById(Long id) {
-        return vendedorRepository.findById(id).orElse(null);
+        return vendedorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Vendedor with ID " + id + " not found"));
     }
 
     public Vendedor createVendedor(Vendedor vendedor) {
@@ -40,7 +41,7 @@ public class VendedorServiceImpl implements VendedorService {
             vendedor.setId(id);
             return vendedorRepository.save(vendedor);
         } else {
-            return null;
+            throw new ResourceNotFoundException("Vendedor with ID " + id + " not found");
         }
     }
 

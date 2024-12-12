@@ -59,10 +59,10 @@ public class PedidoServiceImpl implements PedidoService {
         Cliente c = clienteService.getClienteById(pedidoDto.getClienteId());
         Vendedor v = vendedorService.getVendedorById(pedidoDto.getVendedorId());
         if(v==null){
-           throw new ResourceNotFoundException("Vendedor not found");
+           throw new ResourceNotValidException("Vendedor not found");
         }
         if(c==null){
-            throw new ResourceNotFoundException("Cliente not found");
+            throw new ResourceNotValidException("Cliente not found");
         }
         pedido.setCliente(c);
         pedido.setVendedor(v);
@@ -79,14 +79,14 @@ public class PedidoServiceImpl implements PedidoService {
         if (!Objects.equals(p.getCliente().getId(), pedidoDto.getClienteId())) {
             Cliente c = clienteService.getClienteById(pedidoDto.getClienteId());
             if (c == null) {
-                throw new ResourceNotFoundException("Cliente not found");
+                throw new ResourceNotValidException("Cliente not found");
             }
             p.setCliente(c);
         }
         if (!Objects.equals(p.getVendedor().getId(), pedidoDto.getVendedorId())) {
             Vendedor v = vendedorService.getVendedorById(pedidoDto.getVendedorId());
             if (v == null) {
-                throw new ResourceNotFoundException("Vendedor not found");
+                throw new ResourceNotValidException("Vendedor not found");
             }
             //Delete all items in the pedido if the vendedor changes
             p.setItems(new ArrayList<>());
@@ -108,7 +108,7 @@ public class PedidoServiceImpl implements PedidoService {
         for (ItemPedidoDTO item : items) {
             ItemMenu itemMenu = itemMenuService.findById(item.getItemMenuId());
             if (itemMenu == null) {
-                throw new ResourceNotFoundException("ItemMenu" + item.getItemMenuId() + " not found");
+                throw new ResourceNotValidException("ItemMenu" + item.getItemMenuId() + " not found");
             }
             ItemPedidoKey key = new ItemPedidoKey(itemMenu, pedido);
             ItemPedido itemPedido = pedido.findItemByItemMenuId(item.getItemMenuId());
