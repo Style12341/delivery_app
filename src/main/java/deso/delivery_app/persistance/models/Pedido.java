@@ -34,7 +34,7 @@ public class Pedido {
     @Column(nullable = false)
     private ESTADO_PEDIDO estado = ESTADO_PEDIDO.RECIBIDO;
 
-    @OneToMany(mappedBy = "id.pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "id.pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> items;
 
     @PostLoad
