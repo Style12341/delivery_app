@@ -59,35 +59,35 @@ public class ItemMenuController {
     @GetMapping("/search")
     public ResponseEntity<MenuDTO> getMatchingItemMenus(
             @RequestParam(required = false) Long vendedorId,
-            @RequestParam(required = false, defaultValue = "0.0") Double precioMinimo,
-            @RequestParam(required = false, defaultValue = MAX_DOUBLE) Double precioMaximo,
+            @RequestParam(required = false, defaultValue = "0.0") Double precioMin,
+            @RequestParam(required = false, defaultValue = MAX_DOUBLE) Double precioMax,
             @RequestParam(required = false) Boolean esAptoCeliaco,
             @RequestParam(required = false) Boolean esAptoVegano,
             @RequestParam(required = false) String nombre,
             @RequestParam(required = false, defaultValue = "false") Boolean soloComidas,
             @RequestParam(required = false, defaultValue = "false") Boolean soloBebidas,
-            @RequestParam(required = false, defaultValue = "0.0") Double pesoMinimo,
-            @RequestParam(required = false, defaultValue = MAX_DOUBLE) Double pesoMaximo,
-            @RequestParam(required = false) Boolean alcoholica,
-            @RequestParam(required = false) Boolean gaseosa,
-            @RequestParam(required = false, defaultValue = "0.0") Double volumenMinimo,
-            @RequestParam(required = false, defaultValue = MAX_DOUBLE) Double volumenMaximo,
-            @RequestParam(required = false, defaultValue = "0.0") Double gradMinima,
-            @RequestParam(required = false, defaultValue = "100.0") Double gradMaxima) {
+            @RequestParam(required = false, defaultValue = "0.0") Double pesoMin,
+            @RequestParam(required = false, defaultValue = MAX_DOUBLE) Double pesoMax,
+            @RequestParam(required = false) Boolean esAlcoholica,
+            @RequestParam(required = false) Boolean esGaseosa,
+            @RequestParam(required = false, defaultValue = "0.0") Double volumenMin,
+            @RequestParam(required = false, defaultValue = MAX_DOUBLE) Double volumenMax,
+            @RequestParam(required = false, defaultValue = "0.0") Double graduacionAlcoholicaMin,
+            @RequestParam(required = false, defaultValue = "100.0") Double graduacionAlcoholicaMax) {
         BebidaFilterDTO bebidaFilter = new BebidaFilterDTO(
-                alcoholica, gaseosa, volumenMinimo, volumenMaximo, gradMinima, gradMaxima);
+                esAlcoholica, esGaseosa, volumenMin, volumenMax, graduacionAlcoholicaMin, graduacionAlcoholicaMax);
         ComidaFilterDTO comidaFilter = new ComidaFilterDTO();
         ItemMenuFilterDTO filter = new ItemMenuFilterDTO(
                 vendedorId,
-                precioMinimo,
-                precioMaximo,
+                precioMin,
+                precioMax,
                 esAptoCeliaco,
                 esAptoVegano,
                 nombre,
                 soloComidas,
                 soloBebidas,
-                pesoMinimo,
-                pesoMaximo,
+                pesoMin,
+                pesoMax,
                 comidaFilter,
                 bebidaFilter);
 
