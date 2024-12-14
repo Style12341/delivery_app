@@ -6,6 +6,7 @@ import deso.delivery_app.enums.ESTADO_PEDIDO;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -34,7 +35,7 @@ public class Pedido {
     @Column(nullable = false)
     private ESTADO_PEDIDO estado = ESTADO_PEDIDO.RECIBIDO;
 
-    @OneToMany(mappedBy = "id.pedido", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id.pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedido> items;
 
     @PostLoad
@@ -46,15 +47,6 @@ public class Pedido {
 
     public void addItems(List<ItemPedido> items) {
         this.items.addAll(items);
-    }
-    public void updateItems(List<ItemPedido> items) {
-        // Updates quanity of items in the pedido existing in passed items
-        items.forEach(itemPedido -> {
-            ItemPedido existingItem = findItemByItemMenuId(itemPedido.getItemMenuId());
-            if (existingItem != null) {
-                existingItem.setCantidad(itemPedido.getCantidad());
-            }
-        });
     }
     public ItemPedido findItemByItemMenuId(Long itemMenuId) {
         return items.stream()

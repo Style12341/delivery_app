@@ -87,7 +87,6 @@ public class PedidoServiceImpl implements PedidoService {
             }
             //Delete all items in the pedido if the vendedor changes
             p.setItems(new ArrayList<>());
-            itemPedidoRepository.deleteAllByPedidoId(id);
             p.setVendedor(v);
         }
         p.setEstado(pedidoDto.getEstado());
@@ -97,59 +96,81 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     @Transactional
     public Pedido addItemsToPedido(Long id, List<ItemPedidoDTO> items) {
-        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pedido with ID " + id + " not found"));
-        List<ItemPedido> itemsToSave = new ArrayList<>();
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Pedido with ID " + id + " not found"));
+
+        List<ItemPedido> updatedItems = new ArrayList<>(pedido.getItems());
+
         for (ItemPedidoDTO item : items) {
             ItemMenu itemMenu = itemMenuService.findById(item.getItemMenuId());
             if (itemMenu == null) {
-                throw new ResourceNotValidException("ItemMenu" + item.getItemMenuId() + " not found");
+                throw new ResourceNotValidException("ItemMenu " + item.getItemMenuId() + " not found");
             }
-            ItemPedidoKey key = new ItemPedidoKey(itemMenu, pedido);
-            ItemPedido itemPedido = pedido.findItemByItemMenuId(item.getItemMenuId());
-            //Check if ItemMenu Belongs to the Pedido's vendedor
+
+            // Check if ItemMenu Belongs to the Pedido's vendedor
             if (!itemMenu.getVendedor().getId().equals(pedido.getVendedor().getId())) {
-                throw new ResourceNotValidException("ItemMenu" + item.getItemMenuId() + " does not belong to the Pedido's vendedor");
+                throw new ResourceNotValidException("ItemMenu " + item.getItemMenuId() + " does not belong to the Pedido's vendedor");
             }
-            if (itemPedido == null) {
-                ItemPedido newItemPedido = new ItemPedido(key, item.getCantidad());
-                itemsToSave.add(newItemPedido);
+
+            // Find existing item in the pedido
+            ItemPedido existingItemPedido = pedido.findItemByItemMenuId(item.getItemMenuId());
+
+            if (existingItemPedido != null) {
+                // Update quantity of existing item
+                existingItemPedido.setCantidad(existingItemPedido.getCantidad() + item.getCantidad());
+                updatedItems.add(existingItemPedido);
             } else {
-                itemPedido.setCantidad(itemPedido.getCantidad() + item.getCantidad());
-                itemsToSave.add(itemPedido);
+                // Create new item
+                ItemPedidoKey key = new ItemPedidoKey(itemMenu, pedido);
+                ItemPedido newItemPedido = new ItemPedido(key, item.getCantidad());
+                updatedItems.add(newItemPedido);
             }
         }
-        itemPedidoRepository.saveAll(itemsToSave);
-        pedido.addItems(itemsToSave);
+
+        // Clear existing items and add updated items
+        pedido.getItems().clear();
+        pedido.getItems().addAll(updatedItems);
+
         return pedidoRepository.save(pedido);
     }
 
     @Override
+    @Transactional
     public Pedido editItemsOfPedido(Long id, List<ItemPedidoDTO> items) {
-        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pedido with ID " + id + " not found"));
-        List<ItemPedido> itemsToSave = new ArrayList<>();
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Pedido with ID " + id + " not found"));
+
+        // Create a new list to store updated items
+        List<ItemPedido> updatedItems = new ArrayList<>();
+
         for (ItemPedidoDTO item : items) {
-            // Find the itemPedido in the database
             ItemMenu itemMenu = itemMenuService.findById(item.getItemMenuId());
             if (itemMenu == null) {
-                throw new ResourceNotFoundException("ItemMenu" + item.getItemMenuId() + " not found");
+                throw new ResourceNotFoundException("ItemMenu " + item.getItemMenuId() + " not found");
             }
-            ItemPedidoKey key = new ItemPedidoKey(itemMenu, pedido);
-            ItemPedido itemPedido = pedido.findItemByItemMenuId(item.getItemMenuId());
-            if (itemPedido != null) {
-                Integer cantidad = itemPedido.getCantidad();
-                if (cantidad == 0) {
-                    itemPedidoRepository.delete(itemPedido);
-                } else {
-                    itemPedido.setCantidad(item.getCantidad());
-                    itemsToSave.add(itemPedido);
-                }
+
+            ItemPedido existingItemPedido = pedido.findItemByItemMenuId(item.getItemMenuId());
+
+            if (item.getCantidad() == 0 && existingItemPedido != null) {
+                // If cantidad is 0, remove the item
+                pedido.getItems().remove(existingItemPedido);
+                itemPedidoRepository.delete(existingItemPedido);
+            } else if (existingItemPedido != null) {
+                // Update existing item
+                existingItemPedido.setCantidad(item.getCantidad());
+                updatedItems.add(existingItemPedido);
+            } else if (item.getCantidad() > 0) {
+                // Create new item if cantidad > 0
+                ItemPedidoKey key = new ItemPedidoKey(itemMenu, pedido);
+                ItemPedido newItemPedido = new ItemPedido(key, item.getCantidad());
+                updatedItems.add(newItemPedido);
             }
         }
-        itemPedidoRepository.saveAll(itemsToSave);
-        // May cause problems if items sent in the request are not in the database
-        // This is intentional, as the request should only contain items that are already in the database
-        pedido.updateItems(itemsToSave);
-        pedido.setItems(itemsToSave);
+
+        // Clear existing items and add updated items
+        pedido.getItems().clear();
+        pedido.getItems().addAll(updatedItems);
+
         return pedidoRepository.save(pedido);
     }
 
