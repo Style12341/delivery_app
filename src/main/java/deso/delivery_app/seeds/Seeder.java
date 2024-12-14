@@ -222,7 +222,7 @@ public class Seeder implements CommandLineRunner {
 
         // Pedido 4
         Pedido p4 = new Pedido();
-        p4.setVendedor(vendedores.getFirst());
+        p4.setVendedor(vendedores.get(1));
         p4.setCliente(clientes.get(1));
         List<ItemPedido> itemsPedido4 = new ArrayList<>();
         ItemPedido ip7 = new ItemPedido();
