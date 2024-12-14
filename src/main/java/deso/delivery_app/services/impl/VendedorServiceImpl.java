@@ -1,14 +1,18 @@
 package deso.delivery_app.services.impl;
 
 
+import deso.delivery_app.enums.ESTADO_PEDIDO;
 import deso.delivery_app.exceptions.ResourceNotFoundException;
 import deso.delivery_app.persistance.models.Vendedor;
+import deso.delivery_app.persistance.repository.ItemPedidoRepository;
+import deso.delivery_app.persistance.repository.PedidoRepository;
 import deso.delivery_app.persistance.repository.VendedorRepository;
 import deso.delivery_app.services.VendedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +20,8 @@ import java.util.List;
 public class VendedorServiceImpl implements VendedorService {
     @Autowired
     private VendedorRepository vendedorRepository;
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
     public List<Vendedor> getAllVendedores() {
         return vendedorRepository.findAll();
@@ -44,9 +50,10 @@ public class VendedorServiceImpl implements VendedorService {
             throw new ResourceNotFoundException("Vendedor with ID " + id + " not found");
         }
     }
-
+    @Transactional
     public void deleteVendedor(Long id) {
         vendedorRepository.deleteById(id);
+        pedidoRepository.deleteAllByVendedor_IdAndEstado(id, ESTADO_PEDIDO.RECIBIDO);
     }
 
 }
