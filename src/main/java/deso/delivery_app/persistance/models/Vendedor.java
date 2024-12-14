@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -31,7 +32,7 @@ public class Vendedor {
     @OneToMany(mappedBy = "vendedor")
     private List<Pedido> pedidos;
     @JsonIgnore
-    @OneToMany(mappedBy = "vendedor")
+    @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemMenu> items;
     @Column
     @JsonIgnore

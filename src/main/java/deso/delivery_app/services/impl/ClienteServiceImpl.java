@@ -1,13 +1,16 @@
 package deso.delivery_app.services.impl;
 
+import deso.delivery_app.enums.ESTADO_PEDIDO;
 import deso.delivery_app.exceptions.ResourceNotFoundException;
 import deso.delivery_app.persistance.models.Cliente;
 import deso.delivery_app.persistance.repository.ClienteRepository;
+import deso.delivery_app.persistance.repository.PedidoRepository;
 import deso.delivery_app.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +18,8 @@ import java.util.List;
 public class ClienteServiceImpl implements ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
     public List<Cliente> getAllClientes() {
         //Ignore clientes with deleted_at set
@@ -46,9 +51,10 @@ public class ClienteServiceImpl implements ClienteService {
             throw new ResourceNotFoundException("Cliente with ID " + id + " not found");
         }
     }
-
+    @Transactional
     public void deleteCliente(Long id) {
         clienteRepository.deleteById(id);
+        pedidoRepository.deleteAllByCliente_IdAndEstado(id, ESTADO_PEDIDO.RECIBIDO);
     }
 
 

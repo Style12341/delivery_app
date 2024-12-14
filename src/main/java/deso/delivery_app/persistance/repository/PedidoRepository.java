@@ -10,4 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface PedidoRepository extends JpaRepository<Pedido, Long>, JpaSpecificationExecutor<Pedido> {
     void deleteAllByVendedor_IdAndEstado(Long vendedorId, ESTADO_PEDIDO estado);
+
+    void deleteAllByCliente_IdAndEstado(Long clienteId, ESTADO_PEDIDO estado);
 }
