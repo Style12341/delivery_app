@@ -10,11 +10,13 @@ import deso.delivery_app.persistance.models.Bebida;
 import deso.delivery_app.persistance.models.Comida;
 import deso.delivery_app.persistance.models.ItemMenu;
 import deso.delivery_app.persistance.repository.ItemMenuRepository;
+import deso.delivery_app.persistance.repository.ItemPedidoRepository;
 import deso.delivery_app.services.BebidaService;
 import deso.delivery_app.services.ComidaService;
 import deso.delivery_app.services.ItemMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,12 +26,18 @@ public class ItemMenuServiceImpl implements ItemMenuService {
     @Autowired
     private ItemMenuRepository itemMenuRepository;
     @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
+    @Autowired
     private BebidaService bebidaService;
     @Autowired
     private ComidaService comidaService;
 
     @Override
+    @Transactional
     public void delete(Long id) {
+        // When deleting soft deleting an item menu it should remove all itemPedidos with that id that
+        // have a state of received
+        itemPedidoRepository.deleteAllByItemMenuId(id);
         itemMenuRepository.deleteById(id);
     }
 
