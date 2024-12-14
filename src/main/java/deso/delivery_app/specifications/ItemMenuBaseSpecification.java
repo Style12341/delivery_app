@@ -24,6 +24,7 @@ public abstract class ItemMenuBaseSpecification<T> {
             Double pesoMinimo = filter.getPesoMinimo();
             Double pesoMaximo = filter.getPesoMaximo();
             String nombre = filter.getNombre();
+            predicates.add(criteriaBuilder.isNull(root.get("deleted_at")));
             if(nombre!=null){
                 predicates.add(criteriaBuilder.like(root.get("nombre"), "%"+nombre+"%"));
             }

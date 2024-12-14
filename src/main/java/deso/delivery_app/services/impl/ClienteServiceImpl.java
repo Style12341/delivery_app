@@ -17,6 +17,9 @@ public class ClienteServiceImpl implements ClienteService {
     private ClienteRepository clienteRepository;
 
     public List<Cliente> getAllClientes() {
+        //Ignore clientes with deleted_at set
+
+
         return clienteRepository.findAll();
     }
 

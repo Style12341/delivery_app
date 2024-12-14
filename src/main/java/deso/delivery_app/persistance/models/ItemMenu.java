@@ -15,7 +15,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "item_menu")
 @SQLDelete(sql = "UPDATE item_menu SET deleted_at = now() WHERE id = ?")
-@Where(clause = "deleted_at is null")
+//@Where(clause = "deleted_at is null")
 public abstract class ItemMenu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

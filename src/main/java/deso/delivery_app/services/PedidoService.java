@@ -20,7 +20,7 @@ public interface PedidoService {
 
     public Pedido updatePedido(Long id, PedidoDTO pedido);
 
-    public Pedido addItemsToPedido(Long id, List<ItemPedidoDTO> items);
+//    public Pedido addItemsToPedido(Long id, List<ItemPedidoDTO> items);
 
     public Pedido editItemsOfPedido(Long id, List<ItemPedidoDTO> items);
 

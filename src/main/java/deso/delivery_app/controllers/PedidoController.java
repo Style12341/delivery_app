@@ -52,11 +52,11 @@ public class PedidoController {
         pedidoService.deletePedido(id);
         return ResponseEntity.noContent().build();
     }
-    @PostMapping("/{id}/items")
-    public ResponseEntity<Pedido> addItemsToPedido(@PathVariable Long id, @RequestBody List<ItemPedidoDTO> items) {
-        Pedido updatedPedido = pedidoService.addItemsToPedido(id, items);
-        return ResponseEntity.status(HttpStatus.CREATED).body(updatedPedido);
-    }
+//    @PostMapping("/{id}/items")
+//    public ResponseEntity<Pedido> addItemsToPedido(@PathVariable Long id, @RequestBody List<ItemPedidoDTO> items) {
+//        Pedido updatedPedido = pedidoService.addItemsToPedido(id, items);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(updatedPedido);
+//    }
 
     @PutMapping("/{id}/items")
     public ResponseEntity<Pedido> editItemsOfPedido(@PathVariable Long id, @RequestBody List<ItemPedidoDTO> items) {

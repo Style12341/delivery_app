@@ -52,6 +52,7 @@ public class PedidoServiceImpl implements PedidoService {
         return pedidoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pedido with ID " + id + " not found"));
     }
 
+
     @Override
     @Transactional
     public Pedido createPedido(PedidoDTO pedidoDto) {
@@ -93,46 +94,46 @@ public class PedidoServiceImpl implements PedidoService {
         return pedidoRepository.save(p);
     }
 
-    @Override
-    @Transactional
-    public Pedido addItemsToPedido(Long id, List<ItemPedidoDTO> items) {
-        Pedido pedido = pedidoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Pedido with ID " + id + " not found"));
-
-        List<ItemPedido> updatedItems = new ArrayList<>(pedido.getItems());
-
-        for (ItemPedidoDTO item : items) {
-            ItemMenu itemMenu = itemMenuService.findById(item.getItemMenuId());
-            if (itemMenu == null) {
-                throw new ResourceNotValidException("ItemMenu " + item.getItemMenuId() + " not found");
-            }
-
-            // Check if ItemMenu Belongs to the Pedido's vendedor
-            if (!itemMenu.getVendedor().getId().equals(pedido.getVendedor().getId())) {
-                throw new ResourceNotValidException("ItemMenu " + item.getItemMenuId() + " does not belong to the Pedido's vendedor");
-            }
-
-            // Find existing item in the pedido
-            ItemPedido existingItemPedido = pedido.findItemByItemMenuId(item.getItemMenuId());
-
-            if (existingItemPedido != null) {
-                // Update quantity of existing item
-                existingItemPedido.setCantidad(existingItemPedido.getCantidad() + item.getCantidad());
-                updatedItems.add(existingItemPedido);
-            } else {
-                // Create new item
-                ItemPedidoKey key = new ItemPedidoKey(itemMenu, pedido);
-                ItemPedido newItemPedido = new ItemPedido(key, item.getCantidad());
-                updatedItems.add(newItemPedido);
-            }
-        }
-
-        // Clear existing items and add updated items
-        pedido.getItems().clear();
-        pedido.getItems().addAll(updatedItems);
-
-        return pedidoRepository.save(pedido);
-    }
+//    @Override
+//    @Transactional
+//    public Pedido addItemsToPedido(Long id, List<ItemPedidoDTO> items) {
+//        Pedido pedido = pedidoRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("Pedido with ID " + id + " not found"));
+//
+//        List<ItemPedido> updatedItems = new ArrayList<>(pedido.getItems());
+//
+//        for (ItemPedidoDTO item : items) {
+//            ItemMenu itemMenu = itemMenuService.findById(item.getItemMenuId());
+//            if (itemMenu == null) {
+//                throw new ResourceNotValidException("ItemMenu " + item.getItemMenuId() + " not found");
+//            }
+//
+//            // Check if ItemMenu Belongs to the Pedido's vendedor
+//            if (!itemMenu.getVendedor().getId().equals(pedido.getVendedor().getId())) {
+//                throw new ResourceNotValidException("ItemMenu " + item.getItemMenuId() + " does not belong to the Pedido's vendedor");
+//            }
+//
+//            // Find existing item in the pedido
+//            ItemPedido existingItemPedido = pedido.findItemByItemMenuId(item.getItemMenuId());
+//
+//            if (existingItemPedido != null) {
+//                // Update quantity of existing item
+//                existingItemPedido.setCantidad(existingItemPedido.getCantidad() + item.getCantidad());
+//                updatedItems.add(existingItemPedido);
+//            } else {
+//                // Create new item
+//                ItemPedidoKey key = new ItemPedidoKey(itemMenu, pedido);
+//                ItemPedido newItemPedido = new ItemPedido(key, item.getCantidad());
+//                updatedItems.add(newItemPedido);
+//            }
+//        }
+//
+//        // Clear existing items and add updated items
+//        pedido.getItems().clear();
+//        pedido.getItems().addAll(updatedItems);
+//
+//        return pedidoRepository.save(pedido);
+//    }
 
     @Override
     @Transactional

@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "cliente")
 @SQLDelete(sql = "UPDATE cliente SET deleted_at = now() WHERE id = ?")
-@Where(clause = "deleted_at is null")
+//@Where(clause = "deleted_at is null")
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
