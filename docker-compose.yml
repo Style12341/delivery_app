@@ -13,7 +13,14 @@ services:
         MYSQL_PASSWORD: test
     volumes:
       - ./mysqlEntrega8:/var/lib/mysql
-
+  frontend:
+    image: style12341/ds-delivery-front:latest
+    command: "npm run dev"
+    environment:
+      - REACT_APP_API_URL=http://localhost:5173
+    ports:
+      - "5173:5173"
+    restart: always
 
 volumes:
     mysqlEntrega8:
